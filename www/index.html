@@ -3,6 +3,7 @@
 <head>
 	<title>Yatzy For Dummies</title>
 	<meta charset="utf-8">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1">
 	
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.js"></script>
 	
@@ -12,17 +13,106 @@
 	<script src="js/main.js"></script>
 </head>
 <body>
+	<div class="container-fluid fix-padding">
+		<div class="row yatzyHeader">
+			<div class="col-xs-12 col-md-4">
+				Yatzy For Dummies
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-md-4">
+				
+				<div class="table">
+					<table class="table table-bordered">
+					  <thead>
+					    <tr>
+					      <th>Max Point</th>
+					      <th>Player 1</th>
+					      <th>Player 2</th>
+					      <th>Player 3</th>
+					      <th>Player 4</th>
+					    </tr>
+					  </thead>
+					  <tbody>
+					    <tr>
+					      <th scope="row">Ones</th>
+					      <td>-</td>
+					      <td>-</td>
+					      <td>-</td>
+					      <td>-</td>
+					    </tr>
+					    <tr>
+					      <th scope="row">2</th>
+					      <td>-</td>
+					      <td>-</td>
+					      <td>-</td>
+					      <td>-</td>
+					    </tr>
+					    <tr>
+					      <th scope="row">3</th>
+					      <td>-</td>
+					      <td>-</td>
+					      <td>-</td>
+					      <td>-</td>
+					    </tr>
+					    <tr>
+					      <th scope="row">4</th>
+					      <td>-</td>
+					      <td>-</td>
+					      <td>-</td>
+					      <td>-</td>
+					    </tr>
+					  </tbody>
+					</table>
+					<table class="table">
+						<tbody>
+					  	<tr>
+					  		<td class="diceRow">
+					  			<div class="dice-wrapper">
+					  				<div class="col-xs-1"></div>
+									<div class="col-xs-2 dice-space dice-space-1">
+									</div>
+									<div class="col-xs-2 dice-space dice-space-2">
+									</div>
+									<div class="col-xs-2 dice-space dice-space-3">
+									</div>
+									<div class="col-xs-2 dice-space dice-space-4">
+									</div>
+									<div class="col-xs-2 dice-space dice-space-5">
+									</div>
+								</div>
+					  		</td>
+					  	</tr>
+					  	<tr>
+					  		<td>
+					  			<div class="row">
+					  				<div class="col-xs-12">
+							  			<button type="button" class="btn btn-default diceBtn">
+										  ROLL THE DICE!!!
+										</button>
+									</div>
+								</div>
+					  		</td>
+					  	</tr>
+					  </tbody>
+					</table>
 
-	<div class="col-sm-5">
-	Yatzy For Dummies
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-md-4">
+				<table class="table">
+					<tbody id="table_highscore">
+						
+					</tbody>
+				</table>
+			</div>
+		</div>
 	</div>
 
-	<header>
-		Yatzy For Dummies
-	</header>
-		<p>This Yatzy game is for dummies!</p>
-	<footer>
-	</footer>
+
+
 
 </body>
 </html>
