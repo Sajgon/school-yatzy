@@ -33,8 +33,8 @@ header {
 }
 
 .dice-space {
-	font-size:100px;
-	line-height:50px;
+	font-size:90px;
+	line-height:40px;
 	padding: 0 25px 0 25px;
 }
 
@@ -57,7 +57,7 @@ header {
 
 .dice-space {
 	cursor:pointer;
-	margin-top:-8px;
+	margin-top:-4px;
 }
 
 .table {
@@ -83,7 +83,7 @@ th, td {
 	padding:0 !important;
 }
 
-.yatzyHeader > div{
+.yatzyHeader .title {
 	background-color:white;
 	text-align: center;
 }

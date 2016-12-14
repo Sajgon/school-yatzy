@@ -122,14 +122,6 @@ function updateHighscore(result){
 	return false;
 }
 
-/*
-<table class="table">
-    <tbody id="table_highscore"> 
-	
-	</tbody>
-</table>
-*/
-
 // output table rows to highscore
 function highscoreOutput(){
 	
