@@ -64,6 +64,10 @@ header {
 	margin: 0;
 }
 
+th, td {
+	text-align: center;
+}
+
 @media only screen and (max-width : 480px) {
 	.dice-space {
 		font-size: 70px;

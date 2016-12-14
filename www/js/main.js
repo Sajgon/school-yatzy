@@ -11,11 +11,20 @@ function showDices(diceArray){
 
 }
 
+function randomDiceGenerator(){
+	var random = Math.floor(Math.random() * 6) + 1;
+	return random;
+}
+
+
 // Run showDices on DOM load
 $(function (){
-
+	var arrDice = [];
+	for (var i = 0; i <= 6; i++){
+		arrDice.push(randomDiceGenerator());
+	}
 	// You can call show dices anywhere
-	showDices([5,6,6,4,2]);
+	showDices(arrDice);
 
 
 });
