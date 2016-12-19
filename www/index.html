@@ -15,21 +15,24 @@
 	<script src="js/sessionstorage.js"></script>
 </head>
 <body>
-	<div class="container-fluid fix-padding">
+	<div class="container-fluid">
 		<div class="row yatzyHeader">
+			<!-- <div class="col-xs-12 col-md-4">
+			</div>
 			<div class="col-xs-12 col-md-4">
 				<div class="title">Yatzy För Dummies</div>
 			</div>
+			<div class="col-xs-12 col-md-4">
+			</div> -->
 		</div>
 		<div class="row">
-			<div class="col-xs-12 col-md-4">
-				
-				<div class="table">
-					<table class="table table-bordered">
+			<div class="col-md-offset-4 col-center ybody col-xs-12 col-md-4">
+				<div class="ybody table">
+					<table class="ybody table table-bordered">
 					  <thead>
 					    <tr>
 					      <th>Max Poäng</th>
-					      <th>Spelare 1</th>
+					      <th class="high-player">Spelare 1</th>
 					      <th>Spelare 2</th>
 					      <th>Spelare 3</th>
 					      <th>Spelare 4</th>
@@ -78,18 +81,18 @@
 					      <td>-</td>
 					    </tr>
 					    <tr>
-					      <th scope="row">Summa</th>
-					      <td>-</td>
-					      <td>-</td>
-					      <td>-</td>
-					      <td>-</td>
+					      <th class="highlight" scope="row">Summa</th>
+					      <td class="highlight">-</td>
+					      <td class="highlight">-</td>
+					      <td class="highlight">-</td>
+					      <td class="highlight">-</td>
 					    </tr>
 					    <tr>
-					      <th scope="row">Bonus</th>
-					      <td>-</td>
-					      <td>-</td>
-					      <td>-</td>
-					      <td>-</td>
+					      <th class="highlight" scope="row">Bonus</th>
+					      <td class="highlight">-</td>
+					      <td class="highlight">-</td>
+					      <td class="highlight">-</td>
+					      <td class="highlight">-</td>
 					    </tr>
 					    <tr>
 					      <th scope="row">Ett Par</th>
@@ -155,15 +158,43 @@
 					      <td>-</td>
 					    </tr>
 					    <tr>
-					      <th scope="row">Total</th>
-					      <td>-</td>
-					      <td>-</td>
-					      <td>-</td>
-					      <td>-</td>
+					      <th class="highlight" scope="row">Total</th>
+					      <td class="highlight">-</td>
+					      <td class="highlight">-</td>
+					      <td class="highlight">-</td>
+					      <td class="highlight">-</td>
 					    </tr>
 					  </tbody>
 					</table>
-					<table class="table">
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-offset-4 col-xs-12 col-md-4">
+					<div class="bgcolor">
+					  	<div class="dice-wrapper">
+			  				<div class="col-xs-1 hidden-md hidden-lg"></div>
+							<div class="col-xs-2 dice-space dice-space-1">
+							</div>
+							<div class="col-xs-2 dice-space dice-space-2">
+							</div>
+							<div class="col-xs-2 dice-space dice-space-3">
+							</div>
+							<div class="col-xs-2 dice-space dice-space-4">
+							</div>
+							<div class="col-xs-2 dice-space dice-space-5">
+							</div>
+						</div>
+			  			<div class="row">
+			  				<div class="col-xs-12">
+					  			<button type="button" class="btn btn-default diceBtn">
+								  ROLL THE DICE!!! NOT THE ONLY DIE!
+								</button>
+							</div>
+						</div>
+
+<!-- 
+					<table class="table table-footer">
 						<tbody>
 					  	<tr>
 					  		<td class="diceRow">
@@ -195,9 +226,49 @@
 					  	</tr>
 					  </tbody>
 					</table>
-
+				-->
 				</div>
 			</div>
+			<!-- <div class="col-xs-12 col-md-4"></div> -->
+
+			<!-- info button -->
+
+			<!-- Button trigger modal -->
+			<button type="button" data-toggle="modal" data-target="#myModal" id="modalHover"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></button>
+
+			<!-- Modal -->
+			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+			        <h4 class="modal-title" id="myModalLabel">Yatzi</h4>
+			      </div>
+			      <div class="modal-body">
+			        <h2>Rules of Yatzi!</h2>
+			        <p>Yatzy is a dice-based game for 2 or more players where the point is to collect as much points as possible by throwing 5 dices 3 times to try to get a valid combination.
+			       	First the numbers 1 to 6, trying to get as many of the number you choose as possible. If the sum of those gets as high as 63 or higher, you recieve a bonus of 50 points. After the simple numbers, the real combinations begins:</p>
+			       <ul>
+			       	<li>1 Pair: 2 Equal numbers.</li>
+			       	<li>2 Pairs: 2 Different pairs of an equal number.</li>
+			       	<li>3 Of a Kind: 3 Equal numbers.</li>
+			       	<li>4 Of a Kind: 4 Equal numbers.</li>
+			       	<li>Small Straight: The numbers from 1-5.</li>
+			       	<li>Large Straight: The numbers from 1-6.</li>
+			       	<li>Full House: 3 Equal numbers and 2 different equal numbers.</li>
+			       	<li>Chance: The sum of dices after your last throw</li>
+			       	<li>Yatzy: All dices shows equal numbers.</li>
+			       </ul>
+			       <p>If the player doesn't get the combinations or numbers he needs, he has to cross one off with a ( - ), which means that points wont be given for that combination.
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			      </div>
+			    </div>
+			  </div>
+			</div>			
 		</div>
 		<div class="row">
 			<div class="col-xs-12 col-md-4">
@@ -209,47 +280,5 @@
 			</div>
 		</div>
 	</div>
-
-	<!-- Button trigger modal -->
-<button type="button" data-toggle="modal" data-target="#myModal" id="modalHover"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></button>
-
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <h4 class="modal-title" id="myModalLabel">Yatzi</h4>
-      </div>
-      <div class="modal-body">
-        <h2>Rules of Yatzi!</h2>
-        <p>Yatzy is a dice-based game for 2 or more players where the point is to collect as much points as possible by throwing 5 dices 3 times to try to get a valid combination.
-       	First the numbers 1 to 6, trying to get as many of the number you choose as possible. If the sum of those gets as high as 63 or higher, you recieve a bonus of 50 points. After the simple numbers, the real combinations begins:</p>
-       <ul>
-       	<li>1 Pair: 2 Equal numbers.</li>
-       	<li>2 Pairs: 2 Different pairs of an equal number.</li>
-       	<li>3 Of a Kind: 3 Equal numbers.</li>
-       	<li>4 Of a Kind: 4 Equal numbers.</li>
-       	<li>Small Straight: The numbers from 1-5.</li>
-       	<li>Large Straight: The numbers from 1-6.</li>
-       	<li>Full House: 3 Equal numbers and 2 different equal numbers.</li>
-       	<li>Chance: The sum of dices after your last throw</li>
-       	<li>Yatzy: All dices shows equal numbers.</li>
-       </ul>
-       <p>If the player doesn't get the combinations or numbers he needs, he has to cross one off with a ( - ), which means that points wont be given for that combination.
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-
-
 </body>
 </html>

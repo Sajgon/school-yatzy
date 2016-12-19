@@ -1,11 +1,6 @@
 body {
 	background-color: crimson;
-}
-
-.list-group {
-	display: inline-block;
-	width: 50%;
-	min-width: 150px;
+	height: auto;
 }
 
 .comboRow, .btn, .nameRow {
@@ -32,22 +27,29 @@ header {
 	text-align: center;
 }
 
+.bgcolor {
+	background-color: white;
+}
+
 .dice-space {
 	font-size:90px;
 	line-height:40px;
 	padding: 0 25px 0 25px;
 }
 
-.diceRow, .dice-space {
+.dice-space {
 	height:100%;
 	margin: 0;
 }
 
 
 .diceRow {
-	text-align: center;
+	/*text-align: center;
 	width:100%;
-	padding:20px 0 !important;
+	padding:20px 0 !important;*/
+
+	margin:0;
+	padding: 0;
 }
 
 .dice-wrapper {
@@ -64,8 +66,22 @@ header {
 	margin: 0;
 }
 
-th, td {
+table, th, td {
 	text-align: center;
+	width: 40px;
+	height: 20px;
+}
+
+.highlight {
+	background-color: lightgray;
+}
+
+.high-player {
+	background-color: #ff6666;
+}
+
+.ybody {
+	padding: 0;
 }
 
 @media only screen and (max-width : 480px) {
@@ -86,8 +102,19 @@ th, td {
 .yatzyHeader .title {
 	background-color:white;
 	text-align: center;
+	margin: auto;
+	min-width: 343px;
+}
+
+.table-footer {
+	min-width: 343px;
 }
 
 .diceBtn {
 	width: 100%;
+}
+
+.fixed-container {
+	position: fixed;
+	bottom: 0;
 }
