@@ -1,34 +1,20 @@
-// Write dice array to DOM
-function showDices(diceArray){
-	// utf-8 characters for dice faces
-	var diceChars = ["\u2680","\u2681","\u2682","\u2683","\u2684","\u2685"];
+// // Write dice array to DOM
+// function showDices(diceArray){
+// 	// utf-8 characters for dice faces
+// 	var diceChars = ["\u2680","\u2681","\u2682","\u2683","\u2684","\u2685"];
 
-	// loop through our dice array with dice values and output dice characters
-	for(var i = 0; i < diceArray.length; i++){
-		$('.dice-space-' + (i+1)).html(diceChars[diceArray[i] - 1]);
-	}
+// 	// loop through our dice array with dice values and output dice characters
+// 	for(var i = 0; i < diceArray.length; i++){
+// 		$('.dice-space-' + (i+1)).html(diceChars[diceArray[i] - 1]);
+// 	}
 
 
-}
+// }
 
 function randomDiceGenerator(){
 	var random = Math.floor(Math.random() * 6) + 1;
 	return random;
 }
-
-
-// Run showDices on DOM load
-$(function (){
-	var arrDice = [];
-	for (var i = 0; i <= 6; i++){
-		arrDice.push(randomDiceGenerator());
-	}
-	// You can call show dices anywhere
-	showDices(arrDice);
-
-
-});
-
 
 //Ben
 currentDiceSet = [1,2,3,4,5,6];
@@ -82,20 +68,8 @@ function loadSavedData(){
 	}
 }
 
-//Set a random number in the given index 
-function setDiceRandomly(index){
-	currentDiceSet[index] = randomDiceGenerator();
-	currentGame.diceSet = currentDiceSet;
-	//Set current game to avoid writing and reading from localstorage
-	localStorage.setItem("yatzy-games-current", currentGame);
-	// savedGames = localStorage.getItem("yatzy-games");
-	savedGames[currentGame.id] = currentGame;
-	loca.setItem("yatzy-games", savedGames);
-}
-
 //Add the combinations
-function addCombinations(){
-	// $("#playScore").append('<ul class="col-md-4 list-group">');
+function setCombinations(){
 	$("#playCombinations").append('<li class="list-group-item">MAX</li>');
 	$("#playCombinations").append(addOneCombination("1", [1,1,1,1,1,1]));
 	$("#playCombinations").append(addOneCombination("2", [2,2,2,2,2,2]));
@@ -112,43 +86,36 @@ function addCombinations(){
 	$("#playCombinations").append(addOneCombination("cFullHouse", [6,6,6,5,5]));
 	$("#playCombinations").append('<li class="list-group-item combTitle">Yatzi</li>');
 	$("#playCombinations").append('<li class="list-group-item combTitle">Chance</li>');
-	// $("#playScore").append('</ul>');
+
+	function addOneCombination(id, dice){
+		var s = '<li id="c' + id + '" class="list-group-item combTitle">';
+		dice.forEach(function(die, i){
+			s += '<div class="col-xs-2 col-md-2 dice dice-small dice-' + die + '"></div>';
+		});
+		s += '</li>';
+		return s;
+	}
 }
 
-function addOneCombination(id, dice){
-	var s = '<li id="c' + id + '" class="list-group-item combTitle">';
-	dice.forEach(function(die, i){
-		s += '<div class="col-xs-2 col-md-2 dice dice-small dice-' + die + '"></div>';
-	});
-	s += '</li>';
-	return s;
-}
-
-//Add a div element for each dice 
-function addDiceClasses(){
-	$("#playDice").html();
-	currentDiceSet.forEach(function(die){
-		$("#playDice").append('<div class="col-xs-2 col-md-2 dice dice-big dice-' + die + '"></div>')
+//Add a div element for each dice in the play set
+function setOrUpdatePlayDice(){
+	$("#playDice").html("");
+	currentDiceSet.forEach(function(die, i){
+		$("#playDice").append('<div id="playDie' + i + '" class="col-xs-2 col-md-2 dice dice-free dice-' + die + '"></div>')
 	});
 	$("#playDice").append('<div class="clearfix"></div>');
 }
 
-//Add the dice images
+//Add the dice images to all dice-n classes
 function setDiceImages(){
 	for (var i = 1; i <= 6; i++) {
+		$(".dice-" + i).html("");
 		$(".dice-" + i).append('<img src="images/die_' + i + '.png" />');
 	};
 }
-function addDice(e, diceSet){
-	diceSet.forEach(function(d,i){
-		drawDie(e, d);
-	});
-}
-function addDie (e, die) {
-	e.append($(".dice-" + die));
-}
 
-function displayPlayersScore(){
+//Draw the scores for all players
+function displayCurrentGame(){
 	currentGame.players.forEach(function(p, i){
 		var s = '<ul id="player' + p.name + '" class="col-xs-3 col-md-3 list-group">' +
 					'<li class="list-group-item player">' + p.name + '</li>';
@@ -160,10 +127,77 @@ function displayPlayersScore(){
 	});
 }
 
+//Set a random number in the given index 
+function setDiceRandomly(index){
+	currentDiceSet[index] = randomDiceGenerator();
+	currentGame.diceSet = currentDiceSet;
+	//Set current game to avoid writing and reading from localstorage
+	//localStorage.setItem("yatzy-games-current", currentGame);
+	var savedGames = localStorage.getItem("yatzy-games");
+	savedGames[currentGame.id] = currentGame;
+	localStorage.setItem("yatzy-games", savedGames);
+}
+
+function throwDice(){
+	$(".dice-free").each(function(){
+		var index = parseInt(this.id.replace("playDie", ""));
+		setDiceRandomly(index);
+	});
+}
+
+
 $(document).ready(function(){
 	loadSavedData();
-	addCombinations();
-	displayPlayersScore();
-	addDiceClasses()
+	setCombinations();
+	displayCurrentGame();
+	setOrUpdatePlayDice();
 	setDiceImages();
+
+	$("#playButton").click(function(){
+		throwDice();
+		setOrUpdatePlayDice();
+		setDiceImages();
+	});
+
+	$("#playDice").on("click", ".dice-free", function(){
+			$(this).removeClass("dice-free").addClass("dice-chosed");
+		});
+	$("#playDice").on("click", ".dice-chosed", function(){
+			$(this).removeClass("dice-chosed").addClass("dice-free");
+		});
 });
+
+
+function rotateDice(){
+	$(".dice-free").each(function(){
+		rotateDie(this.id);
+	});
+}
+
+function rotateDie(id){
+	$("#playDie"+ id).rotate({
+	  bind: {
+	    click: function(){
+	      $("#playDie"+ id).rotate({
+	        angle: 0,
+	        animateTo: 180,
+	        duration: 6000
+	      });
+	      setTimeout(function(){
+	        $("#playDie"+ id).stopRotate();
+	      }, 1000);
+	    }
+	  }
+	});
+}
+
+
+// function bindEvents(){
+// 		$(".dice-free").click(function(){
+// 			$(this).removeClass("dice-free").addClass("dice-chosed");
+// 		});
+
+// 		$(".dice-chosed").click(function(){
+// 			$(this).removeClass("dice-chosed").addClass("dice-free");
+// 		});
+// }

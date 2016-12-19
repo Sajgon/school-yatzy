@@ -56,3 +56,7 @@ header{
 .dice img {
 	width: 100%;
 }
+.dice-chosed img{
+	position: relative;
+	top: -15px;
+}
