@@ -106,6 +106,10 @@ table, th, td {
 	min-width: 343px;
 }
 
+.yatzyHeader > div > img {
+	height: 100px;
+}
+
 .table-footer {
 	min-width: 343px;
 }
