@@ -16,20 +16,24 @@ function randomDiceGenerator(){
 	return random;
 }
 
-function loadPlayerNamesToLi(){
+function loadPlayerNamesToList(){
 	var yatzygames = JSON.parse(localStorage.getItem("yatzy-games"));
-	if(yatzygames["1"].playernames.length){
+	if(yatzygames["game"].playernames.length){
 		
-		for(var i = 0; i < yatzygames["1"].playernames.length; i++){
-			addLiUsername = "<li>"+yatzygames["1"].playernames[i]+"</li>"
+		// make sure to clean UL before we add new list items
+		$("#player-names").empty();
+		
+		for(var i = 0; i < yatzygames["game"].playernames.length; i++){
+			addLiUsername = "<li>"+yatzygames["game"].playernames[i]+"</li>"
 			$("#player-names").append(addLiUsername);
+			$("#startGame").prop("disabled", false);
 		}
 		
 	}
 }
 
 
-// Run showDices on DOM load
+// Run functions on DOM load
 $(function (){
 	
 	$('#throwDices').click(function(){
@@ -46,20 +50,28 @@ $(function (){
 	});
 	
 	$('#startGame').click(function(){
-		$(".beforegame").hide();
-		$(".ingame").show();
 		
+		// check that atleast 1 player is added to the playernames
+		var yatzygames = JSON.parse(localStorage.getItem("yatzy-games"));
+		
+		if(yatzygames["game"].playernames.length >= 1 ){
+			// call function to set game started
+			setGameStarted();
+		}
 	});
 	
+	
+	// Add username
 	$('#adduserBtn').click(function(){
 		username = $("#usernameInput").val();
-		addUsernameToGameid(username, "1");
+		addUsernameToGameid(username);
 		
-		loadPlayerNamesToLi();
+		loadPlayerNamesToList();
 	});
 
 	// load playernames at start
-	loadPlayerNamesToLi();
+	loadPlayerNamesToList();
+	highscoreOutput();
 	
 });
 

@@ -9,16 +9,25 @@ body {
 	margin: 0;
 }
 /* position fix */
-.beforegame > div, .ingame > div, .footer > div, .col-md-4{
-	padding-left: 0 !important;
-	padding-right: 0 !important;
+.ingame > div, .footer > div, .col-md-4{
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.beforegame{
+	border-top: 1px solid black;
+}
+
+.beforegame > div > p{
+	margin-top: 10px;
 }
 
 .ingame{
 	display: none;
 }
-.comboRow, .btn, .nameRow {
 
+.highscore{
+	border-top: 4px solid black;
 }
 
 .nonBtn:hover, .nonBtn:focus {
@@ -99,6 +108,7 @@ table, th, td {
 
 .diceBtn {
 	width: 100%;
+	margin-bottom: 10px;
 }
 
 .fixed-container {
@@ -107,4 +117,8 @@ table, th, td {
 
 .margintop{
 	margin-top: 20px;
+}
+
+.setMargin{
+	margin: 20px;
 }

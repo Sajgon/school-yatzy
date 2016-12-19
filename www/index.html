@@ -10,7 +10,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<link href="css/style.css" rel="stylesheet">
-	<script src="js/thompa.js"></script>
+	<script src="js/combos.js"></script>
 	<script src="js/main.js"></script>
 	<script src="js/sessionstorage.js"></script>
 </head>
@@ -28,8 +28,8 @@
 				<!-- Before game started content -->
 				<div class="row beforegame">
 					<div class="col-xs-12">
-						
-						<div class="input-group margintop">
+						<p>Vi behöver minst en, men max 4 spelare för att kunna starta yatzyspelet.</p>
+						<div class="input-group">
 							<input id="usernameInput" type="text" class="form-control" placeholder="namn...">
 							<span class="input-group-btn">
 								<button id="adduserBtn" class="btn btn-success" type="button">Lägg till användare!</button>
@@ -43,7 +43,7 @@
 					</div>
 					<div class="row">
 						<div class="col-xs-12">
-							<button id="startGame" type="button" class="btn btn-default diceBtn">Starta spel</button>
+							<button id="startGame" type="button" class="btn btn-default diceBtn" disabled>Starta spel</button>
 						</div>
 					</div>
 				</div>
@@ -54,7 +54,7 @@
 						<div class="table">
 							<table class="table table-bordered">
 							  <thead>
-								<tr>
+								<tr id="playernames">
 								  <th>Max Poäng</th>
 								  <th class="high-player">Spelare 1</th>
 								  <th>Spelare 2</th>
@@ -210,21 +210,23 @@
 						</div>
 					</div>
 				</div>
+				
+				<!-- Highscores -->
+				<div class="row highscore">
+					<div class="col-xs-12">
+						<h3>Poäng rekord</h3>
+						<table class="table">
+							<tbody id="table_highscore">
+								
+							</tbody>
+						</table>
+					</div>
+				</div>
+						
 			</div>
 		</div>
 	
-
-
 		
-		<div class="row">
-			<div class="col-md-offset-4 col-xs-12 col-md-4">
-				<table class="table">
-					<tbody id="table_highscore">
-						
-					</tbody>
-				</table>
-			</div>
-		</div>
 		
 		<!-- Button trigger modal -->
 		<button type="button" data-toggle="modal" data-target="#myModal" id="modalHover"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></button>
