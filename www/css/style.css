@@ -1,93 +1,61 @@
 body {
-	background-color: crimson;
-}
-
-.list-group {
-	display: inline-block;
-	width: 50%;
-	min-width: 150px;
-}
-
-.comboRow, .btn, .nameRow {
-	height: 50px;
-	min-height: 100%;
-	float: left;
-}
-
-.nonBtn:hover {
-	cursor:default;
 	background-color: white;
+	padding-top: 100px;
 }
-
-.nonBtn:focus {
-	background-color: white;
+header{ 
+	padding: 0 20px;
+	background: white;
 }
-
-.pl1 {
-	background-color: blue;
+.container {
+	z-index: 2;
 }
-
-header {
-	background-color: white;
-	text-align: center;
+.brd {
+	border: 1px solid black;
 }
-
-.dice-space {
-	font-size:100px;
-	line-height:50px;
-	padding: 0 25px 0 25px;
+#playBoard{
+	padding: 0;
+	height: 900px;
+	background-color: #5b9c5c;
+	border-radius: 25px;
+    border: 3px solid black;
 }
-
-.diceRow, .dice-space {
-	height:100%;
+#playBoard img{
+		width: 100%;
+	}
+#playScore.list-group{
+	padding: 0;
 	margin: 0;
 }
-
-
-.diceRow {
-	text-align: center;
-	width:100%;
-	padding:20px 0 !important;
+#playCombinations{
+	padding: 0;
 }
 
-.dice-wrapper {
-	overflow:hidden;
-	height:55px;
+.list-group-item.comb, .list-group-item.combTitle{
+	margin-top: 5px;
+	border-radius: 5px;
+	min-height: 40px;
+	padding: 5px 10px;
 }
-
-.dice-space {
-	cursor:pointer;
-	margin-top:-8px;
+.list-group-item.comb{
+	background: #ddd;
 }
-
-.table {
-	margin: 0;
+.list-group-item.combTitle{
+	background: #555;
+	color: white;
 }
-
-th, td {
-	text-align: center;
+.list-group-item.cTotal {
+	border-radius: 0;
+	border: 1px solid black;
 }
-
-@media only screen and (max-width : 480px) {
-	.dice-space {
-		font-size: 70px;
-		line-height:35px;
-		margin-top:-5px;
-	}
-	.dice-wrapper {
-		margin-left:-30px;
-	}
+.dice{
+	padding: 0;
 }
-
-.fix-padding {
-	padding:0 !important;
+.dice-small{
+	max-width: 25px;
 }
-
-.yatzyHeader > div{
-	background-color:white;
-	text-align: center;
+.dice-big{
+	max-width: 50px;
 }
-
-.diceBtn {
+.dice img {
 	width: 100%;
 }
