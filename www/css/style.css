@@ -1,53 +1,45 @@
 body {
 	background-color: crimson;
-	height: auto;
 }
 
+.container-fluid{
+	padding: 0;
+}
+.row {
+	margin: 0;
+}
+/* position fix */
+.beforegame > div, .ingame > div, .footer > div, .col-md-4{
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+}
+
+.ingame{
+	display: none;
+}
 .comboRow, .btn, .nameRow {
-	height: 50px;
-	min-height: 100%;
-	float: left;
+
 }
 
-.nonBtn:hover {
-	cursor:default;
+.nonBtn:hover, .nonBtn:focus {
+	cursor: default;
 	background-color: white;
-}
-
-.nonBtn:focus {
-	background-color: white;
-}
-
-.pl1 {
-	background-color: blue;
-}
-
-header {
-	background-color: white;
-	text-align: center;
 }
 
 .bgcolor {
 	background-color: white;
+	border-bottom: 1px solid black;
 }
 
 .dice-space {
-	font-size:90px;
-	line-height:40px;
-	padding: 0 25px 0 25px;
-}
-
-.dice-space {
-	height:100%;
-	margin: 0;
+	font-size:70px;
+	line-height:50px;
+	padding: 0;
+	cursor:pointer;
 }
 
 
 .diceRow {
-	/*text-align: center;
-	width:100%;
-	padding:20px 0 !important;*/
-
 	margin:0;
 	padding: 0;
 }
@@ -57,10 +49,6 @@ header {
 	height:55px;
 }
 
-.dice-space {
-	cursor:pointer;
-	margin-top:-4px;
-}
 
 .table {
 	margin: 0;
@@ -68,8 +56,6 @@ header {
 
 table, th, td {
 	text-align: center;
-	width: 40px;
-	height: 20px;
 }
 
 .highlight {
@@ -85,7 +71,7 @@ table, th, td {
 }
 
 @media only screen and (max-width : 480px) {
-	.dice-space {
+	/*.dice-space {
 		font-size: 70px;
 		line-height:35px;
 		margin-top:-5px;
@@ -93,25 +79,22 @@ table, th, td {
 	.dice-wrapper {
 		margin-left:-30px;
 	}
+	*/
 }
 
 .fix-padding {
 	padding:0 !important;
 }
 
-.yatzyHeader .title {
-	background-color:white;
-	text-align: center;
-	margin: auto;
-	min-width: 343px;
+.yatzyHeader{
+	background-color: crimson;
 }
-
 .yatzyHeader > div > img {
-	height: 100px;
+	height: 120px;
 }
 
 .table-footer {
-	min-width: 343px;
+
 }
 
 .diceBtn {
@@ -120,5 +103,8 @@ table, th, td {
 
 .fixed-container {
 	position: fixed;
-	bottom: 0;
+}
+
+.margintop{
+	margin-top: 20px;
 }

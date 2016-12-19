@@ -10,191 +10,214 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<link href="css/style.css" rel="stylesheet">
-	<script src="js/main.js"></script>
 	<script src="js/thompa.js"></script>
+	<script src="js/main.js"></script>
 	<script src="js/sessionstorage.js"></script>
 </head>
 <body>
 	<div class="container-fluid">
-		<div class="row yatzyHeader">
-			<div class="col-xs-12 col-md-4 col-md-offset-4">
-				<img src="images/logoyatzy.png" alt="yatzy logo">
-			</div>
-		</div>
 		<div class="row">
-			<div class="col-md-offset-4 col-xs-12 col-md-4">
-				<div class="table">
-					<table class="ybody table table-bordered">
-					  <thead>
-					    <tr>
-					      <th>Max Poäng</th>
-					      <th class="high-player">Spelare 1</th>
-					      <th>Spelare 2</th>
-					      <th>Spelare 3</th>
-					      <th>Spelare 4</th>
-					    </tr>
-					  </thead>
-					  <tbody>
-					    <tr>
-					      <th scope="row">Ettor</th>
-					      <td>-</td>
-					      <td>-</td>
-					      <td>-</td>
-					      <td>-</td>
-					    </tr>
-					    <tr>
-					      <th scope="row">Tvåor</th>
-					      <td>-</td>
-					      <td>-</td>
-					      <td>-</td>
-					      <td>-</td>
-					    </tr>
-					    <tr>
-					      <th scope="row">Treor</th>
-					      <td>-</td>
-					      <td>-</td>
-					      <td>-</td>
-					      <td>-</td>
-					    </tr>
-					    <tr>
-					      <th scope="row">Fyror</th>
-					      <td>-</td>
-					      <td>-</td>
-					      <td>-</td>
-					      <td>-</td>
-					    </tr><tr>
-					      <th scope="row">Femmor</th>
-					      <td>-</td>
-					      <td>-</td>
-					      <td>-</td>
-					      <td>-</td>
-					    </tr>
-					    <tr>
-					      <th scope="row">Sexor</th>
-					      <td>-</td>
-					      <td>-</td>
-					      <td>-</td>
-					      <td>-</td>
-					    </tr>
-					    <tr>
-					      <th class="highlight" scope="row">Summa</th>
-					      <td class="highlight">-</td>
-					      <td class="highlight">-</td>
-					      <td class="highlight">-</td>
-					      <td class="highlight">-</td>
-					    </tr>
-					    <tr>
-					      <th class="highlight" scope="row">Bonus</th>
-					      <td class="highlight">-</td>
-					      <td class="highlight">-</td>
-					      <td class="highlight">-</td>
-					      <td class="highlight">-</td>
-					    </tr>
-					    <tr>
-					      <th scope="row">Ett Par</th>
-					      <td>-</td>
-					      <td>-</td>
-					      <td>-</td>
-					      <td>-</td>
-					    </tr>
-					    <tr>
-					      <th scope="row">Två Par</th>
-					      <td>-</td>
-					      <td>-</td>
-					      <td>-</td>
-					      <td>-</td>
-					    </tr>
-					    <tr>
-					      <th scope="row">Triss</th>
-					      <td>-</td>
-					      <td>-</td>
-					      <td>-</td>
-					      <td>-</td>
-					    </tr>
-					    <tr>
-					      <th scope="row">Fyrtal</th>
-					      <td>-</td>
-					      <td>-</td>
-					      <td>-</td>
-					      <td>-</td>
-					    </tr>
-					    <tr>
-					      <th scope="row">Liten Stege</th>
-					      <td>-</td>
-					      <td>-</td>
-					      <td>-</td>
-					      <td>-</td>
-					    </tr>
-					    <tr>
-					      <th scope="row">Stor Stege</th>
-					      <td>-</td>
-					      <td>-</td>
-					      <td>-</td>
-					      <td>-</td>
-					    </tr>
-					    <tr>
-					      <th scope="row">Kåk</th>
-					      <td>-</td>
-					      <td>-</td>
-					      <td>-</td>
-					      <td>-</td>
-					    </tr>
-					    <tr>
-					      <th scope="row">Chans</th>
-					      <td>-</td>
-					      <td>-</td>
-					      <td>-</td>
-					      <td>-</td>
-					    </tr>
-					    <tr>
-					      <th scope="row">Yatzy!</th>
-					      <td>-</td>
-					      <td>-</td>
-					      <td>-</td>
-					      <td>-</td>
-					    </tr>
-					    <tr>
-					      <th class="highlight" scope="row">Total</th>
-					      <td class="highlight">-</td>
-					      <td class="highlight">-</td>
-					      <td class="highlight">-</td>
-					      <td class="highlight">-</td>
-					    </tr>
-					  </tbody>
-					</table>
+			<div class="col-xs-12 col-md-4 col-md-offset-4 bgcolor">
+				<!-- Header -->
+				<div class="row yatzyHeader">
+					<div class="col-xs-12">
+						<img src="images/logoyatzy.png" alt="yatzy logo">
+					</div>
 				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-md-offset-4 col-xs-12 col-md-4">
-					<div class="bgcolor">
-					  	<div class="dice-wrapper">
-			  				<div class="col-xs-1 hidden-md hidden-lg"></div>
-							<div class="col-xs-2 dice-space dice-space-1">
-							</div>
-							<div class="col-xs-2 dice-space dice-space-2">
-							</div>
-							<div class="col-xs-2 dice-space dice-space-3">
-							</div>
-							<div class="col-xs-2 dice-space dice-space-4">
-							</div>
-							<div class="col-xs-2 dice-space dice-space-5">
+				
+				<!-- Before game started content -->
+				<div class="row beforegame">
+					<div class="col-xs-12">
+						
+						<div class="input-group margintop">
+							<input id="usernameInput" type="text" class="form-control" placeholder="namn...">
+							<span class="input-group-btn">
+								<button id="adduserBtn" class="btn btn-success" type="button">Lägg till användare!</button>
+							</span>
+						</div><!-- /input-group -->
+						
+						<div>
+							<ul id="player-names">
+							</ul>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12">
+							<button id="startGame" type="button" class="btn btn-default diceBtn">Starta spel</button>
+						</div>
+					</div>
+				</div>
+				
+				<!-- Game Started Content -->
+				<div class="ingame row">
+					<div class="col-xs-12">
+						<div class="table">
+							<table class="table table-bordered">
+							  <thead>
+								<tr>
+								  <th>Max Poäng</th>
+								  <th class="high-player">Spelare 1</th>
+								  <th>Spelare 2</th>
+								  <th>Spelare 3</th>
+								  <th>Spelare 4</th>
+								</tr>
+							  </thead>
+							  <tbody>
+								<tr id="ettor">
+								  <th scope="row">Ettor</th>
+								  <td>-</td>
+								  <td>-</td>
+								  <td>-</td>
+								  <td>-</td>
+								</tr>
+								<tr id="tvaor">
+								  <th scope="row">Tvåor</th>
+								  <td>-</td>
+								  <td>-</td>
+								  <td>-</td>
+								  <td>-</td>
+								</tr>
+								<tr id="treor">
+								  <th scope="row">Treor</th>
+								  <td>-</td>
+								  <td>-</td>
+								  <td>-</td>
+								  <td>-</td>
+								</tr>
+								<tr id="fyror">
+								  <th scope="row">Fyror</th>
+								  <td>-</td>
+								  <td>-</td>
+								  <td>-</td>
+								  <td>-</td>
+								</tr>
+								<tr id="femmor">
+								  <th scope="row">Femmor</th>
+								  <td>-</td>
+								  <td>-</td>
+								  <td>-</td>
+								  <td>-</td>
+								</tr>
+								<tr id="sexor">
+								  <th scope="row">Sexor</th>
+								  <td>-</td>
+								  <td>-</td>
+								  <td>-</td>
+								  <td>-</td>
+								</tr>
+								<tr id="summa1">
+								  <th class="highlight" scope="row">Summa</th>
+								  <td class="highlight">-</td>
+								  <td class="highlight">-</td>
+								  <td class="highlight">-</td>
+								  <td class="highlight">-</td>
+								</tr>
+								<tr id="bonus">
+								  <th class="highlight" scope="row">Bonus</th>
+								  <td class="highlight">-</td>
+								  <td class="highlight">-</td>
+								  <td class="highlight">-</td>
+								  <td class="highlight">-</td>
+								</tr>
+								<tr id="ettpar">
+								  <th scope="row">Ett Par</th>
+								  <td>-</td>
+								  <td>-</td>
+								  <td>-</td>
+								  <td>-</td>
+								</tr>
+								<tr id="tvapar">
+								  <th scope="row">Två Par</th>
+								  <td>-</td>
+								  <td>-</td>
+								  <td>-</td>
+								  <td>-</td>
+								</tr>
+								<tr id="triss">
+								  <th scope="row">Triss</th>
+								  <td>-</td>
+								  <td>-</td>
+								  <td>-</td>
+								  <td>-</td>
+								</tr>
+								<tr id="fyrtal">
+								  <th scope="row">Fyrtal</th>
+								  <td>-</td>
+								  <td>-</td>
+								  <td>-</td>
+								  <td>-</td>
+								</tr>
+								<tr id="litenstege">
+								  <th scope="row">Liten Stege</th>
+								  <td>-</td>
+								  <td>-</td>
+								  <td>-</td>
+								  <td>-</td>
+								</tr>
+								<tr id="storstege"> 
+								  <th scope="row">Stor Stege</th>
+								  <td>-</td>
+								  <td>-</td>
+								  <td>-</td>
+								  <td>-</td>
+								</tr>
+								<tr id="kak">
+								  <th scope="row">Kåk</th>
+								  <td>-</td>
+								  <td>-</td>
+								  <td>-</td>
+								  <td>-</td>
+								</tr>
+								<tr id="chans">
+								  <th scope="row">Chans</th>
+								  <td>-</td>
+								  <td>-</td>
+								  <td>-</td>
+								  <td>-</td>
+								</tr>
+								<tr id="yatzy">
+								  <th scope="row">Yatzy!</th>
+								  <td>-</td>
+								  <td>-</td>
+								  <td>-</td>
+								  <td>-</td>
+								</tr>
+								<tr>
+								  <th class="highlight" scope="row">Total</th>
+								  <td class="highlight">-</td>
+								  <td class="highlight">-</td>
+								  <td class="highlight">-</td>
+								  <td class="highlight">-</td>
+								</tr>
+							  </tbody>
+							</table>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12">
+							<div class="dice-wrapper">
+								<div class="col-xs-offset-1 col-xs-2 dice-space dice-space-1"></div>
+								<div class="col-xs-2 dice-space dice-space-2"></div>
+								<div class="col-xs-2 dice-space dice-space-3"></div>
+								<div class="col-xs-2 dice-space dice-space-4"></div>
+								<div class="col-xs-2 dice-space dice-space-5"></div>
 							</div>
 						</div>
-			  			<div class="row">
-			  				<div class="col-xs-12">
-					  			<button type="button" class="btn btn-default diceBtn">
-								  ROLL THE DICE!!! NOT THE ONLY DIE!
-								</button>
-							</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12">
+							<button id="throwDices" type="button" class="btn btn-default diceBtn">Kasta tärningar</button>
 						</div>
 					</div>
 				</div>
 			</div>
-			<!-- <div class="col-xs-12 col-md-4"></div> -->		
 		</div>
+	
+
+
+		
 		<div class="row">
-			<div class="col-xs-12 col-md-4">
+			<div class="col-md-offset-4 col-xs-12 col-md-4">
 				<table class="table">
 					<tbody id="table_highscore">
 						
@@ -202,10 +225,12 @@
 				</table>
 			</div>
 		</div>
+		
+		<!-- Button trigger modal -->
+		<button type="button" data-toggle="modal" data-target="#myModal" id="modalHover"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></button>
+
 	</div>
 
-	<!-- Button trigger modal -->
-	<button type="button" data-toggle="modal" data-target="#myModal" id="modalHover"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></button>
 
 	<!-- Modal -->
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

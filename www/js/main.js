@@ -16,15 +16,52 @@ function randomDiceGenerator(){
 	return random;
 }
 
+function loadPlayerNamesToLi(){
+	var yatzygames = JSON.parse(localStorage.getItem("yatzy-games"));
+	if(yatzygames["1"].playernames.length){
+		
+		for(var i = 0; i < yatzygames["1"].playernames.length; i++){
+			addLiUsername = "<li>"+yatzygames["1"].playernames[i]+"</li>"
+			$("#player-names").append(addLiUsername);
+		}
+		
+	}
+}
+
 
 // Run showDices on DOM load
 $(function (){
-	var arrDice = [];
-	for (var i = 0; i <= 6; i++){
-		arrDice.push(randomDiceGenerator());
-	}
-	// You can call show dices anywhere
-	showDices(arrDice);
+	
+	$('#throwDices').click(function(){
+		var arrDice = [];
+		for (var i = 0; i < 5; i++){
+			arrDice.push(randomDiceGenerator());
+		}
+		
+		// You can call show dices anywhere
+		showDices(arrDice);
+		scores = runScoreTest(arrDice);
+		
+		console.log(scores);
+	});
+	
+	$('#startGame').click(function(){
+		$(".beforegame").hide();
+		$(".ingame").show();
+		
+	});
+	
+	$('#adduserBtn').click(function(){
+		username = $("#usernameInput").val();
+		addUsernameToGameid(username, "1");
+		
+		loadPlayerNamesToLi();
+	});
 
-
+	// load playernames at start
+	loadPlayerNamesToLi();
+	
 });
+
+
+

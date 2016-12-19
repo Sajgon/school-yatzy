@@ -42,7 +42,7 @@ function isLocalStorageKeys(){
 	}else if(highscores.length > 0){
 		console.log("Highscore lista:");
 		for(var h = 0; h < highscores.length; h++){
-			console.log(highscores[h]);
+			// console.log(highscores[h]);
 		}
 	}
 }
@@ -136,8 +136,8 @@ function highscoreOutput(){
 	// sortera vårt highscore efter högsta poäng
 	topFiveHighscore = yatzyhighscore.highscores.sort(sortNumber);
 	
-	console.log("topFiveHighscore");
-	console.log(topFiveHighscore);
+	// console.log("topFiveHighscore");
+	// console.log(topFiveHighscore);
 	
 	// Amount 
 	highscorelength = 5;
