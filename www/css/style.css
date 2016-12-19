@@ -53,9 +53,6 @@ header{
 .dice-small{
 	max-width: 25px;
 }
-.dice-big{
-	max-width: 50px;
-}
 .dice img {
 	width: 100%;
 }

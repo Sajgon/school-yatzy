@@ -37,28 +37,29 @@ currentGame = {};
 
 function loadSavedData(){
 	if(!localStorage.getItem("yatzy-games")){
-		var players = new [{"name" : "P1", "combinations" : []},
-						  {"name" : "P2", "combinations" : []},
-						  {"name" : "P3", "combinations" : []},
-						  {"name" : "P4", "combinations" : []}];
+		var players = [{"name" : "P1", "combinations" : [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},
+						  {"name" : "P2", "combinations" : [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},
+						  {"name" : "P3", "combinations" : [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},
+						  {"name" : "P4", "combinations" : [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]}];
 		var gameid = 1;
-		var yatzygames = '{"'+gameid+'": {"players": '+ players +',"open": true, "started" : false, "diceSet", ' + currentDiceSet + '}}';
+		var yatzygames = '[{"id" : '+gameid+', "players": '+ JSON.stringify(players) +',"open": true, "started" : false, "diceSet" : ' + JSON.stringify(currentDiceSet) + '}]';
 		
-		localStorage.setItem("yatzy-games", yatzygames);
+		localStorage.setItem("yatzy-games", JSON.stringify(yatzygames));
 	}
 
 	// Variabel för våra yatzy spel
-	var yatzygames = JSON.parse(localStorage.getItem("yatzy-games"));
-	yatzygames = $.grep(yatzygames, function(n,i){
+	var temp = JSON.parse(localStorage.getItem("yatzy-games"));
+	temp = JSON.parse(temp);
+	var yatzygames = $.grep(temp, function(n,i){
 		return n.open;
 	});
 
 	if (yatzygames.length > 0){		
 		// function sorting array numbers
 		function sortOrder(a,b) {
-			return b.gameid - a.gameid;
+			return b.id - a.id;
 		}
-		currentGame = yatzygames.sort(sortOrder)[ya.length - 1];
+		currentGame = yatzygames.sort(sortOrder)[yatzygames.length - 1];
 		// localStorage.setItem("yatzi-games-current");
 	}
 	
@@ -147,9 +148,22 @@ function addDie (e, die) {
 	e.append($(".dice-" + die));
 }
 
+function displayPlayersScore(){
+	currentGame.players.forEach(function(p, i){
+		var s = '<ul id="player' + p.name + '" class="col-xs-3 col-md-3 list-group">' +
+					'<li class="list-group-item player">' + p.name + '</li>';
+		p.combinations.forEach(function(c, i){
+					s += '<li class="list-group-item comb c1">' + p.combinations[i] + '</li>';
+		});
+		s += "</ul>";
+		$("#playersScore").append(s);
+	});
+}
 
 $(document).ready(function(){
+	loadSavedData();
 	addCombinations();
+	displayPlayersScore();
 	addDiceClasses()
 	setDiceImages();
 });

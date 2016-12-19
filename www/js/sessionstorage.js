@@ -169,7 +169,7 @@ function highscoreOutput(){
 
 
 // call functions
-isLocalStorageKeys();
+//isLocalStorageKeys();
 
 
 
