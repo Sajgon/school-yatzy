@@ -5,8 +5,7 @@ console.log("SESSIONSSTORAGE FILE LOADED");
 function isLocalStorageKeys(){
 	// Finns inte localStorage "yatzy-games" - skapa en mall
 	if(!localStorage.getItem("yatzy-games")){
-		var gameid = 1;
-		var yatzygames = '{"'+gameid+'": {"playernames": [],"started": false}}';
+		var yatzygames = '{"game": {"playernames": [],"started": false}}';
 		
 		console.log("New game created.");
 		localStorage.setItem("yatzy-games", yatzygames);
@@ -14,18 +13,16 @@ function isLocalStorageKeys(){
 
 	// Variabel för våra yatzy spel
 	var yatzygames = JSON.parse(localStorage.getItem("yatzy-games"));
-
-	// Loopa alla våra spel
-	for(x in yatzygames){
-		yatzygame = yatzygames[x];
-		started = yatzygame.started;
-		gameid = x;
-		
-		if(started == false){
-			// continue with this game id
-			
-			break;
-		}
+	var yatzygame = yatzygames["game"];
+	var started = yatzygame.started;
+	
+	//
+	if(started == false){
+		$(".beforegame").show();
+		$(".ingame").hide();
+	}else if(started == true){
+		$(".beforegame").hide();
+		$(".ingame").show();
 	}
 	
 	// Finns inte localStorage "yatzy-highscore" - skapa en mall
@@ -42,22 +39,22 @@ function isLocalStorageKeys(){
 	}else if(highscores.length > 0){
 		console.log("Highscore lista:");
 		for(var h = 0; h < highscores.length; h++){
-			console.log(highscores[h]);
+			// console.log(highscores[h]);
 		}
 	}
 }
 
 
 // add a user to local storage
-function addUsernameToGameid(username, gameid){
+function addUsernameToGameid(username){
 	// get localstorage object
 	var yatzygames = JSON.parse(localStorage.getItem("yatzy-games"));
 	
 	// validate username & gameid input
-	if(username.length >= 1 && gameid.length > 0){
-		if(yatzygames[gameid].playernames.length <= 4){
+	if(username.length >= 1){
+		if(yatzygames["game"].playernames.length < 4){
 			// push username to object
-			yatzygames[gameid].playernames.push(username);
+			yatzygames["game"].playernames.push(username);
 			
 			yatzygames = JSON.stringify(yatzygames);
 			
@@ -67,6 +64,7 @@ function addUsernameToGameid(username, gameid){
 			return true;
 		}
 		
+		// Error: we couldnt find username object from localstorage
 		return false;	
 	}
 	
@@ -74,25 +72,39 @@ function addUsernameToGameid(username, gameid){
 }
 
 // changed status "started" to true when button "STARTA SPEL" is pressed
-function setGameStarted(gameid){
+function setGameStarted(){
+
+	// Variabel för våra yatzy spel
+	var yatzygames = JSON.parse(localStorage.getItem("yatzy-games"));
 	
-	// validate input: gameid
-	if(gameid.length > 0){
-		// Variabel för våra yatzy spel
-		var yatzygames = JSON.parse(localStorage.getItem("yatzy-games"));
-		
+	if(yatzygames){
 		// set started to true
-		yatzygames[gameid].started = true;
+		yatzygames["game"].started = true;
+		
+		for(var i = 0; i < 4; i++){
+			var p = i+1;
+			
+			if(yatzygames["game"].playernames[i]){
+				
+				$($('#playernames').children()[p]).html(yatzygames["game"].playernames[i]);
+			}else{
+				$($('#playernames').children()[p]).html("-");
+			}
+		}
 		
 		// redo an object to a string
 		yatzygames = JSON.stringify(yatzygames);
 		
-		// set gameid to started in localStorage
+		// set game to started in localStorage
 		localStorage.setItem("yatzy-games", yatzygames);
 		
+		// Visa korrekta element
+		$(".beforegame").hide();
+		$(".ingame").show();
+			
 		return true;
 	}
-	
+		
 	return false;
 }
 
@@ -136,8 +148,8 @@ function highscoreOutput(){
 	// sortera vårt highscore efter högsta poäng
 	topFiveHighscore = yatzyhighscore.highscores.sort(sortNumber);
 	
-	console.log("topFiveHighscore");
-	console.log(topFiveHighscore);
+	// console.log("topFiveHighscore");
+	// console.log(topFiveHighscore);
 	
 	// Amount 
 	highscorelength = 5;
@@ -154,7 +166,7 @@ function highscoreOutput(){
 	for(var t = 0; t < highscorelength; t++){
 		result = topFiveHighscore[t];
 		row = t+1;
-		tablerow = "<tr><th>"+row+"</th><td>"+result+"</td><tr>";
+		tablerow = "<tr><th>#"+row+"</th><td>"+result+"</td><tr>";
 		$("#table_highscore").append(tablerow);
 	}
 }

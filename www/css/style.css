@@ -1,37 +1,45 @@
 body {
 	background-color: crimson;
+<<<<<<< HEAD
 }
 
 .list-group {
 	display: inline-block;
 	width: 50%;
 	min-width: 150px;
+=======
+>>>>>>> 4aec0aa8a04fe485beff0f5761a8308e71b94c93
 }
 
-.comboRow, .btn, .nameRow {
-	height: 50px;
-	min-height: 100%;
-	float: left;
+.container-fluid{
+	padding: 0;
+}
+.row {
+	margin: 0;
+}
+/* position fix */
+.ingame > div, .footer > div, .col-md-4{
+	padding-left: 0;
+	padding-right: 0;
 }
 
-.nonBtn:hover {
-	cursor:default;
-	background-color: white;
+.beforegame{
+	border-top: 1px solid black;
 }
 
-.nonBtn:focus {
-	background-color: white;
+.beforegame > div > p{
+	margin-top: 10px;
 }
 
-.pl1 {
-	background-color: blue;
+.ingame{
+	display: none;
 }
 
-header {
-	background-color: white;
-	text-align: center;
+.highscore{
+	border-top: 4px solid black;
 }
 
+<<<<<<< HEAD
 .dice-space {
 	font-size:90px;
 	line-height:40px;
@@ -41,13 +49,35 @@ header {
 .diceRow, .dice-space {
 	height:100%;
 	margin: 0;
+=======
+.nonBtn:hover, .nonBtn:focus {
+	cursor: default;
+	background-color: white;
+}
+
+.bgcolor {
+	background-color: white;
+	border-bottom: 1px solid black;
+}
+
+.dice-space {
+	font-size:70px;
+	line-height:50px;
+	padding: 0;
+	cursor:pointer;
+>>>>>>> 4aec0aa8a04fe485beff0f5761a8308e71b94c93
 }
 
 
 .diceRow {
+<<<<<<< HEAD
 	text-align: center;
 	width:100%;
 	padding:20px 0 !important;
+=======
+	margin:0;
+	padding: 0;
+>>>>>>> 4aec0aa8a04fe485beff0f5761a8308e71b94c93
 }
 
 .dice-wrapper {
@@ -55,10 +85,6 @@ header {
 	height:55px;
 }
 
-.dice-space {
-	cursor:pointer;
-	margin-top:-4px;
-}
 
 .table {
 	margin: 0;
@@ -66,10 +92,25 @@ header {
 
 th, td {
 	text-align: center;
+<<<<<<< HEAD
+=======
+}
+
+.highlight {
+	background-color: lightgray;
+}
+
+.high-player {
+	background-color: #ff6666;
+}
+
+.ybody {
+	padding: 0;
+>>>>>>> 4aec0aa8a04fe485beff0f5761a8308e71b94c93
 }
 
 @media only screen and (max-width : 480px) {
-	.dice-space {
+	/*.dice-space {
 		font-size: 70px;
 		line-height:35px;
 		margin-top:-5px;
@@ -77,17 +118,46 @@ th, td {
 	.dice-wrapper {
 		margin-left:-30px;
 	}
+	*/
 }
 
 .fix-padding {
 	padding:0 !important;
 }
 
+<<<<<<< HEAD
 .yatzyHeader .title {
 	background-color:white;
 	text-align: center;
+=======
+.yatzyHeader{
+	background-color: crimson;
+}
+.yatzyHeader > div > img {
+	height: 120px;
+}
+
+.table-footer {
+
+>>>>>>> 4aec0aa8a04fe485beff0f5761a8308e71b94c93
 }
 
 .diceBtn {
 	width: 100%;
+<<<<<<< HEAD
+=======
+	margin-bottom: 10px;
+}
+
+.fixed-container {
+	position: fixed;
+}
+
+.margintop{
+	margin-top: 20px;
+}
+
+.setMargin{
+	margin: 20px;
+>>>>>>> 4aec0aa8a04fe485beff0f5761a8308e71b94c93
 }
