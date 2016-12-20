@@ -51,7 +51,7 @@ function addUsernameToGameid(username){
 	var yatzygames = JSON.parse(localStorage.getItem("yatzy-games"));
 	
 	// validate username & gameid input
-	if(username.length >= 1 && username.length <= 10){
+	if(username.length >= 1){
 		if(yatzygames["game"].playernames.length < 4){
 			// push username to object
 			yatzygames["game"].playernames.push(username);
