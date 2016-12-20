@@ -1,14 +1,5 @@
 body {
 	background-color: crimson;
-<<<<<<< HEAD
-}
-
-.list-group {
-	display: inline-block;
-	width: 50%;
-	min-width: 150px;
-=======
->>>>>>> 4aec0aa8a04fe485beff0f5761a8308e71b94c93
 }
 
 .container-fluid{
@@ -39,17 +30,6 @@ body {
 	border-top: 4px solid black;
 }
 
-<<<<<<< HEAD
-.dice-space {
-	font-size:90px;
-	line-height:40px;
-	padding: 0 25px 0 25px;
-}
-
-.diceRow, .dice-space {
-	height:100%;
-	margin: 0;
-=======
 .nonBtn:hover, .nonBtn:focus {
 	cursor: default;
 	background-color: white;
@@ -65,19 +45,12 @@ body {
 	line-height:50px;
 	padding: 0;
 	cursor:pointer;
->>>>>>> 4aec0aa8a04fe485beff0f5761a8308e71b94c93
 }
 
 
 .diceRow {
-<<<<<<< HEAD
-	text-align: center;
-	width:100%;
-	padding:20px 0 !important;
-=======
 	margin:0;
 	padding: 0;
->>>>>>> 4aec0aa8a04fe485beff0f5761a8308e71b94c93
 }
 
 .dice-wrapper {
@@ -90,10 +63,8 @@ body {
 	margin: 0;
 }
 
-th, td {
+table, th, td {
 	text-align: center;
-<<<<<<< HEAD
-=======
 }
 
 .highlight {
@@ -106,7 +77,6 @@ th, td {
 
 .ybody {
 	padding: 0;
->>>>>>> 4aec0aa8a04fe485beff0f5761a8308e71b94c93
 }
 
 @media only screen and (max-width : 480px) {
@@ -125,11 +95,6 @@ th, td {
 	padding:0 !important;
 }
 
-<<<<<<< HEAD
-.yatzyHeader .title {
-	background-color:white;
-	text-align: center;
-=======
 .yatzyHeader{
 	background-color: crimson;
 }
@@ -139,13 +104,10 @@ th, td {
 
 .table-footer {
 
->>>>>>> 4aec0aa8a04fe485beff0f5761a8308e71b94c93
 }
 
 .diceBtn {
 	width: 100%;
-<<<<<<< HEAD
-=======
 	margin-bottom: 10px;
 }
 
@@ -159,5 +121,4 @@ th, td {
 
 .setMargin{
 	margin: 20px;
->>>>>>> 4aec0aa8a04fe485beff0f5761a8308e71b94c93
 }
