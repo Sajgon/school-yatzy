@@ -1,4 +1,4 @@
-console.log("SESSIONSSTORAGE FILE LOADED");
+//console.log("SESSIONSSTORAGE FILE LOADED");
 
 
 // Function: Find localStorage keys and add template if they doesn't exist
@@ -35,7 +35,7 @@ function isLocalStorageKeys(){
 	var highscores = yatzyhighscores.highscores;
 
 	if(highscores.length == 0){
-		console.log("Inga registrerade poäng på vår highscore!");
+		//console.log("Inga registrerade poäng på vår highscore!");
 	}else if(highscores.length > 0){
 		console.log("Highscore lista:");
 		for(var h = 0; h < highscores.length; h++){
@@ -51,7 +51,7 @@ function addUsernameToGameid(username){
 	var yatzygames = JSON.parse(localStorage.getItem("yatzy-games"));
 	
 	// validate username & gameid input
-	if(username.length >= 1){
+	if(username.length >= 1 && username.length <= 10){
 		if(yatzygames["game"].playernames.length < 4){
 			// push username to object
 			yatzygames["game"].playernames.push(username);

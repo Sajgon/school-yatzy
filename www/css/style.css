@@ -1,5 +1,5 @@
 body, .yatzyHeader{
-	background-color: #007932;
+	background-color: #40a35b;
 }
 
 .container-fluid{
@@ -118,9 +118,9 @@ table, th, td {
 	position: fixed;
 }
 
-.margintop{
+/* .margintop{
 	margin-top: 20px;
-}
+} */
 
 .marginbottom{
 	margin-bottom: 20px;

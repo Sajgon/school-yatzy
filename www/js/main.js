@@ -71,6 +71,7 @@ $(function (){
 		addUsernameToGameid(username);
 		
 		loadPlayerNamesToList();
+		$("#usernameInput").val("");
 	});
 
 	// load playernames at start
