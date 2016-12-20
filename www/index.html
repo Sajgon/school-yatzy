@@ -210,19 +210,6 @@
 						</div>
 					</div>
 				</div>
-				
-				<!-- Highscores -->
-				<div class="row highscore">
-					<div class="col-xs-12">
-						<h3>Poäng rekord</h3>
-						<table class="table">
-							<tbody id="table_highscore">
-								
-							</tbody>
-						</table>
-					</div>
-				</div>
-				
 			</div>
 		</div>
 	</div>
@@ -230,14 +217,24 @@
 	<!-- Button trigger modal -->
 	<div class="row triggerModal">
 		<div class="col-xs-12 col-md-4 col-md-offset-4">
-			<button class="btn btn-success margintop marginbottom" type="button" data-toggle="modal" data-target="#myModal" id="modalHover">
-				<span class="badge"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></span> Hjälp & regler 
+			<div class="row">
+				<div class="col-xs-6 modal1">
+					<button class="btn btn-success margintop marginbottom" type="button" data-toggle="modal" data-target="#myModal" id="modalHover">
+						<span class="badge"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></span> Hjälp & regler 
+					</button>
+				</div>
+				<div class="col-xs-6 modal1">
+					<button class="btn btn-success margintop marginbottom" type="button" data-toggle="modal" data-target="#myModalHighscore" id="modalHover">
+				<span class="badge"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></span>  Highscore
 			</button>
+				</div>
+			</div>
+			
 		</div>
 	</div>
 
 
-	<!-- Modal -->
+	<!-- Modal 2 -->
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	  <div class="modal-dialog" role="document">
 	    <div class="modal-content">
@@ -249,7 +246,7 @@
 	      </div>
 	      <div class="modal-body">
 	        <h2>Yatzy Regler!</h2>
-	        <p>Yatzy är en tärningsspel för 2 eller flera spelare som går ut på att samla ihop mer poäng än de andra spelarna för att vinna. Poäng får man genom att kasta 5 tärningar med 3 försök för att få en kombination som man är ute efter.
+	        <p>Yatzy är ett tärningsspel för 2 eller flera spelare som går ut på att samla ihop mer poäng än de andra spelarna för att vinna. Poäng får man genom att kasta 5 tärningar med 3 försök för att få en kombination som man är ute efter.
 	        Först kommer kombinationerna där man ska samla ettor till sexor, där det gäller att samla så många utav den siffran som möjligt under sina 3 kast. Efter man gjort 1-6 så ska poängen räknas ihop för att se om man fått en bonus på 50 poäng, vilket man får om man fått 63 poäng eller högre. Efter summan av poängen och bonusen räknats ihop så börjar de svårare kombinationerna:</p>
 	       <ul>
 	       	<li>1 Par: 2 av samma siffra.</li>
@@ -260,10 +257,43 @@
 	       	<li>Stor Stege: Siffrorna mellan 2-6.</li>
 	       	<li>Kåk: 3 stycken av samma siffra och 2 stycken av en annan siffra.</li>
 	       	<li>Chans: Få tärningarna att visa så mycket poäng som möjligt.</li>
-	       	<li>Yatzy: Alla tärningar visar samma nummer.</li>
+	       	<li>Yatzy: Alla tärningar visar samma nummer. Ger 50 poäng totalt.</li>
 	       </ul>
-	       <p>Om spelaren inte kan få ihop siffrorna eller kombinationerna som behövs, kryssar man istället av en tom nummerruta eller kombination med hjälp av " - " som betyder att spelaren varken får poäng eller kan få poäng för den siffran/kombinationen.
+	   	<p>Om spelaren inte kan få ihop siffrorna eller kombinationerna som behövs, kryssar man istället av en tom kombinationsruta med hjälp av " - " som betyder att spelaren varken får poäng eller kan få poäng för den siffran/kombinationen.
+      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Stäng</button>
 	      </div>
+	    </div>
+	  </div>
+	</div>
+
+	<!-- Button trigger modal -->
+	<div class="row triggerModal">
+		<div class="col-xs-12 col-md-4 col-md-offset-4">
+			
+		</div>
+	</div>
+
+
+	<!-- Modal 2 -->
+	<div class="modal fade" id="myModalHighscore" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	        <h4 class="modal-title" id="myModalLabel">Yatzy</h4>
+	      </div>
+	    <div class="modal-body">
+	        <h2>Yatzy Highscore!</h2>
+	     	<table class="table">
+				<tbody id="table_highscore">
+					
+				</tbody>
+			</table>
+      	</div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Stäng</button>
 	      </div>

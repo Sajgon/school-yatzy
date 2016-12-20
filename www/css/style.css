@@ -5,8 +5,12 @@ body, .yatzyHeader{
 .container-fluid{
 	padding: 0;
 }
-.triggerModal{
-	margin-top: 30px;
+.modal1{
+	padding:0;
+	margin:0;
+}
+.modal1 > button {
+	width:100%;
 }
 .row {
 	margin: 0;
