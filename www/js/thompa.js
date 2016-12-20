@@ -205,47 +205,24 @@ var combos = {
 function printValues(scores){
 
 	// Printa Antalet poäng
-	
-	// Lower
 	$($('#ettor').children()[1]).html(scores["Ettor"]);
 	$($('#tvaor').children()[1]).html(scores["Tvåor"]);
 	$($('#treor').children()[1]).html(scores["Treor"]);
 	$($('#fyror').children()[1]).html(scores["Fyror"]);
-	$($('#femmor').children()[1]).html(scores["Femmor"]);
-	$($('#sexor').children()[1]).html(scores["Sexor"]);
-	
-	var summa = scores["Ettor"] + scores["Tvåor"] + scores["Treor"] + scores["Fyror"] + scores["Femmor"] + scores["Sexor"];
-	$($('#summa').children()[1]).html(summa);
-	
-	var bonus = 0;
-	
-	if(summa > 63){
-		bonus = 50;
-		$($('#bonus').children()[1]).html(bonus);
-	}else{
-		bonus = 0;
-		$($('#bonus').children()[1]).html("-");
-	}
-	
-	
-	// Upper 
 	$($('#chans').children()[1]).html(scores["Chans"]);
 	$($('#ettpar').children()[1]).html(scores["Ett par"]);
+	$($('#femmor').children()[1]).html(scores["Femmor"]);
+	
 	$($('#fyrtal').children()[1]).html(scores["Fyrtal"]);
 	$($('#kak').children()[1]).html(scores["Kåk"]);
 	$($('#litenstege').children()[1]).html(scores["Liten stege"]);
+	$($('#sexor').children()[1]).html(scores["Sexor"]);
 	$($('#storstege').children()[1]).html(scores["Stor stege"]);
+	
 	$($('#triss').children()[1]).html(scores["Triss"]);
 	$($('#tvapar').children()[1]).html(scores["Två par"]);
 	$($('#yatzy').children()[1]).html(scores["Yatzy!"]);
 	
-	uppersum = scores["Chans"] + scores["Ett par"] + scores["Fyrtal"] + scores["Kåk"] + scores["Liten stege"] + scores["Stor stege"] + scores["Triss"] + scores["Två par"] + scores["Yatzy!"];
-	
-	
-	var total = summa + bonus + uppersum;
-	
-	// print total sum
-	$($('#totalsum').children()[1]).html(total);
 }
 
 

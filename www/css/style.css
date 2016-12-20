@@ -1,9 +1,12 @@
-body {
-	background-color: crimson;
+body, .yatzyHeader{
+	background-color: #007932;
 }
 
 .container-fluid{
 	padding: 0;
+}
+.triggerModal{
+	margin-top: 30px;
 }
 .row {
 	margin: 0;
@@ -72,7 +75,7 @@ table, th, td {
 }
 
 .high-player {
-	background-color: #ff6666;
+	background-color: #00dc5b;
 }
 
 .ybody {
@@ -96,7 +99,7 @@ table, th, td {
 }
 
 .yatzyHeader{
-	background-color: crimson;
+
 }
 .yatzyHeader > div > img {
 	height: 120px;
@@ -117,6 +120,10 @@ table, th, td {
 
 .margintop{
 	margin-top: 20px;
+}
+
+.marginbottom{
+	margin-bottom: 20px;
 }
 
 .setMargin{

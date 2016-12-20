@@ -24,7 +24,11 @@ function loadPlayerNamesToList(){
 		$("#player-names").empty();
 		
 		for(var i = 0; i < yatzygames["game"].playernames.length; i++){
-			addLiUsername = "<li>"+yatzygames["game"].playernames[i]+"</li>"
+			
+			var playerPosition = i+1;
+			var playerPositionString = playerPosition + ". ";
+			
+			addLiUsername = "<li>" + playerPositionString + yatzygames["game"].playernames[i]+"</li>"
 			$("#player-names").append(addLiUsername);
 			$("#startGame").prop("disabled", false);
 		}

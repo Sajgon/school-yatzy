@@ -66,6 +66,8 @@ function addUsernameToGameid(username){
 		
 		// Error: we couldnt find username object from localstorage
 		return false;	
+	}else{
+		// Inget användarnamn inskrivet
 	}
 	
 	return false;
@@ -83,10 +85,11 @@ function setGameStarted(){
 		
 		for(var i = 0; i < 4; i++){
 			var p = i+1;
+			var playerPositionString = p + ". ";
 			
 			if(yatzygames["game"].playernames[i]){
 				
-				$($('#playernames').children()[p]).html(yatzygames["game"].playernames[i]);
+				$($('#playernames').children()[p]).html(playerPositionString + "" + yatzygames["game"].playernames[i]);
 			}else{
 				$($('#playernames').children()[p]).html("-");
 			}
