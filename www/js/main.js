@@ -11,6 +11,10 @@
 
 // }
 
+function emptyCombinations(){
+	return [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+}
+
 function randomDiceGenerator(){
 	var random = Math.floor(Math.random() * 6) + 1;
 	return random;
@@ -23,10 +27,10 @@ currentGame = {};
 
 function loadSavedData(){
 	if(!localStorage.getItem("yatzy-games")){
-		var players = [{"name" : "P1", "combinations" : [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},
-						  {"name" : "P2", "combinations" : [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},
-						  {"name" : "P3", "combinations" : [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},
-						  {"name" : "P4", "combinations" : [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]}];
+		var players = [{"id" : 0, "name" : "+", "combinations" : emptyCombinations()},
+						  {"id" : 1, "name" : "+", "combinations" : emptyCombinations()},
+						  {"id" : 2, "name" : "+", "combinations" : emptyCombinations()},
+						  {"id" : 3, "name" : "+", "combinations" : emptyCombinations()}];
 		var gameid = 1;
 		var yatzygames = '[{"id" : '+gameid+', "players": '+ JSON.stringify(players) +',"open": true, "started" : false, "diceSet" : ' + JSON.stringify(currentDiceSet) + '}]';
 		
@@ -66,6 +70,12 @@ function loadSavedData(){
 			console.log(highscores[h]);
 		}
 	}
+}
+
+function saveData(){	
+	var savedGames = localStorage.getItem("yatzy-games");
+	savedGames[currentGame.id] = currentGame;
+	localStorage.setItem("yatzy-games", savedGames);
 }
 
 //Add the combinations
@@ -117,7 +127,7 @@ function setDiceImages(){
 //Draw the scores for all players
 function displayCurrentGame(){
 	currentGame.players.forEach(function(p, i){
-		var s = '<ul id="player' + p.name + '" class="col-xs-3 col-md-3 list-group">' +
+		var s = '<ul id="player' + p.id + '" class="col-xs-3 col-md-3 list-group">' +
 					'<li class="list-group-item player">' + p.name + '</li>';
 		p.combinations.forEach(function(c, i){
 					s += '<li class="list-group-item comb c1">' + p.combinations[i] + '</li>';
@@ -131,11 +141,7 @@ function displayCurrentGame(){
 function setDiceRandomly(index){
 	currentDiceSet[index] = randomDiceGenerator();
 	currentGame.diceSet = currentDiceSet;
-	//Set current game to avoid writing and reading from localstorage
-	//localStorage.setItem("yatzy-games-current", currentGame);
-	var savedGames = localStorage.getItem("yatzy-games");
-	savedGames[currentGame.id] = currentGame;
-	localStorage.setItem("yatzy-games", savedGames);
+	saveData();
 }
 
 function throwDice(){
@@ -165,6 +171,13 @@ $(document).ready(function(){
 	$("#playDice").on("click", ".dice-chosed", function(){
 			$(this).removeClass("dice-chosed").addClass("dice-free");
 		});
+	$("#playersScore").on("click", ".player", function(){
+		var name = prompt("Player's name:", "Player 1");
+		$(this).text(name);
+		var newPlayer = {"id" : currentGame.players.length, "name" : name, "combinations" : emptyCombinations()};
+		currentGame.players.push(newPlayer);
+		saveData();
+	})
 });
 
 
