@@ -1,14 +1,14 @@
 // Write dice array to DOM
 function showDices(diceArray){
 	// utf-8 characters for dice faces
-	var diceChars = ["\u2680","\u2681","\u2682","\u2683","\u2684","\u2685"];
+	var diceChars = ["die_1locked","die_2","die_3","die_4locked","die_5","die_6"];
 
 	// loop through our dice array with dice values and output dice characters
 	for(var i = 0; i < diceArray.length; i++){
-		$('.dice-space-' + (i+1)).html(diceChars[diceArray[i] - 1]);
+		var diceImage = diceChars[diceArray[i] - 1] + ".png";
+		var fullDiceImage = "<img src='images/"+diceImage+"'>";
+		$('.dice-space-' + (i+1)).html(fullDiceImage);
 	}
-
-
 }
 
 function randomDiceGenerator(){
@@ -16,10 +16,8 @@ function randomDiceGenerator(){
 	return random;
 }
 
-<<<<<<< HEAD
 function loadPlayerNamesToList(){
-	var yatzygames = JSON.parse(localStorage.getItem("yatzy-games"));
-	if(yatzygames["game"].playernames.length){
+	if(currentGame.players.length){
 		
 		// make sure to clean UL before we add new list items
 		$("#player-names").empty();
@@ -38,8 +36,6 @@ function loadPlayerNamesToList(){
 }
 
 
-=======
->>>>>>> f60237098e9299820ce593aa359b53e7d6fe8222
 // Run functions on DOM load
 $(function (){
 	
