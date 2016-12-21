@@ -40,6 +40,7 @@ function loadPlayerNamesToList(){
 // Run functions on DOM load
 $(function (){
 	
+	drawTable();
 	$('#throwDices').click(function(){
 		var arrDice = [];
 		for (var i = 0; i < 5; i++){
@@ -79,6 +80,39 @@ $(function (){
 	highscoreOutput();
 	
 });
+
+function drawTable(){
+	var head = '<thead>' + 
+					'<tr id="playernames">' + 
+						'<th>Max Poäng</th>';
+
+	var players = [{id:1, name:"youssef", combinations : [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18]}, {id:2, name:"", combinations : [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18]}];//llllll
+
+		players.forEach(function(v,i){
+			head += '<th id="playerName'+ v.id +'" class="high-player">'+ v.name +'</th>';
+		});
+								
+		head += '</tr></thead>';
+
+		var tbody =  '<tbody>';
+
+		for (var i = 0; i < 18; i++) {
+			tbody += '<tr id="' + arrComboId[i] + '" class="comboBtn">' + 
+			'<th scope="row">' + arrComboName[i] + '</th>';
+
+			players.forEach(function(p,j){
+				tbody += '<td>' + p.combinations[i] + '</td>';
+			});
+			tbody += '</tr>';
+		};
+
+		tbody += '</tbody>';
+
+		$("#score-table").append(head+tbody);
+};
+
+var arrComboId = ['ettor', 'tvaor', 'treor', 'Fyror', 'femmor', 'sexor', 'summa', 'bonus', 'ettpar', 'tvapar', 'triss', 'fyrtal', 'litenstege', 'storstege', 'kak', 'chans', 'yatzy', 'total' ];
+var arrComboName = ['Ettor', 'Tvåor', 'Treor', 'Fyror', 'Femmor', 'Sexor', 'Summa', 'Bonus', 'Ett Par', 'Två Par', 'Triss', 'Fyrtal', 'Liten Stege', 'Stor Stege', 'Kåk', 'Chans', 'Yatzy!', 'Total'];
 
 
 
