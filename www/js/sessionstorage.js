@@ -10,26 +10,7 @@ currentGame = {};
 // Function: Find localStorage keys and add template if they doesn't exist
 function isLocalStorageKeys(){
 	// Finns inte localStorage "yatzy-games" - skapa en mall
-<<<<<<< HEAD
-	if(!localStorage.getItem("yatzy-games")){
-		var yatzygames = '{"game": {"playernames": [],"started": false}}';
-		/*
-		{"game":
-			{
-			"currentDice": [],
-			"players": 	[
-							{	
-							"id": 1,
-							"namn": "anton",
-							"combination": {1: 0, 2: 0, 3: 0,}
-							}
-						],
-			"amountthrows": 0,
-			"started": false
-			}
-		}
-		*/
-=======
+
 	if(!localStorage.getItem("yatzy-game")){
 		// var yatzygames = '{"game": {"playernames": [],"started": false}}';
 		var yatzygame = { 	currentDice: [],
@@ -42,8 +23,7 @@ function isLocalStorageKeys(){
 							started: false,
 							currentPlayer : 1
 						};
-		
->>>>>>> d7b38947811e177cf444a07ec19ae89b02b0550c
+
 		
 		console.log("New game created.");
 		localStorage.setItem("yatzy-game", JSON.stringify(yatzygame));
@@ -85,12 +65,11 @@ function isLocalStorageKeys(){
 }
 
 
-
-<<<<<<< HEAD
 // changed status "started" to true when button "STARTA SPEL" is pressed
+/*
 function setGameStarted(){
 
-	// Variabel för våra yatzy spel
+	// Variabel för våra yatzy setGameStarted
 	var yatzygames = JSON.parse(localStorage.getItem("yatzy-games"));
 	
 	if(yatzygames){
@@ -125,9 +104,7 @@ function setGameStarted(){
 	}
 		
 	return false;
-}
-=======
->>>>>>> d7b38947811e177cf444a07ec19ae89b02b0550c
+}*/
 
 // update the highscore when game is finnished
 function updateHighscore(result){

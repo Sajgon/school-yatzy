@@ -172,6 +172,7 @@ function setGameStarted(){
 		// Visa korrekta element
 		$(".beforegame").hide();
 		$(".ingame").show();
+		$(".ingameFooter").show();
 			
 		return true;
 	}
