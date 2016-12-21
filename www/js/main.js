@@ -9,8 +9,6 @@ function showDices(diceArray){
 		var fullDiceImage = "<img src='images/"+diceImage+"'>";
 		$('.dice-space-' + (i+1)).html(fullDiceImage);
 	}
-
-
 }
 
 function randomDiceGenerator(){
@@ -19,23 +17,24 @@ function randomDiceGenerator(){
 }
 
 function loadPlayerNamesToList(){
-	var yatzygames = JSON.parse(localStorage.getItem("yatzy-games"));
-	if(yatzygames["game"].playernames.length){
+	currentGame = JSON.parse(localStorage.getItem("yatzy-game"));
 		
-		// make sure to clean UL before we add new list items
-		$("#player-names").empty();
+	// make sure to clean UL before we add new list items
+	$("#player-names").empty();
+	
+	currentGame.players.forEach(function(player, i){			
+		var playerPosition = i+1;
+		var playerPositionString = playerPosition + "- ";
 		
-		for(var i = 0; i < yatzygames["game"].playernames.length; i++){
-			
-			var playerPosition = i+1;
-			var playerPositionString = playerPosition + ". ";
-			
-			addLiUsername = "<li>" + playerPositionString + yatzygames["game"].playernames[i]+"</li>"
-			$("#player-names").append(addLiUsername);
-			$("#startGame").prop("disabled", false);
-		}
-		
-	}
+		addLiUsername = "<li>" + playerPositionString + player +"</li>";
+		$("#player-names").append(addLiUsername);
+	});
+
+	if (currentGame.length > 0) {
+		$("#startGame").prop("disabled", true);
+		$("#continueGame").prop("disabled", false);
+	};
+	
 }
 
 
@@ -46,23 +45,24 @@ $(function (){
 		var arrDice = [];
 		for (var i = 0; i < 5; i++){
 			arrDice.push(randomDiceGenerator());
-		}
-		
+		}		
+		currentGame.currentDice = arrDice;
+
 		// You can call show dices anywhere
 		showDices(arrDice);
 		scores = runScoreTest(arrDice);
-		
+		currentGame.currentDice = arrDice;
 		console.log(scores);
 	});
 	
 	$('#startGame').click(function(){
 		
 		// check that atleast 1 player is added to the playernames
-		var yatzygames = JSON.parse(localStorage.getItem("yatzy-games"));
+		currentGame = JSON.parse(localStorage.getItem("yatzy-game"));
 		
-		if(yatzygames["game"].playernames.length >= 1 ){
+		if(currentGame.playes.length >= 1 ){
 			// call function to set game started
-			setGameStarted();
+			drawTable();//Youssef's new generat html function
 		}
 	});
 	
@@ -83,4 +83,10 @@ $(function (){
 });
 
 
+//Ben
+function showPlayableCombinations(){
+	diceHand = currentGame.dice
+	playCombi.forEach(function(comb, i){
 
+	});
+}
