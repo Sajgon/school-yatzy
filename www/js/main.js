@@ -30,7 +30,7 @@ function loadPlayerNamesToList(){
 			var playerPosition = i+1;
 			var playerPositionString = playerPosition + ". ";
 			
-			addLiUsername = "<li>" + playerPositionString + yatzygames["game"].playernames[i]+"</li>"
+			addLiUsername = "<li>" + playerPositionString + yatzygames["game"].playernames[i]+"<span class='glyphicon glyphicon-remove removeButton' aria-hidden='true'></span></li>"
 			$("#player-names").append(addLiUsername);
 			$("#startGame").prop("disabled", false);
 		}

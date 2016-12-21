@@ -137,3 +137,7 @@ table, th, td {
 .setMargin{
 	margin: 20px;
 }
+
+.removeButton {
+	text-align: right;
+}

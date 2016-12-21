@@ -191,8 +191,18 @@ function highscoreOutput(){
 		}
 	}
 	
-	
-	
+}
+
+function removeHighscore(){
+	localStorage.removeItem("yatzy-highscore");
+	isLocalStorageKeys();
+	highscoreOutput();
+}
+
+function endGame(){
+	localStorage.removeItem("yatzy-games");
+	$("#player-names").empty();
+	isLocalStorageKeys();
 }
 
 
