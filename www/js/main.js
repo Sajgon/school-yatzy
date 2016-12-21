@@ -22,23 +22,24 @@ function randomDiceGenerator(){
 
 //Ben
 currentDiceSet = [1,2,3,4,5,6];
+lockedDice = [];
 openedGames = [];
 currentGame = {};
 
 function loadSavedData(){
-	if(!localStorage.getItem("yatzy-games")){
+	if(!localStorage.getItem("yatzy-data")){
 		var players = [{"id" : 0, "name" : "+", "combinations" : emptyCombinations()},
 						  {"id" : 1, "name" : "+", "combinations" : emptyCombinations()},
 						  {"id" : 2, "name" : "+", "combinations" : emptyCombinations()},
 						  {"id" : 3, "name" : "+", "combinations" : emptyCombinations()}];
 		var gameid = 1;
-		var yatzygames = '[{"id" : '+gameid+', "players": '+ JSON.stringify(players) +',"open": true, "started" : false, "diceSet" : ' + JSON.stringify(currentDiceSet) + '}]';
+		var yatzygames = '[{"id" : '+gameid+', "players": '+ JSON.stringify(players) +',"open": true, "started" : false, "diceSet" : ' + JSON.stringify(currentDiceSet) + ', "lockeddice" : []}]';
 		
-		localStorage.setItem("yatzy-games", JSON.stringify(yatzygames));
+		localStorage.setItem("yatzy-data", JSON.stringify(yatzygames));
 	}
 
 	// Variabel för våra yatzy spel
-	var temp = JSON.parse(localStorage.getItem("yatzy-games"));
+	var temp = JSON.parse(localStorage.getItem("yatzy-data"));
 	temp = JSON.parse(temp);
 	var yatzygames = $.grep(temp, function(n,i){
 		return n.open;
@@ -53,13 +54,13 @@ function loadSavedData(){
 		// localStorage.setItem("yatzi-games-current");
 	}
 	
-	// Finns inte localStorage "yatzy-highscore" - skapa en mall
-	if(!localStorage.getItem("yatzy-highscore")){
+	// Finns inte localStorage "yatzy-score" - skapa en mall
+	if(!localStorage.getItem("yatzy-score")){
 		var yatzyhighscore = '{"highscores": []}';
-		localStorage.setItem("yatzy-highscore", yatzyhighscore);
+		localStorage.setItem("yatzy-score", yatzyhighscore);
 	}
 
-	var yatzyhighscores = JSON.parse(localStorage.getItem("yatzy-highscore"));
+	var yatzyhighscores = JSON.parse(localStorage.getItem("yatzy-score"));
 	var highscores = yatzyhighscores.highscores;
 
 	if(highscores.length == 0){
@@ -73,9 +74,10 @@ function loadSavedData(){
 }
 
 function saveData(){	
-	var savedGames = localStorage.getItem("yatzy-games");
+	var temp = JSON.parse(localStorage.getItem("yatzy-data"));
+	savedGames = temp;
 	savedGames[currentGame.id] = currentGame;
-	localStorage.setItem("yatzy-games", savedGames);
+	localStorage.setItem("yatzy-data", JSON.stringify(savedGames));
 }
 
 //Add the combinations
@@ -111,7 +113,8 @@ function setCombinations(){
 function setOrUpdatePlayDice(){
 	$("#playDice").html("");
 	currentDiceSet.forEach(function(die, i){
-		$("#playDice").append('<div id="playDie' + i + '" class="col-xs-2 col-md-2 dice dice-free dice-' + die + '"></div>')
+		var locked =  $.inArray(i, lockedDice) == -1 ? "dice-free" : "dice-chosed";
+		$("#playDice").append('<div id="playDie' + i + '" class="col-xs-2 col-md-2 dice ' + locked + ' dice-' + die + '"></div>')
 	});
 	$("#playDice").append('<div class="clearfix"></div>');
 }
@@ -130,7 +133,7 @@ function displayCurrentGame(){
 		var s = '<ul id="player' + p.id + '" class="col-xs-3 col-md-3 list-group">' +
 					'<li class="list-group-item player">' + p.name + '</li>';
 		p.combinations.forEach(function(c, i){
-					s += '<li class="list-group-item comb c1">' + p.combinations[i] + '</li>';
+					s += '<li class="list-group-item comb c' + i + '">' + p.combinations[i] + '</li>';
 		});
 		s += "</ul>";
 		$("#playersScore").append(s);
@@ -166,18 +169,37 @@ $(document).ready(function(){
 	});
 
 	$("#playDice").on("click", ".dice-free", function(){
-			$(this).removeClass("dice-free").addClass("dice-chosed");
-		});
+		var id = parseInt(this.id.replace("playDie", ""));
+		lockedDice.push(id);
+		$(this).removeClass("dice-free").addClass("dice-chosed");
+	});
+
 	$("#playDice").on("click", ".dice-chosed", function(){
-			$(this).removeClass("dice-chosed").addClass("dice-free");
+		var id = parseInt(this.id.replace("playDie", ""));
+		lockedDice = jQuery.grep(lockedDice, function(a){
+			return a != id;
 		});
+		$(this).removeClass("dice-chosed").addClass("dice-free");
+	});
+
 	$("#playersScore").on("click", ".player", function(){
 		var name = prompt("Player's name:", "Player 1");
 		$(this).text(name);
 		var newPlayer = {"id" : currentGame.players.length, "name" : name, "combinations" : emptyCombinations()};
 		currentGame.players.push(newPlayer);
 		saveData();
-	})
+	});
+
+	$("#playersScore").on("click", ".comb", function(){
+		$(this).text("5");
+		currentGame.players[0].combinations[2] = 3;
+		currentGame.players[0].combinations[5] = 23;
+		currentGame.players[0].combinations[9] = 33;
+		currentGame.players[1].combinations[3] = 43;
+		currentGame.players[1].combinations[6] = 9;
+		currentGame.players[1].combinations[11] = 13;
+		saveData();
+	});
 });
 
 
