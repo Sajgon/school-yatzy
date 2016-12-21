@@ -7,7 +7,7 @@ function isLocalStorageKeys(){
 	if(!localStorage.getItem("yatzy-games")){
 		var yatzygames = '{"game": {"playernames": [],"started": false}}';
 		/*
-		{"game": 
+		{"game":
 			{
 			"currentDice": [],
 			"players": 	[
@@ -39,6 +39,7 @@ function isLocalStorageKeys(){
 	}else if(started == true){
 		$(".beforegame").hide();
 		$(".ingame").show();
+		$(".ingameFooter").show();
 	}
 	
 	// Finns inte localStorage "yatzy-highscore" - skapa en mall
@@ -120,6 +121,8 @@ function setGameStarted(){
 		// Visa korrekta element
 		$(".beforegame").hide();
 		$(".ingame").show();
+		$(".ingameFooter").show();
+		
 			
 		return true;
 	}

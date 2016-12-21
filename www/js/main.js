@@ -1,7 +1,7 @@
 // Write dice array to DOM
 function showDices(diceArray){
 	// utf-8 characters for dice faces
-	var diceChars = ["die_1locked","die_2","die_3","die_4locked","die_5","die_6"];
+	var diceChars = ["die_1","die_2","die_3","die_4","die_5","die_6"];
 
 	// loop through our dice array with dice values and output dice characters
 	for(var i = 0; i < diceArray.length; i++){
@@ -9,8 +9,6 @@ function showDices(diceArray){
 		var fullDiceImage = "<img src='images/"+diceImage+"'>";
 		$('.dice-space-' + (i+1)).html(fullDiceImage);
 	}
-
-
 }
 
 function randomDiceGenerator(){
