@@ -4,17 +4,18 @@
 	<title>Yatzy För Nybörjare</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+	<link rel="icon" type="imgage/png" href="images/favicon-32x32.png">
 	
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	
 	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link href="css/simple-sidebar.css" rel="stylesheet">
 	<link href="css/style.css" rel="stylesheet">
+	
 	<script src="js/combos.js"></script>
 	<script src="js/main.js"></script>
 	<script src="js/sessionstorage.js"></script>
-	
-	<link href="css/simple-sidebar.css" rel="stylesheet">
 </head>
 <body>
 	<div class="container-fluid">
@@ -25,8 +26,8 @@
 				<ul class="sidebar-nav">
 					<li><a href="#" data-toggle="modal" data-target="#myModalRules"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Hjälp & regler</a></li>
 					<li><a href="#" data-toggle="modal" data-target="#myModalHighscore"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> Visa highscore</a></li>
-					<li><a href="#" data-toggle="modal" data-target="#myModalRules"><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span> Rensa highscore</a></li>
-					<li><a href="#" data-toggle="modal" data-target="#myModalRules"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Avsluta spel</a></li>
+					<li id="cleanHighscoreBtn"><a href="#"><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span> Rensa highscore</a></li>
+					<li id="endGameBtn"><a href="#"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Avsluta spel</a></li>
 				</ul>
 			</div>
 		</div>

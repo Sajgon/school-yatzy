@@ -182,3 +182,8 @@ table, th, td {
 	margin-top: 15px;
 	cursor: pointer;
 }
+
+.removePlayerBtn{
+	border: 1px solid black;
+	cursor: pointer;
+}

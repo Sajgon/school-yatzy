@@ -1,9 +1,11 @@
-//Ben
-//console.log("SESSIONSSTORAGE FILE LOADED");
+// Global variables
+var currentGame = {};
+
+
 function generatCombinations(){
 	return [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 }
-currentGame = {};
+
 
 //EndBen
 
@@ -13,6 +15,9 @@ function isLocalStorageKeys(){
 
 	if(!localStorage.getItem("yatzy-game")){
 		// var yatzygames = '{"game": {"playernames": [],"started": false}}';
+		// var yatzygame = '{"game": {"playernames": [],"started": false}}';
+		yatzygame = {"currentDice": [],"players":[],"nbrThrows": 3,"started": false,"currentPlayer" : 1};
+		/*	EXAMPLE:
 		var yatzygame = { 	currentDice: [],
 							players: 	[{	
 											id: 1,
@@ -23,7 +28,7 @@ function isLocalStorageKeys(){
 							started: false,
 							currentPlayer : 1
 						};
-
+		*/
 		
 		console.log("New game created.");
 		localStorage.setItem("yatzy-game", JSON.stringify(yatzygame));
@@ -34,15 +39,19 @@ function isLocalStorageKeys(){
 	
 	var started = currentGame.started;
 	
-	//
+	// started true
 	if(started){
 		$(".beforegame").hide();
 		$(".ingame").show();
 		$(".ingameFooter").show();
+		
+		drawTable();
 	}
+	// started false
 	else{
 		$(".beforegame").show();
 		$(".ingame").hide();
+		$(".ingameFooter").hide();
 	}
 	
 	// Finns inte localStorage "yatzy-highscore" - skapa en mall
@@ -89,10 +98,12 @@ function setGameStarted(){
 		}
 		
 		// redo an object to a string
-		yatzygames = JSON.stringify(yatzygames);
+		yatzygames = ;
+		// set started to true
+		yatzygames["game"].started = true;
 		
 		// set game to started in localStorage
-		localStorage.setItem("yatzy-games", yatzygames);
+		localStorage.setItem("yatzy-games", JSON.stringify(yatzygames));
 		
 		// Visa korrekta element
 		$(".beforegame").hide();
@@ -172,21 +183,10 @@ function highscoreOutput(){
 	
 }
 
-function removeHighscore(){
-	localStorage.removeItem("yatzy-highscore");
-	isLocalStorageKeys();
-	highscoreOutput();
-}
-
-function endGame(){
-	localStorage.removeItem("yatzy-games");
-	$("#player-names").empty();
-	isLocalStorageKeys();
-}
 
 
-// call functions
-isLocalStorageKeys();
+
+
 
 
 
