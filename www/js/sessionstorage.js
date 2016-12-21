@@ -10,13 +10,13 @@ currentGame = {};
 // Function: Find localStorage keys and add template if they doesn't exist
 function isLocalStorageKeys(){
 	// Finns inte localStorage "yatzy-games" - skapa en mall
-	if(!localStorage.getItem("yatzy-games")){
+	if(!localStorage.getItem("yatzy-game")){
 		// var yatzygames = '{"game": {"playernames": [],"started": false}}';
 		var yatzygame = { 	currentDice: [],
 							players: 	[{	
 											id: 1,
-											namn: "anton",
-											combination: generatCombinations()
+											name: "anton",
+											combinations: generatCombinations()
 											}],
 							nbrThrows: 3,
 							started: false,
@@ -63,71 +63,7 @@ function isLocalStorageKeys(){
 }
 
 
-// // add a user to local storage
-// function addUsernameToGameid(username){
-// 	// get localstorage object
-// 	var yatzygames = JSON.parse(localStorage.getItem("yatzy-games"));
-	
-// 	// validate username & gameid input
-// 	if(username.length >= 1 && username.length <= 10){
-// 		if(yatzygames["game"].playernames.length < 4){
-// 			// push username to object
-// 			yatzygames["game"].playernames.push(username);
-			
-// 			yatzygames = JSON.stringify(yatzygames);
-			
-// 			// push yatzygames to localStorage
-// 			localStorage.setItem("yatzy-games", yatzygames);
-			
-// 			return true;
-// 		}
-		
-// 		// Error: we couldnt find username object from localstorage
-// 		return false;	
-// 	}else{
-// 		// Inget användarnamn inskrivet
-// 	}
-	
-// 	return false;
-// }
 
-// // changed status "started" to true when button "STARTA SPEL" is pressed
-// function setGameStarted(){
-
-// 	// Variabel för våra yatzy spel
-// 	var yatzygames = JSON.parse(localStorage.getItem("yatzy-games"));
-	
-// 	if(yatzygames){
-// 		// set started to true
-// 		yatzygames["game"].started = true;
-		
-// 		for(var i = 0; i < 4; i++){
-// 			var p = i+1;
-// 			var playerPositionString = p + ". ";
-			
-// 			if(yatzygames["game"].playernames[i]){
-				
-// 				$($('#playernames').children()[p]).html(playerPositionString + "" + yatzygames["game"].playernames[i]);
-// 			}else{
-// 				$($('#playernames').children()[p]).html("-");
-// 			}
-// 		}
-		
-// 		// redo an object to a string
-// 		yatzygames = JSON.stringify(yatzygames);
-		
-// 		// set game to started in localStorage
-// 		localStorage.setItem("yatzy-games", yatzygames);
-		
-// 		// Visa korrekta element
-// 		$(".beforegame").hide();
-// 		$(".ingame").show();
-			
-// 		return true;
-// 	}
-		
-// 	return false;
-// }
 
 // update the highscore when game is finnished
 function updateHighscore(result){

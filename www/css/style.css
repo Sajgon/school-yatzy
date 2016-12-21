@@ -137,3 +137,7 @@ table, th, td {
 .setMargin{
 	margin: 20px;
 }
+
+#player-names li {
+	padding: 5px 15px;
+}

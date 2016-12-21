@@ -16,27 +16,6 @@ function randomDiceGenerator(){
 	return random;
 }
 
-function loadPlayerNamesToList(){
-	var yatzygames = JSON.parse(localStorage.getItem("yatzy-games"));
-	if(yatzygames["game"].playernames.length){
-		
-		// make sure to clean UL before we add new list items
-		$("#player-names").empty();
-		
-		for(var i = 0; i < yatzygames["game"].playernames.length; i++){
-			
-			var playerPosition = i+1;
-			var playerPositionString = playerPosition + ". ";
-			
-			addLiUsername = "<li>" + playerPositionString + yatzygames["game"].playernames[i]+"</li>"
-			$("#player-names").append(addLiUsername);
-			$("#startGame").prop("disabled", false);
-		}
-		
-	}
-}
-
-
 // Run functions on DOM load
 $(function (){
 	
@@ -56,9 +35,8 @@ $(function (){
 	$('#startGame').click(function(){
 		
 		// check that atleast 1 player is added to the playernames
-		var yatzygames = JSON.parse(localStorage.getItem("yatzy-games"));
 		
-		if(yatzygames["game"].playernames.length >= 1 ){
+		if(currentGame.players.length >= 1 ){
 			// call function to set game started
 			setGameStarted();
 		}
@@ -116,4 +94,67 @@ var arrComboName = ['Ettor', 'Tvåor', 'Treor', 'Fyror', 'Femmor', 'Sexor', 'Sum
 
 
 
+// add a user to local storage
+function addUsernameToGameid(username){
+	// get localstorage object
+	//var yatzygames = JSON.parse(localStorage.getItem("yatzy-games"));
+	
+	// validate username & gameid input
+	if(username.length >= 1 && username.length <= 10){
+		if(currentGame.players.length < 4){
+			// push username to object
+			var newPlayer = { id: currentGame.players.length, name: username, combinations : generatCombinations()};
+			currentGame.players.push(newPlayer);
+			// push yatzygames to localStorage
+			localStorage.setItem("yatzy-games", JSON.stringify(currentGame));
+			
+			return true;
+		}
+		
+		// Error: we couldnt find username object from localstorage
+		return false;	
+	}else{
+		// Inget användarnamn inskrivet
+	}
+	
+	return false;
+}
 
+function loadPlayerNamesToList(){
+	// make sure to clean UL before we add new list items
+	$("#player-names").empty();
+	
+	if(currentGame.players.length){
+		$("#startGame").prop("disabled", false);
+		$("#continueGame").prop("disabled", false);
+	}
+	
+	currentGame.players.forEach(function(player, i){		
+		var playerPosition = i+1;
+		var playerPositionString = playerPosition + "- ";
+		
+		addLiUsername = "<li>" + playerPositionString + player.name +"</li>"
+		$("#player-names").append(addLiUsername);
+	});
+	
+}
+
+// changed status "started" to true when button "STARTA SPEL" is pressed
+function setGameStarted(){
+
+	// Variabel för våra yatzy spe
+	
+	if(currentGame !==  null){
+		// set started to true
+		currentGame.started = true;
+		drawTable();
+		
+		// Visa korrekta element
+		$(".beforegame").hide();
+		$(".ingame").show();
+			
+		return true;
+	}
+		
+	return false;
+}
