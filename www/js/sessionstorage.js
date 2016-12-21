@@ -6,6 +6,22 @@ function isLocalStorageKeys(){
 	// Finns inte localStorage "yatzy-games" - skapa en mall
 	if(!localStorage.getItem("yatzy-games")){
 		var yatzygames = '{"game": {"playernames": [],"started": false}}';
+		/*
+		{"game": 
+			{
+			"currentDice": [],
+			"players": 	[
+							{	
+							"id": 1,
+							"namn": "anton",
+							"combination": {1: 0, 2: 0, 3: 0,}
+							}
+						],
+			"amountthrows": 0,
+			"started": false
+			}
+		}
+		*/
 		
 		console.log("New game created.");
 		localStorage.setItem("yatzy-games", yatzygames);
@@ -151,27 +167,32 @@ function highscoreOutput(){
 	// sortera vårt highscore efter högsta poäng
 	topFiveHighscore = yatzyhighscore.highscores.sort(sortNumber);
 	
-	// console.log("topFiveHighscore");
-	// console.log(topFiveHighscore);
-	
 	// Amount 
 	highscorelength = 5;
-	
-	// count length of highscore if below "5"
-	if(topFiveHighscore.length < highscorelength){
-		highscorelength = topFiveHighscore.length;
-	}
-	
-	// empty highscore table
+
 	$("#table_highscore").empty();
 	
-	// Loop sorted highscore
-	for(var t = 0; t < highscorelength; t++){
-		result = topFiveHighscore[t];
-		row = t+1;
-		tablerow = "<tr><th>#"+row+"</th><td>"+result+"</td><tr>";
+	if(topFiveHighscore.length == 0){
+		tablerow = "<tr><td>Vi har inga sparade högsta poäng!</td><tr>";
 		$("#table_highscore").append(tablerow);
+	}else{
+		// count length of highscore if below "5"
+		if(topFiveHighscore.length < highscorelength){
+			highscorelength = topFiveHighscore.length;
+		}
+		
+		// empty highscore table
+		// Loop sorted highscore
+		for(var t = 0; t < highscorelength; t++){
+			result = topFiveHighscore[t];
+			row = t+1;
+			tablerow = "<tr><th>#"+row+"</th><td>"+result+"</td><tr>";
+			$("#table_highscore").append(tablerow);
+		}
 	}
+	
+	
+	
 }
 
 
