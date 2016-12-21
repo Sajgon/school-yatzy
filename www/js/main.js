@@ -1,11 +1,13 @@
 // Write dice array to DOM
 function showDices(diceArray){
 	// utf-8 characters for dice faces
-	var diceChars = ["\u2680","\u2681","\u2682","\u2683","\u2684","\u2685"];
+	var diceChars = ["die_1","die_2","die_3","die_4","die_5","die_6"];
 
 	// loop through our dice array with dice values and output dice characters
 	for(var i = 0; i < diceArray.length; i++){
-		$('.dice-space-' + (i+1)).html(diceChars[diceArray[i] - 1]);
+		var diceImage = diceChars[diceArray[i] - 1] + ".png";
+		var fullDiceImage = "<img src='images/"+diceImage+"'>";
+		$('.dice-space-' + (i+1)).html(fullDiceImage);
 	}
 
 

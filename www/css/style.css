@@ -53,6 +53,10 @@ body, .yatzyHeader{
 	padding: 0;
 	cursor:pointer;
 }
+.dice-space > img{
+	height: 50px;
+	margin-bottom: 10px;
+}
 
 
 .diceRow {
