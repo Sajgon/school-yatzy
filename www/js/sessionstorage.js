@@ -1,9 +1,16 @@
+//Ben
 //console.log("SESSIONSSTORAGE FILE LOADED");
+function generatCombinations(){
+	return [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+}
+currentGame = {};
 
+//EndBen
 
 // Function: Find localStorage keys and add template if they doesn't exist
 function isLocalStorageKeys(){
 	// Finns inte localStorage "yatzy-games" - skapa en mall
+<<<<<<< HEAD
 	if(!localStorage.getItem("yatzy-games")){
 		var yatzygames = '{"game": {"playernames": [],"started": false}}';
 		/*
@@ -22,30 +29,46 @@ function isLocalStorageKeys(){
 			}
 		}
 		*/
+=======
+	if(!localStorage.getItem("yatzy-game")){
+		// var yatzygames = '{"game": {"playernames": [],"started": false}}';
+		var yatzygame = { 	currentDice: [],
+							players: 	[{	
+											id: 1,
+											name: "anton",
+											combinations: generatCombinations()
+											}],
+							nbrThrows: 3,
+							started: false,
+							currentPlayer : 1
+						};
+		
+>>>>>>> d7b38947811e177cf444a07ec19ae89b02b0550c
 		
 		console.log("New game created.");
-		localStorage.setItem("yatzy-games", yatzygames);
+		localStorage.setItem("yatzy-game", JSON.stringify(yatzygame));
 	}
 
 	// Variabel för våra yatzy spel
-	var yatzygames = JSON.parse(localStorage.getItem("yatzy-games"));
-	var yatzygame = yatzygames["game"];
-	var started = yatzygame.started;
+	currentGame = JSON.parse(localStorage.getItem("yatzy-game"));
+	
+	var started = currentGame.started;
 	
 	//
-	if(started == false){
-		$(".beforegame").show();
-		$(".ingame").hide();
-	}else if(started == true){
+	if(started){
 		$(".beforegame").hide();
 		$(".ingame").show();
 		$(".ingameFooter").show();
 	}
+	else{
+		$(".beforegame").show();
+		$(".ingame").hide();
+	}
 	
 	// Finns inte localStorage "yatzy-highscore" - skapa en mall
 	if(!localStorage.getItem("yatzy-highscore")){
-		var yatzyhighscore = '{"highscores": []}';
-		localStorage.setItem("yatzy-highscore", yatzyhighscore);
+		var yatzyhighscore = { highscores: []};
+		localStorage.setItem("yatzy-highscore", JSON.stringify(yatzyhighscore));
 	}
 
 	var yatzyhighscores = JSON.parse(localStorage.getItem("yatzy-highscore"));
@@ -62,34 +85,8 @@ function isLocalStorageKeys(){
 }
 
 
-// add a user to local storage
-function addUsernameToGameid(username){
-	// get localstorage object
-	var yatzygames = JSON.parse(localStorage.getItem("yatzy-games"));
-	
-	// validate username & gameid input
-	if(username.length >= 1 && username.length <= 10){
-		if(yatzygames["game"].playernames.length < 4){
-			// push username to object
-			yatzygames["game"].playernames.push(username);
-			
-			yatzygames = JSON.stringify(yatzygames);
-			
-			// push yatzygames to localStorage
-			localStorage.setItem("yatzy-games", yatzygames);
-			
-			return true;
-		}
-		
-		// Error: we couldnt find username object from localstorage
-		return false;	
-	}else{
-		// Inget användarnamn inskrivet
-	}
-	
-	return false;
-}
 
+<<<<<<< HEAD
 // changed status "started" to true when button "STARTA SPEL" is pressed
 function setGameStarted(){
 
@@ -129,6 +126,8 @@ function setGameStarted(){
 		
 	return false;
 }
+=======
+>>>>>>> d7b38947811e177cf444a07ec19ae89b02b0550c
 
 // update the highscore when game is finnished
 function updateHighscore(result){
@@ -194,8 +193,18 @@ function highscoreOutput(){
 		}
 	}
 	
-	
-	
+}
+
+function removeHighscore(){
+	localStorage.removeItem("yatzy-highscore");
+	isLocalStorageKeys();
+	highscoreOutput();
+}
+
+function endGame(){
+	localStorage.removeItem("yatzy-games");
+	$("#player-names").empty();
+	isLocalStorageKeys();
 }
 
 
