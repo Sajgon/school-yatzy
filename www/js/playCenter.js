@@ -80,8 +80,25 @@ function isBigStage(){
 	});
 	return stage;
 }
-function yatzi(){
-	return countOccurence(6) === 5;
+function isFullHouse(){
+	constDice.forEach(function(v,i){
+		if (nbrOccurence(v,3)) {
+			constDice.forEach(function(w,j){
+				if (w != v && nbrOccurence(w,2)) {
+					return true;
+				};
+			});
+		};
+	});
+	return false;
+}
+function isYatzi(){
+	constDice.forEach(function(v,i){
+		if(countOccurence(6) === 5){
+			return true;
+		}
+	});
+	return false;
 }
 
 //Help functions
@@ -98,3 +115,22 @@ function countOccurence(nbr){
 	});
 	return cpt;
 }
+
+playCombi = { "ettor" : hasOnes(),
+			  "tvaor" : hasTwos(),
+			  "treor" : hasTrees(),
+			  "fyror" : hasFours(),
+			  "femmor" : hasFives(),
+			  "sexor" : hasSexes(),
+			  "total" : false,
+			  "bonus" : false,
+ 			  "ettpar" : isPar(),
+			  "tvapar" : isDoublePar(),
+			  "triss":isTriple(),
+			  "fyrtal" : isQuatro(),
+			  "litenstege" : isSmallStage(),
+			  "storstege" : isBigStage(),
+			  "kak" : isFullHouse(),
+			  "chance" : true,
+			  "yatzi" : isYatzi()
+			}

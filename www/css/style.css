@@ -138,6 +138,12 @@ table, th, td {
 	margin: 20px;
 }
 
+<<<<<<< HEAD
 .removeButton {
 	text-align: right;
 }
+=======
+#player-names li {
+	padding: 5px 15px;
+}
+>>>>>>> f60237098e9299820ce593aa359b53e7d6fe8222
