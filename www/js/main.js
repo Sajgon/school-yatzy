@@ -3,6 +3,7 @@
 // Run functions on DOM load
 $(function (){
 	
+	// Klick knapp
 	$('#throwDices').click(function(){
 		var arrDice = [];
 		for (var i = 0; i < 5; i++){
@@ -44,10 +45,11 @@ $(function (){
 	$('#endGameBtn').click(function(){
 		
 		function endGame(){
-			// currentGame = { currentDice: [], players:[], nbrThrows: 3, started: false, currentPlayer: 1};
 			localStorage.removeItem("yatzy-game");
 			// $("#player-names").empty();
 			isLocalStorageKeys();
+			
+			loadPlayerNamesToList()
 			
 			$(".beforegame").show();
 			$(".ingame").hide();
@@ -86,7 +88,7 @@ $(function (){
 	
 });
 
-
+// 
 function handlePlayerDone(combId){
 	var index = arrComboId.indexOf(combId);
 	currentGame.players[currentGame.currentPlayer].combinations[index] = playCombi[combId];
@@ -98,6 +100,7 @@ function handlePlayerDone(combId){
 	drawTable();
 }
 
+// 
 function displayPossibleCombinations(){
 	updateScore();
 	arrComboId.forEach(function(comb, i){
@@ -191,11 +194,12 @@ function showRrowToClick(element){
 	  						'<div class="modal-dialog" role="document">' + 
 	    						'<div class="modal-content">' + 
 	    							'<div class="modal-header">' +
-								        '<h6 class="modal-title">Tryck på knappen för att bekräffta. Annars var som helst på skärmen för att välja en annan...</h6>' +
+								        '<h6 class="modal-title">Tryck på knappen för att bekräffta.. Annars var som helst på skärmen för att välja en annan...</h6>' +
 								      '</div>' +
 	      							'<div class="modal-body">' + 
 	      								'<table><tbody><tr class="row">' +
-	      									'<th data-id="' + element + '" class="col-xs-12 col-md-12 btn btn-default tmpCombClick">' + combName + '</th>';+
+	      									'<th data-id="' + element + '" class="col-xs-12 btn btn-default tmpCombClick">' + combName + '</th>';+
+	      									'<td class="col-xs-12 btn btn-danger">Stäng</td>';+
 	      								 '</tr></tbody></table>' +  
 	      							'</div>' + 
       							'</div>' + 
