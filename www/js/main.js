@@ -1,5 +1,4 @@
 // global variables
-var diceChars = ["die_1","die_2","die_3","die_4","die_5","die_6"];
 
 // Run functions on DOM load
 $(function (){
@@ -9,12 +8,16 @@ $(function (){
 		for (var i = 0; i < 5; i++){
 			arrDice.push(randomDiceGenerator());
 		}
-		
+		dicehand = arrDice;
+		currentGame.nbrThrows--;
+		currentGame.dice = arrDice;
+		localStorage.setItem("yatzi-game", JSON.stringify(currentGame));
 		// You can call show dices anywhere
 		showDices(arrDice);
-		scores = runScoreTest(arrDice);
-		
-		console.log(scores);
+		// scores = runScoreTest(arrDice);
+		displayPossibleCombinations();
+		$("#throwDices").prop("disabled", (currentGame.nbrThrows < 1 ? true : false));
+		//console.log(scores);
 	});
 	
 	$('#startGame').click(function(){
@@ -41,8 +44,9 @@ $(function (){
 	$('#endGameBtn').click(function(){
 		
 		function endGame(){
+			// currentGame = { currentDice: [], players:[], nbrThrows: 3, started: false, currentPlayer: 1};
 			localStorage.removeItem("yatzy-game");
-			$("#player-names").empty();
+			// $("#player-names").empty();
 			isLocalStorageKeys();
 			
 			$(".beforegame").show();
@@ -65,6 +69,13 @@ $(function (){
 		removeHighscore();
 	});
 	
+	$("body").on("click", ".tmpCombClick", function(){
+		var confirmedComb = $(this).data("id");
+		console.log("chosed: " + confirmedComb);
+		$("#clickRowModal").modal('hide');
+		handlePlayerDone(confirmedComb);
+		$("#throwDices").prop("disabled", false);
+	});
 	
 	isLocalStorageKeys();
 	
@@ -76,8 +87,25 @@ $(function (){
 });
 
 
+function handlePlayerDone(combId){
+	var index = arrComboId.indexOf(combId);
+	currentGame.players[currentGame.currentPlayer].combinations[index] = playCombi[combId];
+	currentGame.nbrThrows = 3;
+	currentGame.currentPlayer++;
+	if(currentGame.currentPlayer === currentGame.players.length)
+		currentGame.currentPlayer = 0;
+	localStorage.setItem("yatzi-game", JSON.stringify(currentGame));
+	drawTable();
+}
 
-
+function displayPossibleCombinations(){
+	updateScore();
+	arrComboId.forEach(function(comb, i){
+		if(playCombi[comb] > 0){
+			$("#" + comb).addClass("playableComb").addClass("combClick");
+		}
+	});
+}
 
 
 // Write dice array to DOM
@@ -85,10 +113,9 @@ function showDices(diceArray){
 	// utf-8 characters for dice faces
 
 	// loop through our dice array with dice values and output dice characters
-	for(var i = 0; i < diceArray.length; i++){
-		var diceImage = diceChars[diceArray[i] - 1] + ".png";
-		var fullDiceImage = "<img src='images/"+diceImage+"'>";
-		$('.dice-space-' + (i+1)).html(fullDiceImage);
+	for(var i = 1; i <= 6; i++){
+		var fullDiceImage = "<img src='images/die_"+ i +".png'>";
+		$('.dice-space-' + i).html(fullDiceImage);
 	}
 }
 
@@ -122,10 +149,11 @@ function drawTable(){
 	'<tr id="playernames">' + 
 	'<th>Spelare</th>';
 
-		var players = [{id:1, name:"youssef", combinations : [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18]}, {id:2, name:"", combinations : [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18]}];//llllll
+		// var players = [{id:1, name:"youssef", combinations : [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18]}, {id:2, name:"", combinations : [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18]}];//llllll
 
 		currentGame.players.forEach(function(v,i){
-			head += '<th id="playerName'+ v.id +'" class="high-player">'+ v.name +'</th>';
+			var classPlayer = v.id === currentGame.currentPlayer ? '" class="high-player" ': "";
+			head += '<th id="playerName'+ v.id + '"' + classPlayer + ' >'+ v.name +'</th>';
 		});
 								
 		head += '</tr></thead>';
@@ -134,7 +162,7 @@ function drawTable(){
 
 		for (var i = 0; i < 18; i++) {
 			tbody += '<tr id="' + arrComboId[i] + '" class="comboBtn">' + 
-			'<th scope="row">' + arrComboName[i] + '</th>';
+			'<th id="btn' + arrComboId[i] + '" scope="row" class="col-xs-12 col-md-12 btn btn-default">' + arrComboName[i] + '</th>';
 
 			currentGame.players.forEach(function(p,j){
 				tbody += '<td>' + p.combinations[i] + '</td>';
@@ -144,13 +172,38 @@ function drawTable(){
 
 		tbody += '</tbody>';
 
+		$("#score-table").html("");
 		$("#score-table").append(head+tbody);
+
+		$(".comboBtn").click(function(){
+			showRrowToClick(this.id);
+		});
 };
 
 var arrComboId = ['ettor', 'tvaor', 'treor', 'Fyror', 'femmor', 'sexor', 'summa', 'bonus', 'ettpar', 'tvapar', 'triss', 'fyrtal', 'litenstege', 'storstege', 'kak', 'chans', 'yatzy', 'total' ];
 var arrComboName = ['Ettor', 'Tvåor', 'Treor', 'Fyror', 'Femmor', 'Sexor', 'Summa', 'Bonus', 'Ett Par', 'Två Par', 'Triss', 'Fyrtal', 'Liten Stege', 'Stor Stege', 'Kåk', 'Chans', 'Yatzy!', 'Total'];
 
+function showRrowToClick(element){
+	$("#clickRowModal").remove();
+	var combName = $("#" + element + " th").html();
 
+	var modalContainer = '<div id="clickRowModal" class="modal fade" role="dialog">' + 
+	  						'<div class="modal-dialog" role="document">' + 
+	    						'<div class="modal-content">' + 
+	    							'<div class="modal-header">' +
+								        '<h6 class="modal-title">Tryck på knappen för att bekräffta. Annars var som helst på skärmen för att välja en annan...</h6>' +
+								      '</div>' +
+	      							'<div class="modal-body">' + 
+	      								'<table><tbody><tr class="row">' +
+	      									'<th data-id="' + element + '" class="col-xs-12 col-md-12 btn btn-default tmpCombClick">' + combName + '</th>';+
+	      								 '</tr></tbody></table>' +  
+	      							'</div>' + 
+      							'</div>' + 
+  							'</div>'  + 
+						 '</div>';
+	$("body").append(modalContainer);
+  	$("#clickRowModal").modal("show");
+}
 
 
 // add a user to local storage

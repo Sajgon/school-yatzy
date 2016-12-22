@@ -187,3 +187,7 @@ table, th, td {
 	border: 1px solid black;
 	cursor: pointer;
 }
+
+.playableComb{
+	border: 10px solid green;
+}

@@ -3,31 +3,18 @@ var currentGame = {};
 
 
 function generatCombinations(){
-	return [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+	return [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 }
 
-
-//EndBen
 
 // Function: Find localStorage keys and add template if they doesn't exist
 function isLocalStorageKeys(){
 	// Finns inte localStorage "yatzy-games" - skapa en mall
 
 	if(!localStorage.getItem("yatzy-game")){
-		// var yatzygames = '{"game": {"playernames": [],"started": false}}';
-		// var yatzygame = '{"game": {"playernames": [],"started": false}}';
-		yatzygame = {"currentDice": [],"players":[],"nbrThrows": 3,"started": false,"currentPlayer" : 1};
-		/*	EXAMPLE:
-		var yatzygame = { 	currentDice: [],
-							players: 	[{	
-											id: 1,
-											name: "anton",
-											combinations: generatCombinations()
-											}],
-							nbrThrows: 3,
-							started: false,
-							currentPlayer : 1
-						};
+		yatzygame = { currentDice: [], players:[], nbrThrows: 3, started: false, currentPlayer: 0};
+		/*	EXAMPLE for player objec:
+							players: 	[{id: 1, name: "anton", combinations: generatCombinations()}],
 		*/
 		
 		console.log("New game created.");
@@ -37,18 +24,15 @@ function isLocalStorageKeys(){
 	// Variabel för våra yatzy spel
 	currentGame = JSON.parse(localStorage.getItem("yatzy-game"));
 	
-	var started = currentGame.started;
-	
 	// started true
-	if(started){
+	if(currentGame.started){
 		$(".beforegame").hide();
 		$(".ingame").show();
 		$(".ingameFooter").show();
 		
 		drawTable();
-	}
-	// started false
-	else{
+	}		
+	else{	// started false
 		$(".beforegame").show();
 		$(".ingame").hide();
 		$(".ingameFooter").hide();
@@ -73,49 +57,6 @@ function isLocalStorageKeys(){
 	}
 }
 
-
-// changed status "started" to true when button "STARTA SPEL" is pressed
-/*
-function setGameStarted(){
-
-	// Variabel för våra yatzy setGameStarted
-	var yatzygames = JSON.parse(localStorage.getItem("yatzy-games"));
-	
-	if(yatzygames){
-		// set started to true
-		yatzygames["game"].started = true;
-		
-		for(var i = 0; i < 4; i++){
-			var p = i+1;
-			var playerPositionString = p + ". ";
-			
-			if(yatzygames["game"].playernames[i]){
-				
-				$($('#playernames').children()[p]).html(playerPositionString + "" + yatzygames["game"].playernames[i]);
-			}else{
-				$($('#playernames').children()[p]).html("-");
-			}
-		}
-		
-		// redo an object to a string
-		yatzygames = ;
-		// set started to true
-		yatzygames["game"].started = true;
-		
-		// set game to started in localStorage
-		localStorage.setItem("yatzy-games", JSON.stringify(yatzygames));
-		
-		// Visa korrekta element
-		$(".beforegame").hide();
-		$(".ingame").show();
-		$(".ingameFooter").show();
-		
-			
-		return true;
-	}
-		
-	return false;
-}*/
 
 // update the highscore when game is finnished
 function updateHighscore(result){
