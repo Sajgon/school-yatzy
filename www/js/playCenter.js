@@ -1,4 +1,4 @@
-dicehand = [1,2,3,4,5,6];
+dicehand = [1,2,3,4,5];
 constDice = [1,2,3,4,5,6];
 sortDice = function (a,b) { return b - a;}
 
@@ -52,18 +52,16 @@ function pointsQuatro(){
 
 function pointsSmallStage(){
 	var stage = true;
-	var tmpArr = dicehand;
-	tmpArr.splice(5,1); 
-	tmpArr.forEach(function(v,i){
+	var smallStageArr = [1,2,3,4,5];
+	smallStageArr.forEach(function(v,i){
 		stage = stage && hasNumber(v);
 	});
 	return (stage ? 15 : 0);
 }
 function pointsBigStage(){
 	var stage = true;
-	var tmpArr = dicehand;
-	tmpArr.splice(0,1); 
-	tmpArr.forEach(function(v,i){
+	var bigStageArr = [2,3,4,5,6];
+	bigStageArr.forEach(function(v,i){
 		stage = stage && hasNumber(v);
 	});
 	return (stage ? 20 : 0);
@@ -127,8 +125,8 @@ function updateScore(id){
 		 case "litenstege" : return pointsSmallStage();
 		 case "storstege" : return pointsBigStage();
 		 case "kak" : return pointsFullHouse();
-		 case "chance" : return pointsForChance();
-		 case "yatzi" : return pointsYatzi();
+		 case "chans" : return pointsForChance();
+		 case "yatzy" : return pointsYatzi();
 	}
 
 }

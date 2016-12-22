@@ -14,6 +14,8 @@ $(function (){
 		currentGame.dice = dicehand;
 		localStorage.setItem("yatzi-game", JSON.stringify(currentGame));
 		// You can call show dices anywhere
+		drawTable();
+		setDiceClass();
 		showDices();
 		// scores = runScoreTest(arrDice);
 		displayPossibleCombinations();
@@ -79,6 +81,25 @@ $(function (){
 		$("#throwDices").prop("disabled", false);
 	});
 	
+	$("#diceHolder").on("click", ".dice-free", function(){
+		var id = parseInt(this.id.replace("diceHolder", ""));
+		lockedDice.push(id);
+		// $(this).replaceClass("dice-free", "dice-locked");
+		showDices()
+	});
+
+	$("#diceHolder").on("click", ".dice-locked", function(){
+		var id = parseInt(this.id.replace("diceHolder", ""));
+		lockedDice = jQuery.grep(lockedDice, function(a){
+			return a != id;
+		});
+		showDices();
+	});
+
+	$("body").on("click", ".comboBtn", function(){
+		showRrowToClick(this.id);
+	});
+
 	isLocalStorageKeys();
 	
 	// load playernames at start
@@ -91,7 +112,7 @@ $(function (){
 // 
 function handlePlayerDone(combId){
 	var index = arrComboId.indexOf(combId);
-	currentGame.players[currentGame.currentPlayer].combinations[index] = playCombi[combId];
+	currentGame.players[currentGame.currentPlayer].combinations[index] = updateScore(combId);
 	currentGame.nbrThrows = 3;
 	currentGame.currentPlayer++;
 	if(currentGame.currentPlayer === currentGame.players.length)
@@ -105,24 +126,25 @@ function displayPossibleCombinations(){
 	arrComboId.forEach(function(comb, i){
 		var s = updateScore(comb);
 		if(s > 0){
-			$("#" + comb).addClass("playableComb").addClass("combClick");
+			$("#" + comb).addClass("playableComb").addClass("comboBtn");
 		}
 	});
 }
 
-
-// Write dice array to DOM
-function showDices(){
+function setDiceClass(){
 	// utf-8 characters for dice faces
-
-	for(var i = 1; i <= 6; i++){
-		var classToAdd = "col-xs-offset-1 col-xs-2 dice-space" + 
-						 " dice-space-" + dicehand[i-1];
+	$("#diceHolder").html("");
+	for(var i = 1; i <= 5; i++){
+		var classToAdd = " dice-space-" + dicehand[i-1];
+		classToAdd += i === 1 ? " col-xs-offset-1" : "";
 		classToAdd += lockedDice.indexOf(i) > -1 ? " dice-locked" : " dice-free";
-		$("#diceHolder" + i ).removeClass();	
-		$("#diceHolder").addClass(classToAdd);
+		var dieH = '<div id="diceHolder2" class="col-xs-2 dice-space' + classToAdd + '"></div>'
+		$("#diceHolder").append(dieH);
 
 	}
+}
+// Write dice array to DOM
+function showDices(){
 	// loop through our dice array with dice values and output dice characters
 	for(var i = 1; i <= 6; i++){
 		var fullDiceImage =  '<img src="images/die_' + i;
@@ -173,7 +195,7 @@ function drawTable(){
 		var tbody =  '<tbody>';
 
 		for (var i = 0; i < 18; i++) {
-			tbody += '<tr id="' + arrComboId[i] + '" class="comboBtn">' + 
+			tbody += '<tr id="' + arrComboId[i] + '" class="">' + 
 			'<th id="btn' + arrComboId[i] + '" scope="row" class="col-xs-12 col-md-12 btn btn-default">' + arrComboName[i] + '</th>';
 
 			currentGame.players.forEach(function(p,j){
@@ -187,12 +209,9 @@ function drawTable(){
 		$("#score-table").html("");
 		$("#score-table").append(head+tbody);
 
-		$(".comboBtn").click(function(){
-			showRrowToClick(this.id);
-		});
 };
 
-var arrComboId = ['ettor', 'tvaor', 'treor', 'Fyror', 'femmor', 'sexor', 'summa', 'bonus', 'ettpar', 'tvapar', 'triss', 'fyrtal', 'litenstege', 'storstege', 'kak', 'chans', 'yatzy', 'total' ];
+var arrComboId = ['ettor', 'tvaor', 'treor', 'fyror', 'femmor', 'sexor', 'summa', 'bonus', 'ettpar', 'tvapar', 'triss', 'fyrtal', 'litenstege', 'storstege', 'kak', 'chans', 'yatzy', 'total' ];
 var arrComboName = ['Ettor', 'Tvåor', 'Treor', 'Fyror', 'Femmor', 'Sexor', 'Summa', 'Bonus', 'Ett Par', 'Två Par', 'Triss', 'Fyrtal', 'Liten Stege', 'Stor Stege', 'Kåk', 'Chans', 'Yatzy!', 'Total'];
 
 function showRrowToClick(element){
