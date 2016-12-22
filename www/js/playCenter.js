@@ -1,32 +1,36 @@
 dicehand = [];
 constDice = [1,2,3,4,5,6];
+sortDice = function (a,b) { return b - a;}
 
 function pointsForNumber(nbr){
 	if(hasNumber(nbr))
 		return (countOccurence(nbr) * nbr);
-	return 0;
+	else
+		return 0;
 }
 
 function pointsPar(){
-	constDice.forEach(function(v,i){
+	var p = 0;
+	constDice.sort(sortDice).forEach(function(v,i){
 		if (nbrOccurence(v,2)) {
-			return (v * 2);
+			p = (v * 2);
 		};
 	});
-	return 0;
-	// $("#c1").css("border", "5px solid green");
+	return p;
+	// $("#c1").css("border",case "5px solid green");
 }
 function pointsDoublePar(){
-	constDice.forEach(function(v,i){
+	var p = 0;
+	constDice.sort(sortDice).forEach(function(v,i){
 		if (nbrOccurence(v,2)) {
 			constDice.forEach(function(w,j){
 				if (w != v && nbrOccurence(w,2)) {
-					return ((v * 2) + (w * 2));
+					p  = ((v * 2) + (w * 2));
 				};
 			});
 		};
 	});
-	return 0;
+	return p;
 }
 function pointsTriple(){
 	constDice.forEach(function(v,i){
@@ -53,7 +57,7 @@ function pointsSmallStage(){
 	tmpArr.forEach(function(v,i){
 		stage = stage && hasNumber(v);
 	});
-	return stage ? 15 : 0;
+	return (stage ? 15 : 0);
 }
 function pointsBigStage(){
 	var stage = true;
@@ -62,7 +66,7 @@ function pointsBigStage(){
 	tmpArr.forEach(function(v,i){
 		stage = stage && hasNumber(v);
 	});
-	return stage ? 20 : 0;
+	return (stage ? 20 : 0);
 }
 function pointsFullHouse(){
 	constDice.forEach(function(v,i){
@@ -94,7 +98,7 @@ function pointsYatzi(){
 
 //Help functions
 function hasNumber(nbr){
-	return $.inArray(dicehand, nbr) > -1;
+	return dicehand.indexOf(nbr) > -1;
 }
 function nbrOccurence(nbr, cpt){
 	return countOccurence(nbr) >= cpt;
@@ -106,24 +110,25 @@ function countOccurence(nbr){
 	});
 	return cpt;
 }
-function updateScore(){
-	playCombi = {"ettor" : pointsForNumber(1),
-			  "tvaor" : pointsForNumber(2),
-			  "treor" : pointsForNumber(3),
-			  "fyror" : pointsForNumber(4),
-			  "femmor" : pointsForNumber(5),
-			  "sexor" : pointsForNumber(6),
-			  "total" : 0,
-			  "bonus" : 0,
- 			  "ettpar" : pointsPar(),
-			  "tvapar" : pointsDoublePar(),
-			  "triss": pointsTriple(),
-			  "fyrtal" : pointsQuatro(),
-			  "litenstege" : pointsSmallStage(),
-			  "storstege" : pointsBigStage(),
-			  "kak" : pointsFullHouse(),
-			  "chance" : pointsForChance(),
-			  "yatzi" : pointsYatzi()
-			}
+function updateScore(id){
+	switch(id){
+		 case "ettor" : return  pointsForNumber(1);
+		 case "tvaor" : return pointsForNumber(2);
+		 case "treor" : return pointsForNumber(3);
+		 case "fyror" : return pointsForNumber(4);
+		 case "femmor" : return pointsForNumber(5);
+		 case "sexor" : return pointsForNumber(6);
+		 case "summa" : return 0;
+		 case "bonus" : return 0;
+	     case "ettpar" : return pointsPar();
+		 case "tvapar" : return pointsDoublePar();
+		 case "triss": return pointsTriple();
+		 case "fyrtal" : return pointsQuatro();
+		 case "litenstege" : return pointsSmallStage();
+		 case "storstege" : return pointsBigStage();
+		 case "kak" : return pointsFullHouse();
+		 case "chance" : return pointsForChance();
+		 case "yatzi" : return pointsYatzi();
+	}
 
 }

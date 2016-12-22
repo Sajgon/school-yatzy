@@ -99,9 +99,9 @@ function handlePlayerDone(combId){
 }
 
 function displayPossibleCombinations(){
-	updateScore();
 	arrComboId.forEach(function(comb, i){
-		if(playCombi[comb] > 0){
+		var s = updateScore(comb);
+		if(s > 0){
 			$("#" + comb).addClass("playableComb").addClass("combClick");
 		}
 	});
