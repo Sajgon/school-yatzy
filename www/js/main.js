@@ -1,20 +1,20 @@
 // global variables
-
+lockedDice = [];
 // Run functions on DOM load
 $(function (){
 	
 	// Klick knapp
 	$('#throwDices').click(function(){
-		var arrDice = [];
 		for (var i = 0; i < 5; i++){
-			arrDice.push(randomDiceGenerator());
+			if(lockedDice.indexOf(i) === -1){
+				dicehand[i] = (randomDiceGenerator());
+			}
 		}
-		dicehand = arrDice;
 		currentGame.nbrThrows--;
-		currentGame.dice = arrDice;
+		currentGame.dice = dicehand;
 		localStorage.setItem("yatzi-game", JSON.stringify(currentGame));
 		// You can call show dices anywhere
-		showDices(arrDice);
+		showDices();
 		// scores = runScoreTest(arrDice);
 		displayPossibleCombinations();
 		$("#throwDices").prop("disabled", (currentGame.nbrThrows < 1 ? true : false));
@@ -112,12 +112,21 @@ function displayPossibleCombinations(){
 
 
 // Write dice array to DOM
-function showDices(diceArray){
+function showDices(){
 	// utf-8 characters for dice faces
 
+	for(var i = 1; i <= 6; i++){
+		var classToAdd = "col-xs-offset-1 col-xs-2 dice-space" + 
+						 " dice-space-" + dicehand[i-1];
+		classToAdd += lockedDice.indexOf(i) > -1 ? " dice-locked" : " dice-free";
+		$("#diceHolder" + i ).removeClass();	
+		$("#diceHolder").addClass(classToAdd);
+
+	}
 	// loop through our dice array with dice values and output dice characters
 	for(var i = 1; i <= 6; i++){
-		var fullDiceImage = "<img src='images/die_"+ i +".png'>";
+		var fullDiceImage =  '<img src="images/die_' + i;
+		fullDiceImage += lockedDice.indexOf(i) > -1 ? 'locked.png">' : '.png">';
 		$('.dice-space-' + i).html(fullDiceImage);
 	}
 }

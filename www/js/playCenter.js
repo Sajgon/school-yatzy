@@ -1,4 +1,4 @@
-dicehand = [];
+dicehand = [1,2,3,4,5,6];
 constDice = [1,2,3,4,5,6];
 sortDice = function (a,b) { return b - a;}
 
