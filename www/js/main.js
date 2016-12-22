@@ -5,9 +5,9 @@ $(function (){
 	
 	// Klick knapp
 	$('#throwDices').click(function(){
-		for (var i = 0; i < 5; i++){
+		for (var i = 1; i < 6; i++){
 			if(lockedDice.indexOf(i) === -1){
-				dicehand[i] = (randomDiceGenerator());
+				dicehand[i-1] = (randomDiceGenerator());
 			}
 		}
 		currentGame.nbrThrows--;
@@ -16,7 +16,7 @@ $(function (){
 		// You can call show dices anywhere
 		drawTable();
 		setDiceClass();
-		showDices();
+		// showDices();
 		// scores = runScoreTest(arrDice);
 		displayPossibleCombinations();
 		$("#throwDices").prop("disabled", (currentGame.nbrThrows < 1 ? true : false));
@@ -85,7 +85,8 @@ $(function (){
 		var id = parseInt(this.id.replace("diceHolder", ""));
 		lockedDice.push(id);
 		// $(this).replaceClass("dice-free", "dice-locked");
-		showDices()
+		// showDices()
+		setDiceClass();
 	});
 
 	$("#diceHolder").on("click", ".dice-locked", function(){
@@ -93,7 +94,8 @@ $(function (){
 		lockedDice = jQuery.grep(lockedDice, function(a){
 			return a != id;
 		});
-		showDices();
+		// showDices();
+		setDiceClass();
 	});
 
 	$("body").on("click", ".comboBtn", function(){
@@ -115,10 +117,13 @@ function handlePlayerDone(combId){
 	currentGame.players[currentGame.currentPlayer].combinations[index] = updateScore(combId);
 	currentGame.nbrThrows = 3;
 	currentGame.currentPlayer++;
-	if(currentGame.currentPlayer === currentGame.players.length)
+	lockedDice = [];
+	if(currentGame.currentPlayer === currentGame.players.length){
 		currentGame.currentPlayer = 0;
+	}
 	localStorage.setItem("yatzi-game", JSON.stringify(currentGame));
 	drawTable();
+	setDiceClass();
 }
 
 // 
@@ -138,20 +143,25 @@ function setDiceClass(){
 		var classToAdd = " dice-space-" + dicehand[i-1];
 		classToAdd += i === 1 ? " col-xs-offset-1" : "";
 		classToAdd += lockedDice.indexOf(i) > -1 ? " dice-locked" : " dice-free";
-		var dieH = '<div id="diceHolder2" class="col-xs-2 dice-space' + classToAdd + '"></div>'
+		var dieH = '<div id="diceHolder' + i + '" class="col-xs-2 dice-space' + classToAdd + '">';
+
+		var fullDiceImage =  '<img src="images/die_' + dicehand[i-1];
+		fullDiceImage += lockedDice.indexOf(i) > -1 ? 'locked.png">' : '.png">';
+		dieH += fullDiceImage;
+		dieH += '</div>'
 		$("#diceHolder").append(dieH);
 
 	}
 }
-// Write dice array to DOM
-function showDices(){
-	// loop through our dice array with dice values and output dice characters
-	for(var i = 1; i <= 6; i++){
-		var fullDiceImage =  '<img src="images/die_' + i;
-		fullDiceImage += lockedDice.indexOf(i) > -1 ? 'locked.png">' : '.png">';
-		$('.dice-space-' + i).html(fullDiceImage);
-	}
-}
+// // Write dice array to DOM
+// function showDices(){
+// 	// loop through our dice array with dice values and output dice characters
+// 	for(var i = 1; i <= 6; i++){
+// 		var fullDiceImage =  '<img src="images/die_' + i;
+// 		fullDiceImage += lockedDice.indexOf(i) > -1 ? 'locked.png">' : '.png">';
+// 		$('.dice-space-' + i).html(fullDiceImage);
+// 	}
+// }
 
 function randomDiceGenerator(){
 	var random = Math.floor(Math.random() * 6) + 1;

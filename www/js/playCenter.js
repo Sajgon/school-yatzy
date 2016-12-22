@@ -12,8 +12,9 @@ function pointsForNumber(nbr){
 function pointsPar(){
 	var p = 0;
 	constDice.sort(sortDice).forEach(function(v,i){
-		if (nbrOccurence(v,2)) {
+		if (p === 0 && nbrOccurence(v,2)) {
 			p = (v * 2);
+			return false;
 		};
 	});
 	return p;
@@ -22,10 +23,11 @@ function pointsPar(){
 function pointsDoublePar(){
 	var p = 0;
 	constDice.sort(sortDice).forEach(function(v,i){
-		if (nbrOccurence(v,2)) {
+		if (p === 0 && nbrOccurence(v,2)) {
 			constDice.forEach(function(w,j){
 				if (w != v && nbrOccurence(w,2)) {
 					p  = ((v * 2) + (w * 2));
+					return false;
 				};
 			});
 		};
@@ -33,21 +35,25 @@ function pointsDoublePar(){
 	return p;
 }
 function pointsTriple(){
+	var p = 0;
 	constDice.forEach(function(v,i){
 		if (nbrOccurence(v,3)) {
-			return (v * 3);
+			p = (v * 3);
+			return false;
 		}
 	});
-	return 0;
+	return p;
 }
 
 function pointsQuatro(){
+	var p = 0;
 	constDice.forEach(function(v,i){
-		if (nbrOccurence(v,4)) {
-			return (v * 4);
+		if (p === 0 && nbrOccurence(v,4)) {
+			p = (v * 4);
+			return false;
 		}
 	});
-	return 0;
+	return p;
 }
 
 function pointsSmallStage(){
@@ -67,16 +73,18 @@ function pointsBigStage(){
 	return (stage ? 20 : 0);
 }
 function pointsFullHouse(){
+	var p = 0;
 	constDice.forEach(function(v,i){
-		if (nbrOccurence(v,3)) {
+		if (p === 0 && nbrOccurence(v,3)) {
 			constDice.forEach(function(w,j){
 				if (w != v && nbrOccurence(w,2)) {
-					return ((v * 3) + (w * 2));
+					p = ((v * 3) + (w * 2));
+					return false;
 				};
 			});
 		};
 	});
-	return 0;
+	return p;
 }
 function pointsForChance(){
 	var sum = 0;
@@ -86,12 +94,14 @@ function pointsForChance(){
 	return sum;
 }
 function pointsYatzi(){
+	var p = 0;
 	constDice.forEach(function(v,i){
 		if(countOccurence(v) === 5){
 			return (v * 5);
+			return false;
 		}
 	});
-	return 0;
+	return p;
 }
 
 //Help functions
