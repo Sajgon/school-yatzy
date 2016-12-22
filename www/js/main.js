@@ -266,6 +266,8 @@ function addUsernameToGameid(username){
 			currentGame.players.push(newPlayer);
 			// push yatzygames to localStorage
 			localStorage.setItem("yatzy-game", JSON.stringify(currentGame));
+
+			$("#warningAlert").hide();
 			
 			// if maximum players length has been reached
 			if(currentGame.players.length == 4){
@@ -278,9 +280,12 @@ function addUsernameToGameid(username){
 		
 		// Error: we couldnt find username object from localstorage
 		return false;	
-	}else{
+	}
+	else{
 		// Inget användarnamn inskrivet eller mer än maxlängd 12
 		// retunera felmeddelande
+
+		$("#warningAlert").show();
 	}
 	
 	return false;
