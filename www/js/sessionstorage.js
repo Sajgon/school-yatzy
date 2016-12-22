@@ -3,6 +3,7 @@ var currentGame = {};
 
 
 function generatCombinations(){
+	// Length 18
 	return [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 }
 
