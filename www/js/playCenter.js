@@ -1,4 +1,3 @@
-dicehand = [1,2,3,4,5];
 constDice = [1,2,3,4,5,6];
 sortDice = function (a,b) { return b - a;}
 
@@ -88,7 +87,7 @@ function pointsFullHouse(){
 }
 function pointsForChance(){
 	var sum = 0;
-	dicehand.forEach(function(v,i){
+	currentGame.currentDice.forEach(function(v,i){
 		sum += v;
 	});
 	return sum;
@@ -106,14 +105,14 @@ function pointsYatzi(){
 
 //Help functions
 function hasNumber(nbr){
-	return dicehand.indexOf(nbr) > -1;
+	return currentGame.currentDice.indexOf(nbr) > -1;
 }
 function nbrOccurence(nbr, cpt){
 	return countOccurence(nbr) >= cpt;
 }
 function countOccurence(nbr){
 	var cpt = 0;
-	dicehand.forEach(function(v, i){
+	currentGame.currentDice.forEach(function(v, i){
 		if (v === nbr) { cpt++;};
 	});
 	return cpt;

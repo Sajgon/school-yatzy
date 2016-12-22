@@ -1,17 +1,15 @@
 // global variables
-lockedDice = [];
 // Run functions on DOM load
 $(function (){
 	
 	// Klick knapp
 	$('#throwDices').click(function(){
 		for (var i = 1; i < 6; i++){
-			if(lockedDice.indexOf(i) === -1){
-				dicehand[i-1] = (randomDiceGenerator());
+			if(currentGame.lockedDice.indexOf(i) === -1){
+				currentGame.currentDice[i-1] = (randomDiceGenerator());
 			}
 		}
 		currentGame.nbrThrows--;
-		currentGame.dice = dicehand;
 		localStorage.setItem("yatzy-game", JSON.stringify(currentGame));
 		// You can call show dices anywhere
 		drawTable();
@@ -83,7 +81,7 @@ $(function (){
 	
 	$("#diceHolder").on("click", ".dice-free", function(){
 		var id = parseInt(this.id.replace("diceHolder", ""));
-		lockedDice.push(id);
+		currentGame.lockedDice.push(id);
 		// $(this).replaceClass("dice-free", "dice-locked");
 		// showDices()
 		setDiceClass();
@@ -91,7 +89,7 @@ $(function (){
 
 	$("#diceHolder").on("click", ".dice-locked", function(){
 		var id = parseInt(this.id.replace("diceHolder", ""));
-		lockedDice = jQuery.grep(lockedDice, function(a){
+		currentGame.lockedDice = jQuery.grep(currentGame.lockedDice, function(a){
 			return a != id;
 		});
 		// showDices();
@@ -99,7 +97,10 @@ $(function (){
 	});
 
 	$("body").on("click", ".comboBtn", function(){
-		showRrowToClick(this.id);
+		if($(this).hasClass("playableComb"))
+			showRrowToClick(this.id);
+		else
+			showRrowToRemove(this.id);
 	});
 
 	isLocalStorageKeys();
@@ -115,26 +116,68 @@ $(function (){
 function handlePlayerDone(combId){
 	var index = arrComboId.indexOf(combId);
 	var combinations = currentGame.players[currentGame.currentPlayer].combinations;
-	combinations[index] = updateScore(combId);	
+	combinations[index] = updateScore(combId);
+	// if(currentGame.players[cu.currentPlayer].lockedCombinations.indexOf(combId) > -1)
+	// 	currentGame.players[currentGame.currentPlayer].combinations = 0;
+	// else	
 	currentGame.players[currentGame.currentPlayer].combinations = countCombinations(combinations);
+	currentGame.players[currentGame.currentPlayer].lockedCombinations.push(combId);
 	currentGame.nbrThrows = 3;
 	currentGame.currentPlayer++;
-	lockedDice = [];
+	currentGame.lockedDice = [];
 	if(currentGame.currentPlayer === currentGame.players.length){
 		currentGame.currentPlayer = 0;
+		currentGame.nbrRounds--;
 	}
+
 	localStorage.setItem("yatzy-game", JSON.stringify(currentGame));
+
 	drawTable();
 	setDiceClass();
+	if (currentGame.nbrRounds === 0) {
+		handleEndGame();
+	};
 }
 
+function handleEndGame(){
+	var winner = '';
+	var hs = 0;
+	var hsArr = [];
+	var p = currentGame.players;
+	for (var i = 0; i < p.length; i++) {
+		var s = p[i].combinations[17];
+		hsArr.push(s);
+		if (s > hs) {
+			hs = s;
+			winner = p[i].name;
+		};
+	};
+	p.sort(function(a,b){
+		return b.combinations[17] - a.combinations[17];
+	});
+	hsArr.sort(function(a,b){ return b- a;});
+	
+	var modalHead = hsArr[0] > hsArr[1] ? ('Grattis ' + winner + '! Du vann med '+ hs + ' pöang') : 'Ingen vinnare.';
+	var modalBody = '<ul>';
+	p.forEach(function(pl, i){
+		modalBody += '<li>'+ (i+1) + '. '+ pl.name + ': ' + pl.combinations[17] +'</li>';
+	});
+	modalBody += '</ul>';
+	showInModal(modalHead, modalBody, '');
+}
 // 
 function displayPossibleCombinations(){
+	var staticArr = ["summa","bonus","total"];
 	arrComboId.forEach(function(comb, i){
 		var s = updateScore(comb);
-		if(s > 0){
+		if(s > 0 && currentGame.players[currentGame.currentPlayer].combinations[i] === 0){
 			$("#" + comb).addClass("playableComb").addClass("comboBtn");
+		}else if(staticArr.indexOf(comb) === -1){
+			$("#" + comb).addClass("removableComb").addClass("comboBtn");
 		}
+		// currentGame.players[currentGame.currentPlayer].lockedCombinations.forEach(function(c, i){
+		// 	$("#" + c).addClass("expiredComb");
+		// });
 	});
 }
 
@@ -142,28 +185,19 @@ function setDiceClass(){
 	// utf-8 characters for dice faces
 	$("#diceHolder").html("");
 	for(var i = 1; i <= 5; i++){
-		var classToAdd = " dice-space-" + dicehand[i-1];
+		var classToAdd = " dice-space-" + currentGame.currentDice[i-1];
 		classToAdd += i === 1 ? " col-xs-offset-1" : "";
-		classToAdd += lockedDice.indexOf(i) > -1 ? " dice-locked" : " dice-free";
+		classToAdd += currentGame.lockedDice.indexOf(i) > -1 ? " dice-locked" : " dice-free";
 		var dieH = '<div id="diceHolder' + i + '" class="col-xs-2 dice-space' + classToAdd + '">';
 
-		var fullDiceImage =  '<img src="images/die_' + dicehand[i-1];
-		fullDiceImage += lockedDice.indexOf(i) > -1 ? 'locked.png">' : '.png">';
+		var fullDiceImage =  '<img src="images/die_' + currentGame.currentDice[i-1];
+		fullDiceImage += currentGame.lockedDice.indexOf(i) > -1 ? 'locked.png">' : '.png">';
 		dieH += fullDiceImage;
 		dieH += '</div>'
 		$("#diceHolder").append(dieH);
 
 	}
 }
-// // Write dice array to DOM
-// function showDices(){
-// 	// loop through our dice array with dice values and output dice characters
-// 	for(var i = 1; i <= 6; i++){
-// 		var fullDiceImage =  '<img src="images/die_' + i;
-// 		fullDiceImage += lockedDice.indexOf(i) > -1 ? 'locked.png">' : '.png">';
-// 		$('.dice-space-' + i).html(fullDiceImage);
-// 	}
-// }
 
 function randomDiceGenerator(){
 	var random = Math.floor(Math.random() * 6) + 1;
@@ -176,12 +210,12 @@ function loadPlayerNamesToList(){
 		// make sure to clean UL before we add new list items
 		$("#player-names").empty();
 		
-		for(var i = 0; i < yatzygames["game"].playernames.length; i++){
+		for(var i = 0; i < currentGame.players.length; i++){
 			
 			var playerPosition = i+1;
 			var playerPositionString = playerPosition + ". ";
 			
-			addLiUsername = "<li>" + playerPositionString + yatzygames["game"].playernames[i]+"<span class='glyphicon glyphicon-remove removeButton' aria-hidden='true'></span></li>"
+			addLiUsername = '<li class="row">' + playerPositionString + currentGame.players[i]+"<span class='glyphicon glyphicon-remove removeButton pull-right' aria-hidden='true'></span></li>"
 			$("#player-names").append(addLiUsername);
 			$("#startGame").prop("disabled", false);
 		}
@@ -210,7 +244,8 @@ function drawTable(){
 			'<th id="btn' + arrComboId[i] + '" scope="row" class="col-xs-12 col-md-12 btn btn-default">' + arrComboName[i] + '</th>';
 
 			currentGame.players.forEach(function(p,j){
-				tbody += '<td>' + p.combinations[i] + '</td>';
+				var c = p.lockedCombinations.indexOf(arrComboId[i] === -1) ?  p.combinations[i] +'' : '-';
+				tbody += '<td>' + c + '</td>';
 			});
 			tbody += '</tr>';
 		};
@@ -225,29 +260,26 @@ function drawTable(){
 var arrComboId = ['ettor', 'tvaor', 'treor', 'fyror', 'femmor', 'sexor', 'summa', 'bonus', 'ettpar', 'tvapar', 'triss', 'fyrtal', 'litenstege', 'storstege', 'kak', 'chans', 'yatzy', 'total' ];
 var arrComboName = ['Ettor', 'Tvåor', 'Treor', 'Fyror', 'Femmor', 'Sexor', 'Summa', 'Bonus', 'Ett Par', 'Två Par', 'Triss', 'Fyrtal', 'Liten Stege', 'Stor Stege', 'Kåk', 'Chans', 'Yatzy!', 'Total'];
 
-function showRrowToClick(element){
-	$("#clickRowModal").remove();
-	var combName = $("#" + element + " th").html();
 
-	var modalContainer = '<div id="clickRowModal" class="modal fade" role="dialog">' + 
-	  						'<div class="modal-dialog" role="document">' + 
-	    						'<div class="modal-content">' + 
-	    							'<div class="modal-header">' +
-								        '<h6 class="modal-title">Tryck på knappen för att bekräffta.. Annars var som helst på skärmen för att välja en annan...</h6>' +
-								      '</div>' +
-	      							'<div class="modal-body">' + 
-	      								'<table><tbody><tr class="row">' +
-	      									'<th data-id="' + element + '" class="col-xs-12 btn btn-default tmpCombClick">' + combName + '</th>';+
+function showRrowToClick(element){
+	var combName = $("#" + element + " th").html();
+	var modalHead = 'Tryck på knappen för att bekräffta.. Annars var som helst på skärmen för att välja en annan...';
+	var modalBody = '<table><tbody><tr class="row">' +
+	      									'<th data-id="' + element + '" class="col-xs-12 btn btn-default tmpCombClick cmbClickGreen">' + combName + '</th>';+
 	      									'<td class="col-xs-12 btn btn-danger">Stäng</td>';+
-	      								 '</tr></tbody></table>' +  
-	      							'</div>' + 
-      							'</div>' + 
-  							'</div>'  + 
-						 '</div>';
-	$("body").append(modalContainer);
-  	$("#clickRowModal").modal("show");
+	      								 '</tr></tbody></table>';
+	showInModal(modalHead, modalBody, '');
 }
 
+function showRrowToRemove(element){
+	var combName = $("#" + element + " th").html();
+	var modalHead = 'Tryck på knappen för att bekräffta. Annars var som helst på skärmen för att välja en annan.';
+	var modalBody = '<table><tbody><tr class="row">' +
+	      									'<th data-id="' + element + '" class="col-xs-12 btn btn-default tmpCombClick cmbClickRed">' + combName + '</th>';+
+	      									'<td class="col-xs-12 btn btn-danger">Stäng</td>';+
+	      								 '</tr></tbody></table>';
+	showInModal(modalHead, modalBody, '');
+}
 
 // add a user to local storage
 function addUsernameToGameid(username){
@@ -263,7 +295,7 @@ function addUsernameToGameid(username){
 			$("#adduserBtn").prop("disabled", false);
 			
 			// push username to object
-			var newPlayer = { id: currentGame.players.length, name: username, combinations : generatCombinations()};
+			var newPlayer = { id: currentGame.players.length, name: username, combinations : generatCombinations(), lockedCombinations : []};
 			currentGame.players.push(newPlayer);
 			// push yatzygames to localStorage
 			localStorage.setItem("yatzy-game", JSON.stringify(currentGame));

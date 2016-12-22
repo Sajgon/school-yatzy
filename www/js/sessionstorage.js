@@ -1,6 +1,12 @@
 // Global variables
 var currentGame = {};
-
+function generateDiceRandmly(){
+	var arr = [];
+	for (var i = 0; i < 5; i++) {
+		arr.push(randomDiceGenerator());
+	};
+	return arr;
+}
 
 function generatCombinations(){
 	// Length 18
@@ -13,7 +19,7 @@ function isLocalStorageKeys(){
 	// Finns inte localStorage "yatzy-games" - skapa en mall
 
 	if(!localStorage.getItem("yatzy-game")){
-		yatzygame = { currentDice: [], players:[], nbrThrows: 3, started: false, currentPlayer: 0};
+		yatzygame = { currentDice: generateDiceRandmly(), players:[], nbrThrows: 3, started: false, currentPlayer: 0, lockedDice: [], nbrRounds: 14};
 		/*	EXAMPLE for player objec:
 							players: 	[{id: 1, name: "anton", combinations: generatCombinations()}],
 		*/
@@ -126,9 +132,23 @@ function highscoreOutput(){
 }
 
 
-
-
-
-
-
+function showInModal(head, body, foot){	
+	$("#clickRowModal").remove();
+	var modalContainer = '<div id="clickRowModal" class="modal fade" role="dialog">' + 
+	  						'<div class="modal-dialog" role="document">' + 
+	    						'<div class="modal-content">' + 
+	    							'<div class="modal-header">' +
+								        '<h6 class="modal-title">'+ 
+								        	head +
+								        '</h6>' +
+								      '</div>' +
+	      							'<div class="modal-body">' + 
+	      								body + 
+	      							'</div>' + 
+      							'</div>' + 
+  							'</div>'  + 
+						 '</div>';
+	$("body").append(modalContainer);
+  	$("#clickRowModal").modal("show");
+}
 
