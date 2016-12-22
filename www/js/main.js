@@ -12,7 +12,7 @@ $(function (){
 		}
 		currentGame.nbrThrows--;
 		currentGame.dice = dicehand;
-		localStorage.setItem("yatzi-game", JSON.stringify(currentGame));
+		localStorage.setItem("yatzy-game", JSON.stringify(currentGame));
 		// You can call show dices anywhere
 		drawTable();
 		setDiceClass();
@@ -114,14 +114,16 @@ $(function (){
 // 
 function handlePlayerDone(combId){
 	var index = arrComboId.indexOf(combId);
-	currentGame.players[currentGame.currentPlayer].combinations[index] = updateScore(combId);
+	var combinations = currentGame.players[currentGame.currentPlayer].combinations;
+	combinations[index] = updateScore(combId);	
+	currentGame.players[currentGame.currentPlayer].combinations = countCombinations(combinations);
 	currentGame.nbrThrows = 3;
 	currentGame.currentPlayer++;
 	lockedDice = [];
 	if(currentGame.currentPlayer === currentGame.players.length){
 		currentGame.currentPlayer = 0;
 	}
-	localStorage.setItem("yatzi-game", JSON.stringify(currentGame));
+	localStorage.setItem("yatzy-game", JSON.stringify(currentGame));
 	drawTable();
 	setDiceClass();
 }
@@ -203,7 +205,6 @@ function drawTable(){
 		head += '</tr></thead>';
 
 		var tbody =  '<tbody>';
-
 		for (var i = 0; i < 18; i++) {
 			tbody += '<tr id="' + arrComboId[i] + '" class="">' + 
 			'<th id="btn' + arrComboId[i] + '" scope="row" class="col-xs-12 col-md-12 btn btn-default">' + arrComboName[i] + '</th>';

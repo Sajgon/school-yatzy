@@ -189,7 +189,7 @@ table, th, td {
 }
 
 .playableComb{
-	border: 10px solid green;
+	border: 4px solid #04ad4a;
 }
 
 .btnBottom > div{
@@ -199,4 +199,9 @@ table, th, td {
 
 #warningAlert {
 	display:none;
+}
+
+#total, #summa, #bonus, #btntotal, #btnbonus, #btnsumma {
+	background-color: black;
+	color: white;
 }

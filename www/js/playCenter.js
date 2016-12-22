@@ -118,6 +118,40 @@ function countOccurence(nbr){
 	});
 	return cpt;
 }
+
+function countCombinations(combinations){
+	combinations[6] = pointsSum(combinations);
+	combinations[7] = pointsBonus(combinations);
+	combinations[17] = pointsTotal(combinations);
+	return combinations;
+}
+
+function pointsBonus(combinations){
+	var p = 50;
+	for (var i = 0; i < 6; i++) {
+		if(combinations[i] === 0)
+			p = 0;
+	};
+
+	return p;
+}
+
+function pointsSum(combinations){
+	var p = 0;
+	for (var i = 0; i < 6; i++) {
+		p += combinations[i];
+	};
+	return p;
+}
+
+function pointsTotal(combinations){
+	var p = 0;
+	for (var i = 6; i < combinations.length - 1; i++) {
+		p += combinations[i];
+	};
+	return p;
+}
+
 function updateScore(id){
 	switch(id){
 		 case "ettor" : return  pointsForNumber(1);
