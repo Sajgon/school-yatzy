@@ -141,10 +141,13 @@ function showInModal(head, body, foot){
 								        '<h6 class="modal-title">'+ 
 								        	head +
 								        '</h6>' +
-								      '</div>' +
+							      	'</div>' +
 	      							'<div class="modal-body">' + 
 	      								body + 
 	      							'</div>' + 
+								    '<div class="modal-footer">' +
+										foot +
+								  	'</div>' +
       							'</div>' + 
   							'</div>'  + 
 						 '</div>';

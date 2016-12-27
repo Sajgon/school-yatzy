@@ -188,14 +188,23 @@ table, th, td {
 	cursor: pointer;
 }
 
-.playableComb{
-	border: 2px solid #04ad4a;
-}/*
-.removableComb{
-	border: 2px solid red;
-}*/
-.lockedCombinations{
-	border: 2px solid grey;
+.playableComb th {
+	border-right: 4px solid #04ad4a !important;
+}
+.playableComb th span{
+	color: #04ad4a;
+}
+.removableComb th {
+	border-right: 4px solid red !important;
+}
+.removableComb th span{
+	color: red;
+}
+.lockedCombinations th {
+	border-right: 4px solid grey !important;
+}
+.lockedCombinations th span {
+	color: grey;
 }
 .cmbClickGreen{
 	background-color: green;

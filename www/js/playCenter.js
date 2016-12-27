@@ -96,7 +96,7 @@ function pointsYatzi(){
 	var p = 0;
 	constDice.forEach(function(v,i){
 		if(countOccurence(v) === 5){
-			return (v * 5);
+			p =  50;
 			return false;
 		}
 	});
@@ -151,7 +151,7 @@ function pointsTotal(combinations){
 	return p;
 }
 
-function updateScore(id){
+function getScore(id){
 	switch(id){
 		 case "ettor" : return  pointsForNumber(1);
 		 case "tvaor" : return pointsForNumber(2);

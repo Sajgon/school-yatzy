@@ -1,98 +1,59 @@
 // global variables
 // Run functions on DOM load
+
 $(function (){
-	
-	// Klick knapp
-	$('#throwDices').click(function(){
-		for (var i = 1; i < 6; i++){
-			if(currentGame.lockedDice.indexOf(i) === -1){
-				currentGame.currentDice[i-1] = (randomDiceGenerator());
-			}
-		}
-		currentGame.nbrThrows--;
-		localStorage.setItem("yatzy-game", JSON.stringify(currentGame));
-		// You can call show dices anywhere
-		drawTable();
-		setDiceClass();
-		// showDices();
-		// scores = runScoreTest(arrDice);
-		displayPossibleCombinations();
-		$("#throwDices").prop("disabled", (currentGame.nbrThrows < 1 ? true : false));
-		//console.log(scores);
-	});
-	
-	$('#startGame').click(function(){
-		
-		// check that atleast 1 player is added to the playernames
-		
-		if(currentGame.players.length >= 1 ){
-			// call function to set game started
-			setGameStarted();
-		}
-	});
-	
 	
 	// Add username
 	$('#adduserBtn').click(function(){
-		username = $("#usernameInput").val();
-		addUsernameToGameid(username);
-		
-		loadPlayerNamesToList();
-		$("#usernameInput").val("");
+		addUser();	
+	});
+	$("#usernameInput").keypress(function(e){
+		if (e.which === 13) {
+			addUser();				
+		}
 	});
 
+	// Klick knapp
+	$('#throwDices').click(function(){
+		throwDice();
+	});
+	
+	//Start the game 
+	$('#startGame').click(function(){
+		if(currentGame.players.length >= 1 ){
+			setGameStarted();
+		}
+	});	
+	
+	$("#player-names").on("click", ".removePlayerBtn", function(){
+		var id = parseInt(this.id.replace("playerNameList", ""));
+		removeUser(id);
+		loadPlayerNamesToList();
+	});
 	// End game button
 	$('#endGameBtn').click(function(){
-		
-		function endGame(){
-			localStorage.removeItem("yatzy-game");
-			// $("#player-names").empty();
-			isLocalStorageKeys();
-			
-			loadPlayerNamesToList()
-			
-			$(".beforegame").show();
-			$(".ingame").hide();
-			$(".ingameFooter").hide();
-		}
-
 		endGame();
 	});
 	
 	// Clean highscore
 	$('#cleanHighscoreBtn').click(function(){
-		
-		function removeHighscore(){
-			localStorage.removeItem("yatzy-highscore");
-			isLocalStorageKeys();
-			highscoreOutput();
-		}
-
 		removeHighscore();
 	});
 	
 	$("body").on("click", ".tmpCombClick", function(){
-		var confirmedComb = $(this).data("id");
-		console.log("chosed: " + confirmedComb);
-		$("#clickRowModal").modal('hide');
-		handlePlayerDone(confirmedComb);
-		$("#throwDices").prop("disabled", false);
+		var id = $(this).data("id");
+		confirmedComb(id);
 	});
 	
 	$("#diceHolder").on("click", ".dice-free", function(){
 		var id = parseInt(this.id.replace("diceHolder", ""));
-		currentGame.lockedDice.push(id);
-		// $(this).replaceClass("dice-free", "dice-locked");
-		// showDices()
+		lockDie(id);
 		setDiceClass();
 	});
 
 	$("#diceHolder").on("click", ".dice-locked", function(){
 		var id = parseInt(this.id.replace("diceHolder", ""));
-		currentGame.lockedDice = jQuery.grep(currentGame.lockedDice, function(a){
-			return a != id;
-		});
-		// showDices();
+		unlockDie(id);
 		setDiceClass();
 	});
 
@@ -101,6 +62,9 @@ $(function (){
 			showRrowToClick(this.id);
 		else
 			showRrowToRemove(this.id);
+	});
+	$("body").on("click", ".closeModal", function(){
+			$("#clickRowModal").modal('hide');
 	});
 
 	isLocalStorageKeys();
@@ -112,19 +76,119 @@ $(function (){
 	
 });
 
+//End current game
+function endGame(){
+	localStorage.removeItem("yatzy-game");
+	// $("#player-names").empty();
+	isLocalStorageKeys();
+	
+	loadPlayerNamesToList()
+	
+	$(".beforegame").show();
+	$(".ingame").hide();
+	$(".ingameFooter").hide();
+}
+
+//Add new User
+function addUser(){
+	username = $("#usernameInput").val();
+	addUsernameToGameid(username);
+	$("#usernameInput").val("");
+	loadPlayerNamesToList();
+}
+
+function removeUser(id){
+	// currentGame.players = jQuery.grep(currentGame.players, function(a){
+	// 	return a != id;
+	// });
+
+	currentGame.players.splice(id, 1);
+	localStorage.setItem("yatzy-game", JSON.stringify(currentGame));
+}
+
+//Remove high scores		
+function removeHighscore(){
+	localStorage.removeItem("yatzy-highscore");
+	isLocalStorageKeys();
+	highscoreOutput();
+}
+
+//Throw dice function
+function throwDice(){
+	for (var i = 1; i < 6; i++){
+			if(currentGame.lockedDice.indexOf(i) === -1){
+				currentGame.currentDice[i-1] = (randomDiceGenerator());
+			}
+		}
+		currentGame.nbrThrows--;
+		localStorage.setItem("yatzy-game", JSON.stringify(currentGame));
+		// You can call show dices anywhere
+		drawTable();
+		setDiceClass();
+		displayPossibleCombinations();
+		$("#throwDices").prop("disabled", (currentGame.nbrThrows < 1 ? true : false));
+}
+
+function lockDie(id){
+	currentGame.lockedDice.push(id);
+}
+
+//Unlock die
+function unlockDie(id){
+	currentGame.lockedDice = jQuery.grep(currentGame.lockedDice, function(a){
+		return a != id;
+	});
+}
+
+function displayPossibleCombinations(){
+	var staticArr = ["summa","bonus","total"];
+	arrComboId.forEach(function(comb, i){
+		displayOneCombination(comb, i);
+	});
+
+	$(".playableComb th span").addClass("glyphicon glyphicon-ok");
+	$(".removableComb th span").addClass("glyphicon glyphicon-remove");
+	$(".lockedCombinations th span").addClass("glyphicon glyphicon-minus");
+}
+
+function displayOneCombination(comb, i){
+	var s = getScore(comb);
+	var pS = currentGame.players[currentGame.currentPlayer].combinations[i];
+	var playedComb = currentGame.players[currentGame.currentPlayer].lockedCombinations;
+	if(i !== 6 && i !== 7 && i !== 17){
+		if (playedComb.indexOf(i) === -1) {
+			if(s > 0){
+				$("#" + comb).addClass("playableComb").addClass("comboBtn");
+			}
+			else{
+				$("#" + comb).addClass("removableComb").addClass("comboBtn");
+			}
+		}else if(pS === 0){
+				$("#" + comb).addClass("lockedCombinations");
+		}
+	}
+}
+//Lock the specific die
+function confirmedComb(id){
+	console.log("chosed: " + id);
+	$("#clickRowModal").modal('hide');
+	handleOnePlay(id);
+	$("#throwDices").prop("disabled", false);
+}
+
 // 
-function handlePlayerDone(combId){
+function handleOnePlay(combId){
 	var index = arrComboId.indexOf(combId);
-	var combinations = currentGame.players[currentGame.currentPlayer].combinations;
-	combinations[index] = updateScore(combId);
-	// if(currentGame.players[cu.currentPlayer].lockedCombinations.indexOf(combId) > -1)
-	// 	currentGame.players[currentGame.currentPlayer].combinations = 0;
-	// else	
-	currentGame.players[currentGame.currentPlayer].combinations = countCombinations(combinations);
-	currentGame.players[currentGame.currentPlayer].lockedCombinations.push(combId);
+	
+	var player = currentGame.players[currentGame.currentPlayer];
+	player.combinations[index] = getScore(combId);
+	player.combinations = countCombinations(player.combinations);
+	player.lockedCombinations.push(index);
+	currentGame.players[currentGame.currentPlayer] = player;
+
 	currentGame.nbrThrows = 3;
-	currentGame.currentPlayer++;
 	currentGame.lockedDice = [];
+	currentGame.currentPlayer++;
 	if(currentGame.currentPlayer === currentGame.players.length){
 		currentGame.currentPlayer = 0;
 		currentGame.nbrRounds--;
@@ -134,6 +198,7 @@ function handlePlayerDone(combId){
 
 	drawTable();
 	setDiceClass();
+
 	if (currentGame.nbrRounds === 0) {
 		handleEndGame();
 	};
@@ -141,46 +206,40 @@ function handlePlayerDone(combId){
 
 function handleEndGame(){
 	var winner = '';
-	var hs = 0;
-	var hsArr = [];
-	var p = currentGame.players;
-	for (var i = 0; i < p.length; i++) {
-		var s = p[i].combinations[17];
-		hsArr.push(s);
-		if (s > hs) {
-			hs = s;
-			winner = p[i].name;
-		};
-	};
-	p.sort(function(a,b){
+	var scoreArr = [];
+	var players = currentGame.players;
+
+	players.sort(function(a,b){
 		return b.combinations[17] - a.combinations[17];
 	});
-	hsArr.sort(function(a,b){ return b- a;});
-	
-	var modalHead = hsArr[0] > hsArr[1] ? ('Grattis ' + winner + '! Du vann med '+ hs + ' pöang') : 'Ingen vinnare.';
-	var modalBody = '<ul>';
-	p.forEach(function(pl, i){
-		modalBody += '<li>'+ (i+1) + '. '+ pl.name + ': ' + pl.combinations[17] +'</li>';
-	});
-	modalBody += '</ul>';
-	showInModal(modalHead, modalBody, '');
-}
-// 
-function displayPossibleCombinations(){
-	var staticArr = ["summa","bonus","total"];
-	arrComboId.forEach(function(comb, i){
-		var s = updateScore(comb);
-		if(s > 0 && currentGame.players[currentGame.currentPlayer].combinations[i] === 0){
-			$("#" + comb).addClass("playableComb").addClass("comboBtn");
-		}else if(staticArr.indexOf(comb) === -1){
-			$("#" + comb).addClass("removableComb").addClass("comboBtn");
-		}
-		// currentGame.players[currentGame.currentPlayer].lockedCombinations.forEach(function(c, i){
-		// 	$("#" + c).addClass("expiredComb");
-		// });
-	});
+
+	var highscore = 0;
+	players.forEach(function(player, i){
+		var s = player.combinations[17];
+		scoreArr.push(s);
+		if (s > highscore) {
+			highscore = s;
+			winner = player.name;
+		};
+	}); 
+
+	scoreArr.sort(function(a,b){ return b- a;});	
+	displayGameResult(players, scoreArr, winner);
 }
 
+function displayGameResult(players, scoreArr, winner){
+	var modalHead = scoreArr[0] > scoreArr[1] ? ('Grattis ' + winner + '! Du vann med '+ scoreArr[0] + ' pöang') : 'Ingen vinnare.';
+	
+	var modalBody = '<ul>';
+	players.forEach(function(pl, i){
+		modalBody += '<li>'+ (i + 1) + '. ' + pl.name + ': ' + pl.combinations[17] +'</li>';
+	});
+	modalBody += '</ul>';
+	var modalFooter = '<span class="closeModal">Stäng</span>';
+	showInModal(modalHead, modalBody, modalFooter);
+}
+
+//
 function setDiceClass(){
 	// utf-8 characters for dice faces
 	$("#diceHolder").html("");
@@ -195,7 +254,6 @@ function setDiceClass(){
 		dieH += fullDiceImage;
 		dieH += '</div>'
 		$("#diceHolder").append(dieH);
-
 	}
 }
 
@@ -204,36 +262,15 @@ function randomDiceGenerator(){
 	return random;
 }
 
-function loadPlayerNamesToList(){
-	if(currentGame.players.length){
-		
-		// make sure to clean UL before we add new list items
-		$("#player-names").empty();
-		
-		for(var i = 0; i < currentGame.players.length; i++){
-			
-			var playerPosition = i+1;
-			var playerPositionString = playerPosition + ". ";
-			
-			addLiUsername = '<li class="row">' + playerPositionString + currentGame.players[i]+"<span class='glyphicon glyphicon-remove removeButton pull-right' aria-hidden='true'></span></li>"
-			$("#player-names").append(addLiUsername);
-			$("#startGame").prop("disabled", false);
-		}
-		
-	}
-}
-
 /*	Function to draw table combinations, scores and playernames */
 function drawTable(){
 	var head = '<thead>' + 
 	'<tr id="playernames">' + 
 	'<th>Spelare</th>';
 
-		// var players = [{id:1, name:"youssef", combinations : [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18]}, {id:2, name:"", combinations : [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18]}];//llllll
-
 		currentGame.players.forEach(function(v,i){
-			var classPlayer = v.id === currentGame.currentPlayer ? '" class="high-player" ': "";
-			head += '<th id="playerName'+ v.id + '"' + classPlayer + ' >'+ v.name +'</th>';
+			var classPlayer = v.id === currentGame.currentPlayer ? ' class="high-player" ': '';
+			head += '<th' + classPlayer + '>'+ v.name +'</th>';
 		});
 								
 		head += '</tr></thead>';
@@ -241,10 +278,10 @@ function drawTable(){
 		var tbody =  '<tbody>';
 		for (var i = 0; i < 18; i++) {
 			tbody += '<tr id="' + arrComboId[i] + '" class="">' + 
-			'<th id="btn' + arrComboId[i] + '" scope="row" class="col-xs-12 col-md-12 btn btn-default">' + arrComboName[i] + '</th>';
+			'<th id="btn' + arrComboId[i] + '" scope="row" class="col-xs-6 col-md-6 btn btn-default"><span class="col-xs-1 col-md-1"></span>' + arrComboName[i] + '</th>';
 
 			currentGame.players.forEach(function(p,j){
-				var c = p.lockedCombinations.indexOf(arrComboId[i] === -1) ?  p.combinations[i] +'' : '-';
+				var c =   p.combinations[i] > 0 ? p.combinations[i] + "" : (p.lockedCombinations.indexOf(i) === -1 ?  '-' : '0');
 				tbody += '<td>' + c + '</td>';
 			});
 			tbody += '</tr>';
@@ -262,23 +299,22 @@ var arrComboName = ['Ettor', 'Tvåor', 'Treor', 'Fyror', 'Femmor', 'Sexor', 'Sum
 
 
 function showRrowToClick(element){
-	var combName = $("#" + element + " th").html();
-	var modalHead = 'Tryck på knappen för att bekräffta.. Annars var som helst på skärmen för att välja en annan...';
-	var modalBody = '<table><tbody><tr class="row">' +
-	      									'<th data-id="' + element + '" class="col-xs-12 btn btn-default tmpCombClick cmbClickGreen">' + combName + '</th>';+
-	      									'<td class="col-xs-12 btn btn-danger">Stäng</td>';+
-	      								 '</tr></tbody></table>';
-	showInModal(modalHead, modalBody, '');
+	var title = 'Tryck på knappen för att bekräffta.. Annars var som helst på skärmen för att välja en annan...';
+	showRow(element, title, 'cmbClickGreen');
 }
 
 function showRrowToRemove(element){
+	var title = 'Tryck på knappen för att bekräffta. Annars var som helst på skärmen för att välja en annan.';
+	showRow(element, title, 'cmbClickRed');
+}
+
+function showRow(element, title, btnColor){
 	var combName = $("#" + element + " th").html();
-	var modalHead = 'Tryck på knappen för att bekräffta. Annars var som helst på skärmen för att välja en annan.';
 	var modalBody = '<table><tbody><tr class="row">' +
-	      									'<th data-id="' + element + '" class="col-xs-12 btn btn-default tmpCombClick cmbClickRed">' + combName + '</th>';+
+	      									'<th data-id="' + element + '" class="col-xs-12 btn btn-default tmpCombClick ' + btnColor + '">' + combName + '</th>';+
 	      									'<td class="col-xs-12 btn btn-danger">Stäng</td>';+
 	      								 '</tr></tbody></table>';
-	showInModal(modalHead, modalBody, '');
+	showInModal(title, modalBody, '');
 }
 
 // add a user to local storage
@@ -325,21 +361,19 @@ function addUsernameToGameid(username){
 }
 
 function loadPlayerNamesToList(){
+	var pNbr = currentGame.players.length;
 	// make sure to clean UL before we add new list items
 	$("#player-names").empty();
-
 	console.log(currentGame);
 	
-	if(currentGame.players.length){
-		$("#startGame").prop("disabled", false);
-		$("#continueGame").prop("disabled", false);
-	}
+	$("#startGame").prop("disabled", (pNbr < 2));
+	// $("#continueGame").prop("disabled", (true));
 	
 	currentGame.players.forEach(function(player, i){		
 		var playerPosition = i+1;
 		var playerPositionString = playerPosition + ". ";
 		
-		addLiUsername = "<li>" + playerPositionString + player.name +" <span class='glyphicon glyphicon-remove removePlayerBtn' aria-hidden='true'></span></li>"
+		addLiUsername = '<li>' + playerPositionString + player.name + '<span id="playerNameList' +  player.id + '" class="glyphicon glyphicon-remove removePlayerBtn" aria-hidden="true"></span></li>';
 		$("#player-names").append(addLiUsername);
 	});
 	
