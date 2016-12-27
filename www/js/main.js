@@ -159,15 +159,19 @@ function displayOneCombination(comb, i){
 		if (playedComb.indexOf(i) === -1) {
 			if(s > 0){
 				$("#" + comb).addClass("playableComb").addClass("comboBtn");
+				$(".colPlayer-" + currentGame.currentPlayer + "-" + i).addClass("hightlightCol-green");
 			}
 			else{
 				$("#" + comb).addClass("removableComb").addClass("comboBtn");
+				$(".colPlayer-" + currentGame.currentPlayer + "-" + i).addClass("hightlightCol-red");
 			}
 		}else if(pS === 0){
 				$("#" + comb).addClass("lockedCombinations");
+				$(".colPlayer-" + currentGame.currentPlayer + "-" + i).addClass("hightlightCol-grey");
 		}
 	}
 }
+
 //Lock the specific die
 function confirmedComb(id){
 	console.log("chosed: " + id);
@@ -282,7 +286,7 @@ function drawTable(){
 
 			currentGame.players.forEach(function(p,j){
 				var c =   p.combinations[i] > 0 ? p.combinations[i] + "" : (p.lockedCombinations.indexOf(i) === -1 ?  '-' : '0');
-				tbody += '<td>' + c + '</td>';
+				tbody += '<td class="colPlayer-' + j + '-' + i + '">' + c + '</td>';
 			});
 			tbody += '</tr>';
 		};

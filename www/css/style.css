@@ -188,24 +188,33 @@ table, th, td {
 	cursor: pointer;
 }
 
-.playableComb th {
-	border-right: 4px solid #04ad4a !important;
+/*.playableComb th {*/
+.hightlightCol-green {
+	/*border-right: 4px solid #04ad4a !important;*/
+	border-left: 4px solid #04ad4a !important;
 }
 .playableComb th span{
 	color: #04ad4a;
 }
-.removableComb th {
-	border-right: 4px solid red !important;
+/*.removableComb th {*/
+.hightlightCol-red {
+	/*border-right: 4px solid red !important;*/
+	border-left: 4px solid red !important;
 }
 .removableComb th span{
 	color: red;
 }
-.lockedCombinations th {
-	border-right: 4px solid grey !important;
+/*.lockedCombinations th {*/
+.hightlightCol-grey {
+	/*border-right: 4px solid grey !important;*/
+	border-left: 4px solid grey !important;
 }
 .lockedCombinations th span {
 	color: grey;
 }
+/*.hightlightCol{
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}*/
 .cmbClickGreen{
 	background-color: green;
 	color: white;
