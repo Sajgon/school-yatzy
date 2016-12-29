@@ -232,9 +232,18 @@ table, th, td {
 
 #warningAlert {
 	display:none;
+	margin-top: 15px;
 }
 
 #total, #summa, #bonus, #btntotal, #btnbonus, #btnsumma {
 	background-color: black;
 	color: white;
+}
+
+#wrapper > #sidebar-wrapper > .sidebar-nav{
+	margin-top: 90px !important;
+}
+#wrapper > #sidebar-wrapper > img{
+	max-width: 150px;
+	position: absolute;
 }
