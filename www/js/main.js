@@ -106,27 +106,54 @@ function removeUser(id){
 	localStorage.setItem("yatzy-game", JSON.stringify(currentGame));
 }
 
-//Remove high scores		
+// Remove high scores		
 function removeHighscore(){
 	localStorage.removeItem("yatzy-highscore");
 	isLocalStorageKeys();
 	highscoreOutput();
 }
 
-//Throw dice function
+// Throw dice function
 function throwDice(){
 	for (var i = 1; i < 6; i++){
-			if(currentGame.lockedDice.indexOf(i) === -1){
-				currentGame.currentDice[i-1] = (randomDiceGenerator());
-			}
+		if(currentGame.lockedDice.indexOf(i) === -1){
+			currentGame.currentDice[i-1] = (randomDiceGenerator());
 		}
-		currentGame.nbrThrows--;
-		localStorage.setItem("yatzy-game", JSON.stringify(currentGame));
-		// You can call show dices anywhere
-		drawTable();
+	}
+	
+		// number of throws is now -1
+	currentGame.nbrThrows--;
+	localStorage.setItem("yatzy-game", JSON.stringify(currentGame));
+	
+	// change button
+	nbrThrowsLeft = 0;
+	if(currentGame.nbrThrows == 0){
+		nbrThrowsLeft = 3;
+	}else if(currentGame.nbrThrows == 1){
+		nbrThrowsLeft = 2;
+	}else if(currentGame.nbrThrows == 2){
+		nbrThrowsLeft = 1;
+	}else if(currentGame.nbrThrows == 3){
+		nbrThrowsLeft = 0;
+	}
+	
+	
+	$("#throwDices").text("Kasta tärningar " + nbrThrowsLeft + "/3");
+	
+	$("#throwDices").prop("disabled", (currentGame.nbrThrows < 1 ? true : false));
+	
+	// show dice animation
+	drawTable();
+	displayPossibleCombinations();
+	
+	gifDice();
+
+	// 
+	setInterval(function(){ 
+		
 		setDiceClass();
-		displayPossibleCombinations();
-		$("#throwDices").prop("disabled", (currentGame.nbrThrows < 1 ? true : false));
+		
+	}, 1500);
 }
 
 function lockDie(id){
@@ -243,6 +270,12 @@ function displayGameResult(players, scoreArr, winner){
 	showInModal(modalHead, modalBody, modalFooter);
 }
 
+
+function randomDiceGenerator(){
+	var random = Math.floor(Math.random() * 6) + 1;
+	return random;
+}
+
 //
 function setDiceClass(){
 	// utf-8 characters for dice faces
@@ -261,9 +294,23 @@ function setDiceClass(){
 	}
 }
 
-function randomDiceGenerator(){
-	var random = Math.floor(Math.random() * 6) + 1;
-	return random;
+/*	Function to view a GIF image for 1.5 seconds */
+function gifDice(){
+	
+	$("#diceHolder").html("");
+	for(var i = 1; i <= 5; i++){
+		var classToAdd = " dice-space-" + currentGame.currentDice[i-1];
+		classToAdd += i === 1 ? " col-xs-offset-1" : "";
+		classToAdd += currentGame.lockedDice.indexOf(i) > -1 ? " dice-locked" : " dice-free";
+		var dieH = '<div id="diceHolder' + i + '" class="col-xs-2 dice-space' + classToAdd + '">';
+
+		// view dice animation 
+		fullDiceImage =  '<img src="images/';
+		fullDiceImage += currentGame.lockedDice.indexOf(i) > -1 ? 'die_'+currentGame.currentDice[i-1]+'locked.png">' : 'dicegif.gif">';
+		dieH += fullDiceImage;
+		dieH += '</div>'
+		$("#diceHolder").append(dieH);
+	}
 }
 
 /*	Function to draw table combinations, scores and playernames */
@@ -272,29 +319,29 @@ function drawTable(){
 	'<tr id="playernames">' + 
 	'<th>Spelare</th>';
 
-		currentGame.players.forEach(function(v,i){
-			var classPlayer = v.id === currentGame.currentPlayer ? ' class="high-player" ': '';
-			head += '<th' + classPlayer + '>'+ v.name +'</th>';
+	currentGame.players.forEach(function(v,i){
+		var classPlayer = v.id === currentGame.currentPlayer ? ' class="high-player" ': '';
+		head += '<th' + classPlayer + '>'+ v.name +'</th>';
+	});
+							
+	head += '</tr></thead>';
+
+	var tbody =  '<tbody>';
+	for (var i = 0; i < 18; i++) {
+		tbody += '<tr id="' + arrComboId[i] + '" class="">' + 
+		'<th id="btn' + arrComboId[i] + '" scope="row" class="col-xs-6 col-md-6 btn btn-default"><span class="col-xs-1 col-md-1"></span>' + arrComboName[i] + '</th>';
+
+		currentGame.players.forEach(function(p,j){
+			var c =   p.combinations[i] > 0 ? p.combinations[i] + "" : (p.lockedCombinations.indexOf(i) === -1 ?  '-' : '0');
+			tbody += '<td class="colPlayer-' + j + '-' + i + '">' + c + '</td>';
 		});
-								
-		head += '</tr></thead>';
+		tbody += '</tr>';
+	};
 
-		var tbody =  '<tbody>';
-		for (var i = 0; i < 18; i++) {
-			tbody += '<tr id="' + arrComboId[i] + '" class="">' + 
-			'<th id="btn' + arrComboId[i] + '" scope="row" class="col-xs-6 col-md-6 btn btn-default"><span class="col-xs-1 col-md-1"></span>' + arrComboName[i] + '</th>';
+	tbody += '</tbody>';
 
-			currentGame.players.forEach(function(p,j){
-				var c =   p.combinations[i] > 0 ? p.combinations[i] + "" : (p.lockedCombinations.indexOf(i) === -1 ?  '-' : '0');
-				tbody += '<td class="colPlayer-' + j + '-' + i + '">' + c + '</td>';
-			});
-			tbody += '</tr>';
-		};
-
-		tbody += '</tbody>';
-
-		$("#score-table").html("");
-		$("#score-table").append(head+tbody);
+	$("#score-table").html("");
+	$("#score-table").append(head+tbody);
 
 };
 
