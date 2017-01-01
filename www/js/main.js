@@ -145,15 +145,16 @@ function throwDice(){
 	// show dice animation
 	drawTable();
 	displayPossibleCombinations();
+	setDiceClass();
 	
+	/*
 	gifDice();
 
 	// 
 	setInterval(function(){ 
-		
 		setDiceClass();
-		
 	}, 1500);
+	*/
 }
 
 function lockDie(id){
