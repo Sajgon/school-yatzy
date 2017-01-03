@@ -26,10 +26,11 @@ $(function (){
 	});	
 	
 	$("#player-names").on("click", ".removePlayerBtn", function(){
-		var id = parseInt(this.id.replace("playerNameList", ""));
+		var id = parseInt(this.id.replace("playerNameList", "" -1));
 		removeUser(id);
 		loadPlayerNamesToList();
 	});
+	
 	// End game button
 	$('#endGameBtn').click(function(){
 		endGame();
@@ -64,9 +65,13 @@ $(function (){
 			showRrowToRemove(this.id);
 	});
 	$("body").on("click", ".closeModal", function(){
-			$("#clickRowModal").modal('hide');
+		$("#clickRowModal").modal('hide');
 	});
 
+	$("#btnFinnish").on("click", function(){
+		endGame();
+	});
+	
 	isLocalStorageKeys();
 	
 	// load playernames at start
@@ -79,10 +84,9 @@ $(function (){
 //End current game
 function endGame(){
 	localStorage.removeItem("yatzy-game");
-	// $("#player-names").empty();
 	isLocalStorageKeys();
 	
-	loadPlayerNamesToList()
+	loadPlayerNamesToList();
 	
 	$(".beforegame").show();
 	$(".ingame").hide();
@@ -121,7 +125,7 @@ function throwDice(){
 		}
 	}
 	
-		// number of throws is now -1
+	// number of throws is now -1
 	currentGame.nbrThrows--;
 	localStorage.setItem("yatzy-game", JSON.stringify(currentGame));
 	
@@ -136,25 +140,24 @@ function throwDice(){
 	}else if(currentGame.nbrThrows == 3){
 		nbrThrowsLeft = 0;
 	}
-	
-	
+
 	$("#throwDices").text("Kasta tärningar " + nbrThrowsLeft + "/3");
-	
 	$("#throwDices").prop("disabled", (currentGame.nbrThrows < 1 ? true : false));
 	
 	// show dice animation
 	drawTable();
-	displayPossibleCombinations();
-	setDiceClass();
 	
-	/*
+	// setDiceClass();
+	
+	
 	gifDice();
 
 	// 
-	setInterval(function(){ 
+	setTimeout(function(){ 
 		setDiceClass();
-	}, 1500);
-	*/
+		displayPossibleCombinations();
+	}, 800);
+	
 }
 
 function lockDie(id){
@@ -257,17 +260,26 @@ function handleEndGame(){
 
 	scoreArr.sort(function(a,b){ return b- a;});	
 	displayGameResult(players, scoreArr, winner);
+	
+	
+	// add result to highscore object
+	for(var i = 0; i < scoreArr.length; i++){
+		// Uppdatera highscore med
+		updateHighscore(scoreArr[i]);
+	}
+	
 }
 
 function displayGameResult(players, scoreArr, winner){
-	var modalHead = scoreArr[0] > scoreArr[1] ? ('Grattis ' + winner + '! Du vann med '+ scoreArr[0] + ' pöang') : 'Ingen vinnare.';
+	var modalHead = scoreArr[0] > scoreArr[1] ? ('Grattis ' + winner + '! Du vann med poängen '+ scoreArr[0]) : 'Ingen vinnare.';
 	
 	var modalBody = '<ul>';
 	players.forEach(function(pl, i){
 		modalBody += '<li>'+ (i + 1) + '. ' + pl.name + ': ' + pl.combinations[17] +'</li>';
 	});
 	modalBody += '</ul>';
-	var modalFooter = '<span class="closeModal">Stäng</span>';
+	//var modalFooter = '<span class="closeModal">Stäng</span>';
+	var modalFooter = '<button id="btnFinnish" type="button" class="btn btn-success" aria-label="Left Align">Stäng</button>';
 	showInModal(modalHead, modalBody, modalFooter);
 }
 
@@ -320,9 +332,12 @@ function drawTable(){
 	'<tr id="playernames">' + 
 	'<th>Spelare</th>';
 
+	$("#diceHolder").empty();
+	
 	currentGame.players.forEach(function(v,i){
+		pos = i +1;
 		var classPlayer = v.id === currentGame.currentPlayer ? ' class="high-player" ': '';
-		head += '<th' + classPlayer + '>'+ v.name +'</th>';
+		head += '<th' + classPlayer + '>'+ pos + ". " + v.name +'</th>';
 	});
 							
 	head += '</tr></thead>';
@@ -351,12 +366,12 @@ var arrComboName = ['Ettor', 'Tvåor', 'Treor', 'Fyror', 'Femmor', 'Sexor', 'Sum
 
 
 function showRrowToClick(element){
-	var title = 'Tryck på knappen för att bekräffta.. Annars var som helst på skärmen för att välja en annan...';
+	var title = 'Tryck på knappen för att bekräffta. Annars var som helst på skärmen för att välja en annan...';
 	showRow(element, title, 'cmbClickGreen');
 }
 
 function showRrowToRemove(element){
-	var title = 'Tryck på knappen för att bekräffta. Annars var som helst på skärmen för att välja en annan.';
+	var title = 'Tryck på knappen för att Stryka vald kombination. Annars var som helst på skärmen för att välja en annan.';
 	showRow(element, title, 'cmbClickRed');
 }
 

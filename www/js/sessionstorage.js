@@ -19,7 +19,7 @@ function isLocalStorageKeys(){
 	// Finns inte localStorage "yatzy-games" - skapa en mall
 
 	if(!localStorage.getItem("yatzy-game")){
-		yatzygame = { currentDice: generateDiceRandmly(), players:[], nbrThrows: 3, started: false, currentPlayer: 0, lockedDice: [], nbrRounds: 14};
+		yatzygame = { currentDice: generateDiceRandmly(), players:[], nbrThrows: 3, started: false, currentPlayer: 0, lockedDice: [], nbrRounds: 15};
 		/*	EXAMPLE for player objec:
 							players: 	[{id: 1, name: "anton", combinations: generatCombinations()}],
 		*/
@@ -66,14 +66,13 @@ function isLocalStorageKeys(){
 
 
 // update the highscore when game is finnished
-function updateHighscore(result){
+function updateHighscore(scoreArr){
 	// validate input: result
-	if(result){
+	if(scoreArr){
 		// Variabel för våra yatzy spel
 		var yatzyhighscore = JSON.parse(localStorage.getItem("yatzy-highscore"));
 		
-		// add result to highscore object
-		yatzyhighscore.highscores.push(result);
+		yatzyhighscore.highscores.push(scoreArr);
 		
 		// redo an object to a string
 		yatzyhighscore = JSON.stringify(yatzyhighscore);

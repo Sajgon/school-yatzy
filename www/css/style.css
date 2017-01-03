@@ -256,3 +256,35 @@ table, th, td {
 	margin-left: 5px;
 	margin-top: 5px;
 }
+
+
+#playernames > th{
+	max-width: 10px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	padding-left: 1px;
+	padding-right: 1px;
+}
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
