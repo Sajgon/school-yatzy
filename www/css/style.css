@@ -113,7 +113,7 @@ table, th, td {
 	padding-bottom: 37px;
 }
 .yatzyHeader > div > img {
-	height: 120px;
+	height: 70px;
 }
 
 .diceBtn {
@@ -267,9 +267,14 @@ table, th, td {
 	padding-right: 1px;
 }
   
-  
-  
-  
+#redoMove, #undoMove {
+	font-size: 24px;
+	margin-left: 15px;
+}
+#redoMove:hover, #undoMove:hover {
+	cursor: pointer;
+}
+
   
   
   

@@ -68,8 +68,20 @@ $(function (){
 		$("#clickRowModal").modal('hide');
 	});
 
-	$("#btnFinnish").on("click", function(){
-		endGame();
+	$("body").on("click", "#btnFinnish", function(){	
+		$("#clickRowModal").remove();
+		$(".modal-backdrop.fade.in").remove();
+		// $("#throwDices").prop("disabled", true);
+		endGame();	
+	});
+
+	$("body").on("click", "#undoMove", function(){
+		gamesCurrentVersion--;
+		changeCurrentGameVesions();
+	});
+	$("body").on("click", "#redoMove", function(){
+		gamesCurrentVersion++;
+		changeCurrentGameVesions();
 	});
 	
 	isLocalStorageKeys();
@@ -107,6 +119,7 @@ function removeUser(id){
 	// });
 
 	currentGame.players.splice(id, 1);
+	setGameVersions();
 	localStorage.setItem("yatzy-game", JSON.stringify(currentGame));
 }
 
@@ -127,28 +140,16 @@ function throwDice(){
 	
 	// number of throws is now -1
 	currentGame.nbrThrows--;
+	setGameVersions();
 	localStorage.setItem("yatzy-game", JSON.stringify(currentGame));
 	
 	// change button
-	nbrThrowsLeft = 0;
-	if(currentGame.nbrThrows == 0){
-		nbrThrowsLeft = 3;
-	}else if(currentGame.nbrThrows == 1){
-		nbrThrowsLeft = 2;
-	}else if(currentGame.nbrThrows == 2){
-		nbrThrowsLeft = 1;
-	}else if(currentGame.nbrThrows == 3){
-		nbrThrowsLeft = 0;
-	}
-
+	nbrThrowsLeft = 3 - currentGame.nbrThrows;
 	$("#throwDices").text("Kasta tärningar " + nbrThrowsLeft + "/3");
 	$("#throwDices").prop("disabled", (currentGame.nbrThrows < 1 ? true : false));
 	
 	// show dice animation
-	drawTable();
-	
-	// setDiceClass();
-	
+	drawTable();	
 	
 	gifDice();
 
@@ -229,7 +230,11 @@ function handleOnePlay(combId){
 		currentGame.nbrRounds--;
 	}
 
+	currentGame.currentDice = [];
+
+	setGameVersions();
 	localStorage.setItem("yatzy-game", JSON.stringify(currentGame));
+
 
 	drawTable();
 	setDiceClass();
@@ -237,6 +242,8 @@ function handleOnePlay(combId){
 	if (currentGame.nbrRounds === 0) {
 		handleEndGame();
 	};
+
+	$("#throwDices").text("Kasta tärningar 1/3");
 }
 
 function handleEndGame(){
@@ -293,17 +300,19 @@ function randomDiceGenerator(){
 function setDiceClass(){
 	// utf-8 characters for dice faces
 	$("#diceHolder").html("");
-	for(var i = 1; i <= 5; i++){
-		var classToAdd = " dice-space-" + currentGame.currentDice[i-1];
-		classToAdd += i === 1 ? " col-xs-offset-1" : "";
-		classToAdd += currentGame.lockedDice.indexOf(i) > -1 ? " dice-locked" : " dice-free";
-		var dieH = '<div id="diceHolder' + i + '" class="col-xs-2 dice-space' + classToAdd + '">';
+	if (currentGame.currentDice.length > 0) {
+		for(var i = 1; i <= 5; i++){
+			var classToAdd = " dice-space-" + currentGame.currentDice[i-1];
+			classToAdd += i === 1 ? " col-xs-offset-1" : "";
+			classToAdd += currentGame.lockedDice.indexOf(i) > -1 ? " dice-locked" : " dice-free";
+			var dieH = '<div id="diceHolder' + i + '" class="col-xs-2 dice-space' + classToAdd + '">';
 
-		var fullDiceImage =  '<img src="images/die_' + currentGame.currentDice[i-1];
-		fullDiceImage += currentGame.lockedDice.indexOf(i) > -1 ? 'locked.png">' : '.png">';
-		dieH += fullDiceImage;
-		dieH += '</div>'
-		$("#diceHolder").append(dieH);
+			var fullDiceImage =  '<img src="images/die_' + currentGame.currentDice[i-1];
+			fullDiceImage += currentGame.lockedDice.indexOf(i) > -1 ? 'locked.png">' : '.png">';
+			dieH += fullDiceImage;
+			dieH += '</div>'
+			$("#diceHolder").append(dieH);
+		};
 	}
 }
 
@@ -400,6 +409,8 @@ function addUsernameToGameid(username){
 			// push username to object
 			var newPlayer = { id: currentGame.players.length, name: username, combinations : generatCombinations(), lockedCombinations : []};
 			currentGame.players.push(newPlayer);
+			
+			setGameVersions();
 			// push yatzygames to localStorage
 			localStorage.setItem("yatzy-game", JSON.stringify(currentGame));
 
@@ -453,6 +464,7 @@ function setGameStarted(){
 		// set started to true
 		currentGame.started = true;
 		
+		setGameVersions();
 		// set game to started in localStorage
 		localStorage.setItem("yatzy-game", JSON.stringify(currentGame));
 		
@@ -462,9 +474,29 @@ function setGameStarted(){
 		$(".beforegame").hide();
 		$(".ingame").show();
 		$(".ingameFooter").show();
+		$("#throwDices").prop("disabled", false);
+		$("#undoMove").prop("disabled", (gamesCurrentVersion > 0));
+		$("#redoMove").prop("disabled", ((gameVersions.length > 0) && (gamesCurrentVersion < gameVersions.length - 1)));
 			
 		return true;
 	}
 		
 	return false;
+}
+
+function changeCurrentGameVesions(){
+		var game = gameVersions[gamesCurrentVersion];
+		localStorage.setItem("yatzy-game", JSON.stringify(game));
+		$("#undoMove").prop("disabled", (gamesCurrentVersion === 0));
+		$("#redoMove").prop("disabled", ((gameVersions.length === 0) || (gamesCurrentVersion === gameVersions.length - 1)));
+		drawTable();
+}
+
+function setGameVersions(){
+
+	if(gameVersions.length > 0 && gamesCurrentVersion < gameVersions.length - 1){
+		gameVersions.splice(gamesCurrentVersion);
+	}
+	gameVersions.push(currentGame);
+	gamesCurrentVersion = gameVersions.length - 1;
 }

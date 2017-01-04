@@ -1,5 +1,8 @@
 // Global variables
-var currentGame = {};
+currentGame = {};
+gameVersions = [];
+gamesCurrentVersion = 0;
+
 function generateDiceRandmly(){
 	var arr = [];
 	for (var i = 0; i < 5; i++) {
@@ -18,13 +21,17 @@ function generatCombinations(){
 function isLocalStorageKeys(){
 	// Finns inte localStorage "yatzy-games" - skapa en mall
 
-	if(!localStorage.getItem("yatzy-game")){
+	if(!localStorage.getItem("yatzy-game") || localStorage.getItem("yatzy-game") === "undefined"){
 		yatzygame = { currentDice: generateDiceRandmly(), players:[], nbrThrows: 3, started: false, currentPlayer: 0, lockedDice: [], nbrRounds: 15};
 		/*	EXAMPLE for player objec:
 							players: 	[{id: 1, name: "anton", combinations: generatCombinations()}],
 		*/
 		
 		console.log("New game created.");
+		if(gameVersions.length > 0){
+			gameVersions.splice(gamesCurrentVersion);
+		}
+		gameVersions.push(currentGame);
 		localStorage.setItem("yatzy-game", JSON.stringify(yatzygame));
 	}
 
