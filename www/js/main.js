@@ -272,7 +272,7 @@ function handleEndGame(){
 	// add result to highscore object
 	for(var i = 0; i < scoreArr.length; i++){
 		// Uppdatera highscore med
-		updateHighscore(scoreArr[i]);
+		updateHighscore(scoreArr[i], players[i].name);
 	}
 	
 }

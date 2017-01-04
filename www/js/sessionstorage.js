@@ -73,13 +73,60 @@ function isLocalStorageKeys(){
 
 
 // update the highscore when game is finnished
-function updateHighscore(scoreArr){
+function updateHighscore(score, name){
 	// validate input: result
-	if(scoreArr){
+	if(score){
 		// Variabel för våra yatzy spel
 		var yatzyhighscore = JSON.parse(localStorage.getItem("yatzy-highscore"));
 		
-		yatzyhighscore.highscores.push(scoreArr);
+		var newdate = new Date();
+		var getyear = newdate.getFullYear();
+		//month
+		var getmonth = newdate.getMonth()+1;
+		if ( getmonth < 10) {
+			getmonth = "0" + getmonth;
+		};
+		
+		
+		var getday = newdate.getDate();
+		if ( getday < 10) {
+			getday = "0" + getday;
+		};
+		
+		
+		var gethour = newdate.getHours();
+		if (gethour < 10) {
+			gethour = "0" + gethour;
+		};
+		
+		
+		var getminute = newdate.getMinutes();
+		if (getminute < 10) {
+			getmimute = "0" + getminute;
+		};
+
+		var hightime = getyear + "-" + getmonth + "-" + getday + " " + gethour + ":" + getminute;
+		
+		var highscoreObject = {
+			name: name,
+			points: score,
+			datetime: hightime
+		};
+		
+		yatzyhighscore.highscores.push(highscoreObject);
+		
+		
+		function compare(a,b){
+			if (a.points < b.points)
+				return 1;
+			if (a.points > b.points)
+				return -1;
+				return 0;
+		}
+
+		yatzyhighscore.highscores.sort(compare);
+		
+		console.log(yatzyhighscore);
 		
 		// redo an object to a string
 		yatzyhighscore = JSON.stringify(yatzyhighscore);
@@ -100,20 +147,19 @@ function updateHighscore(scoreArr){
 // output table rows to highscore
 function highscoreOutput(){
 	
-	// function sorting array numbers
-	function sortNumber(a,b) {
-		return b - a;
-	}
+	
 	
 	// Variabel för våra yatzy highscore object
 	var yatzyhighscore = JSON.parse(localStorage.getItem("yatzy-highscore"));
 	
 	// sortera vårt highscore efter högsta poäng
-	topFiveHighscore = yatzyhighscore.highscores.sort(sortNumber);
+	// topFiveHighscore = yatzyhighscore.highscores.sort(sortNumber);
+	topFiveHighscore = yatzyhighscore.highscores;
 	
 	// Amount 
 	highscorelength = 5;
 
+	// empty highscore table
 	$("#table_highscore").empty();
 	
 	if(topFiveHighscore.length == 0){
@@ -125,16 +171,22 @@ function highscoreOutput(){
 			highscorelength = topFiveHighscore.length;
 		}
 		
-		// empty highscore table
+		// print tableheader
+		tablerow = "<tr><th>Rank</th><th>Namn</th><th>Poäng</th><th>Datum</th></tr>";
+		$("#table_highscore").append(tablerow);
+		
 		// Loop sorted highscore
 		for(var t = 0; t < highscorelength; t++){
-			result = topFiveHighscore[t];
-			row = t+1;
-			tablerow = "<tr><th>#"+row+"</th><td>"+result+"</td><tr>";
+			points = topFiveHighscore[t].points;
+			name = topFiveHighscore[t].name;
+			date = topFiveHighscore[t].datetime;
+			
+			row = t+1;	// winners position
+			
+			tablerow = "<tr><td>#"+row+"</td><td>"+name+"</td><td>"+points+"</td><td>"+date+"</td><tr>";
 			$("#table_highscore").append(tablerow);
 		}
 	}
-	
 }
 
 
