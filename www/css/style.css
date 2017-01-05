@@ -270,6 +270,8 @@ table, th, td {
 #redoMove, #undoMove {
 	font-size: 24px;
 	margin-left: 15px;
+    background-color: transparent;
+    border: none;
 }
 #redoMove:hover, #undoMove:hover {
 	cursor: pointer;

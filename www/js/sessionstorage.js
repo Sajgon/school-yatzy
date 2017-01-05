@@ -40,26 +40,15 @@ function isLocalStorageKeys(){
 	setGameVersions();
 	// started true
 	if(currentGame.started){
-		$(".beforegame").hide();
-		$(".ingame").show();
-		$(".ingameFooter").show();
-		
-		drawTable();
-
-		// draw dice	
-		setDiceClass();
-
-		// change button
-		upadteThrowButton();
-
-		// display possible combination
-		displayPossibleCombinations();
+		setGameStarted();
 	}		
 	else{	// started false
 		$(".beforegame").show();
 		$(".ingame").hide();
 		$(".ingameFooter").hide();
 	}
+
+	updateUndoRedoButtons();
 	
 	// Finns inte localStorage "yatzy-highscore" - skapa en mall
 	if(!localStorage.getItem("yatzy-highscore")){
@@ -130,7 +119,7 @@ function updateHighscore(score, name){
 				return 1;
 			if (a.points > b.points)
 				return -1;
-				return 0;
+			return 0;
 		}
 
 		yatzyhighscore.highscores.sort(compare);
@@ -223,13 +212,18 @@ function showInModal(head, body, foot){
 }
 
 function setGameVersions(){
-	if(gameVersions.length > 0 && gamesCurrentVersion < gameVersions.length - 1){
-		gameVersions.splice(gamesCurrentVersion);
-	}
+	if(currentGame.started){
+		if(gameVersions.length > 0 && gamesCurrentVersion < gameVersions.length - 1){
+			gameVersions.splice(gamesCurrentVersion);
+		}
 
-	// var tmp = { currentDice: currentGame.currentDice, players:currentGame.players, nbrThrows: currentGame.nbrThrows, started: currentGame.started,
-	//  currentPlayer: currentGame.currentPlayer, lockedDice: currentGame.lockedDice, nbrRounds: currentGame.nbrThrows};
-	var tmp = jQuery.extend(true, {}, currentGame);
-	gameVersions.push(tmp);
-	gamesCurrentVersion = gameVersions.length - 1;
+		// var tmp = { currentDice: currentGame.currentDice, players:currentGame.players, nbrThrows: currentGame.nbrThrows, started: currentGame.started,
+		//  currentPlayer: currentGame.currentPlayer, lockedDice: currentGame.lockedDice, nbrRounds: currentGame.nbrThrows};
+		var tmp = jQuery.extend(true, {}, currentGame);
+		gameVersions.push(tmp);
+		gamesCurrentVersion = gameVersions.length - 1;
+
+		$("#undoMove").prop("disabled", (gamesCurrentVersion < 1));
+		$("#redoMove").prop("disabled", (gamesCurrentVersion >= gameVersions.length - 1));
+	}
 }
