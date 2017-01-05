@@ -22,7 +22,7 @@ function isLocalStorageKeys(){
 	// Finns inte localStorage "yatzy-games" - skapa en mall
 
 	if(!localStorage.getItem("yatzy-game") || localStorage.getItem("yatzy-game") === "undefined"){
-		yatzygame = { currentDice: generateDiceRandmly(), players:[], nbrThrows: 3, started: false, currentPlayer: 0, lockedDice: [], nbrRounds: 15};
+		yatzygame = { currentDice: [], players:[], nbrThrows: 3, started: false, currentPlayer: 0, lockedDice: [], nbrRounds: 15};
 		/*	EXAMPLE for player objec:
 							players: 	[{id: 1, name: "anton", combinations: generatCombinations()}],
 		*/
@@ -37,7 +37,7 @@ function isLocalStorageKeys(){
 
 	// Variabel för våra yatzy spel
 	currentGame = JSON.parse(localStorage.getItem("yatzy-game"));
-	
+	setGameVersions();
 	// started true
 	if(currentGame.started){
 		$(".beforegame").hide();
@@ -45,6 +45,15 @@ function isLocalStorageKeys(){
 		$(".ingameFooter").show();
 		
 		drawTable();
+
+		// draw dice	
+		setDiceClass();
+
+		// change button
+		upadteThrowButton();
+
+		// display possible combination
+		displayPossibleCombinations();
 	}		
 	else{	// started false
 		$(".beforegame").show();
@@ -161,3 +170,14 @@ function showInModal(head, body, foot){
   	$("#clickRowModal").modal("show");
 }
 
+function setGameVersions(){
+	if(gameVersions.length > 0 && gamesCurrentVersion < gameVersions.length - 1){
+		gameVersions.splice(gamesCurrentVersion);
+	}
+
+	// var tmp = { currentDice: currentGame.currentDice, players:currentGame.players, nbrThrows: currentGame.nbrThrows, started: currentGame.started,
+	//  currentPlayer: currentGame.currentPlayer, lockedDice: currentGame.lockedDice, nbrRounds: currentGame.nbrThrows};
+	var tmp = jQuery.extend(true, {}, currentGame);
+	gameVersions.push(tmp);
+	gamesCurrentVersion = gameVersions.length - 1;
+}

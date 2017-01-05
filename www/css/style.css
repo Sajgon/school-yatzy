@@ -275,6 +275,9 @@ table, th, td {
 	cursor: pointer;
 }
 
+.arrowDisabled {
+	color: grey;
+}
   
   
   

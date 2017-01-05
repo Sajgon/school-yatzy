@@ -76,12 +76,17 @@ $(function (){
 	});
 
 	$("body").on("click", "#undoMove", function(){
-		gamesCurrentVersion--;
-		changeCurrentGameVesions();
+		if (gamesCurrentVersion > 0) {
+			gamesCurrentVersion--;
+			changeCurrentGameVesions();
+		}
 	});
+
 	$("body").on("click", "#redoMove", function(){
-		gamesCurrentVersion++;
-		changeCurrentGameVesions();
+		if (gameVersions.length > 0 && gamesCurrentVersion < gameVersions.length -1) {
+			gamesCurrentVersion++;
+			changeCurrentGameVesions();
+		}
 	});
 	
 	isLocalStorageKeys();
@@ -139,15 +144,15 @@ function throwDice(){
 	}
 	
 	// number of throws is now -1
-	currentGame.nbrThrows--;
+	if(currentGame.nbrThrows > 0){
+		currentGame.nbrThrows--;
+	}
 	setGameVersions();
 	localStorage.setItem("yatzy-game", JSON.stringify(currentGame));
 	
 	// change button
-	nbrThrowsLeft = 3 - currentGame.nbrThrows;
-	$("#throwDices").text("Kasta tärningar " + nbrThrowsLeft + "/3");
-	$("#throwDices").prop("disabled", (currentGame.nbrThrows < 1 ? true : false));
-	
+	upadteThrowButton();
+
 	// show dice animation
 	drawTable();	
 	
@@ -159,6 +164,12 @@ function throwDice(){
 		displayPossibleCombinations();
 	}, 800);
 	
+}
+
+function upadteThrowButton(){
+	nbrThrowsLeft = 3 - currentGame.nbrThrows;
+	$("#throwDices").text("Kasta tärningar " + nbrThrowsLeft + "/3");
+	$("#throwDices").prop("disabled", (currentGame.nbrThrows < 1 ? true : false));
 }
 
 function lockDie(id){
@@ -173,14 +184,16 @@ function unlockDie(id){
 }
 
 function displayPossibleCombinations(){
-	var staticArr = ["summa","bonus","total"];
-	arrComboId.forEach(function(comb, i){
-		displayOneCombination(comb, i);
-	});
+	if (currentGame.currentDice.length > 0) {
+		var staticArr = ["summa","bonus","total"];
+		arrComboId.forEach(function(comb, i){
+			displayOneCombination(comb, i);
+		});
 
-	$(".playableComb th span").addClass("glyphicon glyphicon-ok");
-	$(".removableComb th span").addClass("glyphicon glyphicon-remove");
-	$(".lockedCombinations th span").addClass("glyphicon glyphicon-minus");
+		$(".playableComb th span").addClass("glyphicon glyphicon-ok");
+		$(".removableComb th span").addClass("glyphicon glyphicon-remove");
+		$(".lockedCombinations th span").addClass("glyphicon glyphicon-minus");
+	}
 }
 
 function displayOneCombination(comb, i){
@@ -243,7 +256,8 @@ function handleOnePlay(combId){
 		handleEndGame();
 	};
 
-	$("#throwDices").text("Kasta tärningar 1/3");
+	nbrThrowsLeft = 3 - currentGame.nbrThrows;
+	$("#throwDices").text("Kasta tärningar " + nbrThrowsLeft + "/3");
 }
 
 function handleEndGame(){
@@ -387,9 +401,9 @@ function showRrowToRemove(element){
 function showRow(element, title, btnColor){
 	var combName = $("#" + element + " th").html();
 	var modalBody = '<table><tbody><tr class="row">' +
-	      									'<th data-id="' + element + '" class="col-xs-12 btn btn-default tmpCombClick ' + btnColor + '">' + combName + '</th>';+
-	      									'<td class="col-xs-12 btn btn-danger">Stäng</td>';+
-	      								 '</tr></tbody></table>';
+						'<th data-id="' + element + '" class="col-xs-12 btn btn-default tmpCombClick ' + btnColor + '">' + combName + '</th>';+
+						'<td class="col-xs-12 btn btn-danger">Stäng</td>';+
+					 '</tr></tbody></table>';
 	showInModal(title, modalBody, '');
 }
 
@@ -475,9 +489,11 @@ function setGameStarted(){
 		$(".ingame").show();
 		$(".ingameFooter").show();
 		$("#throwDices").prop("disabled", false);
-		$("#undoMove").prop("disabled", (gamesCurrentVersion > 0));
-		$("#redoMove").prop("disabled", ((gameVersions.length > 0) && (gamesCurrentVersion < gameVersions.length - 1)));
+		$("#undoMove").prop("disabled", true);//(gamesCurrentVersion > 0));
+		$("#redoMove").prop("disabled", true);//((gameVersions.length > 0) && (gamesCurrentVersion < gameVersions.length - 1)));
 			
+		// display possible combination
+		displayPossibleCombinations();
 		return true;
 	}
 		
@@ -485,18 +501,22 @@ function setGameStarted(){
 }
 
 function changeCurrentGameVesions(){
-		var game = gameVersions[gamesCurrentVersion];
-		localStorage.setItem("yatzy-game", JSON.stringify(game));
-		$("#undoMove").prop("disabled", (gamesCurrentVersion === 0));
-		$("#redoMove").prop("disabled", ((gameVersions.length === 0) || (gamesCurrentVersion === gameVersions.length - 1)));
-		drawTable();
-}
+	var game = gameVersions[gamesCurrentVersion];
+	currentGame = game;
+	localStorage.setItem("yatzy-game", JSON.stringify(game));
+	$("#undoMove").prop("disabled", (gamesCurrentVersion === 0));
+	$("#redoMove").prop("disabled", ((gameVersions.length === 0) || (gamesCurrentVersion === gameVersions.length - 1)));
+	
+	
+	// show dice animation
+	drawTable();	
+	
+	// draw dice	
+	setDiceClass();
 
-function setGameVersions(){
+	// change button
+	upadteThrowButton();
 
-	if(gameVersions.length > 0 && gamesCurrentVersion < gameVersions.length - 1){
-		gameVersions.splice(gamesCurrentVersion);
-	}
-	gameVersions.push(currentGame);
-	gamesCurrentVersion = gameVersions.length - 1;
+	// display possible combination
+	displayPossibleCombinations();
 }
