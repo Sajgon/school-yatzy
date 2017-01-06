@@ -26,7 +26,11 @@ $(function (){
 	});	
 	
 	$("#player-names").on("click", ".removePlayerBtn", function(){
-		var id = parseInt(this.id.replace("playerNameList", "" -1));
+		var id = parseInt(this.id.replace("playerNameList", ""));
+		
+		console.log("ID::");
+		console.log(id);
+		
 		removeUser(id);
 		loadPlayerNamesToList();
 	});
@@ -111,6 +115,7 @@ function endGame(){
 	$(".beforegame").show();
 	$(".ingame").hide();
 	$(".ingameFooter").hide();
+	$("#undoRedoBtns").hide();
 }
 
 //Add new User
@@ -468,7 +473,7 @@ function loadPlayerNamesToList(){
 		var playerPosition = i+1;
 		var playerPositionString = playerPosition + ". ";
 		
-		addLiUsername = '<li>' + playerPositionString + player.name + '<span id="playerNameList' +  player.id + '" class="glyphicon glyphicon-remove removePlayerBtn" aria-hidden="true"></span></li>';
+		addLiUsername = '<li>' + playerPositionString + player.name + '<span id="playerNameList' +  i + '" class="glyphicon glyphicon-remove removePlayerBtn" aria-hidden="true"></span></li>';
 		$("#player-names").append(addLiUsername);
 	});
 	
@@ -491,7 +496,12 @@ function setGameStarted(){
 		$(".beforegame").hide();
 		$(".ingame").show();
 		$(".ingameFooter").show();
-		// $("#throwDices").prop("disabled", false);
+		
+		// Tillåt ångra är valt.
+		if($('#allowRegret').is(':checked')){
+			$("#undoRedoBtns").show();
+		}
+		
 		
 		updateUndoRedoButtons();
 

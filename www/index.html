@@ -41,17 +41,20 @@
 				<div class="row yatzyHeader">
 					<div class="col-xs-12">
 						<img src="images/logoyatzy.png" alt="yatzy logo">
-						<button id="undoMove"><span class="glyphicon glyphicon-arrow-left"></span></button>
-						<button id="redoMove"><span class="glyphicon glyphicon-arrow-right"></span></button>
+						<span id="undoRedoBtns">
+							<button id="undoMove"><span class="glyphicon glyphicon-arrow-left"></span></button>
+							<button id="redoMove"><span class="glyphicon glyphicon-arrow-right"></span></button>
+						</span>
 						<span id="menu-toggle" data-toggle="modal" data-target="#myModalBtns" class="glyphicon glyphicon-align-justify headerDropdownBtn" aria-hidden="true"></span>
 					</div>
 				</div>
+				
 				
 				<!-- Before game started content -->
 				<div class="row beforegame">
 					<div class="col-xs-12">
 						<div id="warningAlert" class="alert alert-warning" role="alert"><b>Användarnamnet du försökt angett är antingen för kort eller för långt.</b></div>
-						<p>Max 4 spelare för att kunna spela yatzy.</p>
+						<p>Max 4 spelare är tillåtet.</p>
 						
 						<div class="input-group">
 							<input id="usernameInput" type="text" class="form-control" placeholder="Namn...">
@@ -63,6 +66,10 @@
 						<div>
 							<ul id="player-names">
 							</ul>
+						</div>
+						
+						<div>
+							<input type="checkbox" id="allowRegret"> Tillåt att ångra
 						</div>
 					</div>
 					<div class="row">

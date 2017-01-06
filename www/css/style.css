@@ -266,7 +266,11 @@ table, th, td {
 	padding-left: 1px;
 	padding-right: 1px;
 }
-  
+
+#undoRedoBtns{
+	display: none;
+}
+
 #redoMove, #undoMove {
 	font-size: 24px;
 	margin-left: 15px;
@@ -281,6 +285,7 @@ table, th, td {
 	color: grey;
 }
   
+
   
   
   

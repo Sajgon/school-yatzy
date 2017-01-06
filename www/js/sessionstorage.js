@@ -42,10 +42,13 @@ function isLocalStorageKeys(){
 	if(currentGame.started){
 		setGameStarted();
 	}		
-	else{	// started false
+	else{	
+		// game started: false
 		$(".beforegame").show();
 		$(".ingame").hide();
 		$(".ingameFooter").hide();
+		$("#undoRedoBtns").hide();
+		
 	}
 
 	updateUndoRedoButtons();
