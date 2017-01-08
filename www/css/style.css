@@ -94,15 +94,6 @@ table, th, td {
 }
 
 @media only screen and (max-width : 480px) {
-	/*.dice-space {
-		font-size: 70px;
-		line-height:35px;
-		margin-top:-5px;
-	}
-	.dice-wrapper {
-		margin-left:-30px;
-	}
-	*/
 }
 
 .fix-padding {
@@ -284,15 +275,15 @@ table, th, td {
 .arrowDisabled {
 	color: grey;
 }
-  
-#fixedHead{
-}
-.floatingNames{
+
+#hiddenPlayersName {
 	position: fixed;
 	top: 0;
-	display: inherit;
+	z-index: 98;
 	background-color: white;
-	z-index: 99;
+	font-size: 13px;
+	padding: 0;
+	border-bottom: 2px solid lightgray;
 }
 
 

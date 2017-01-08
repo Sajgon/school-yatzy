@@ -230,3 +230,4 @@ function setGameVersions(){
 		updateUndoRedoButtons();
 	}
 }
+

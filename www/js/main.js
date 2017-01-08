@@ -99,22 +99,47 @@ $(function (){
 
 	 $(window).scroll( function() {
         if ($(window).scrollTop() > $('#score-table').offset().top){
-            $('#fixedHead').addClass('floatingNames');
-            $('#fixedHead').css('width', $('#score-table').css('width'));
-            $('#fixedHead tr th:first-child').css('width', $('#btnettor').css('width'));
+            $("#hiddenPlayersName").show();    		
         }
-        else
-            $('#fixedHead').removeClass('floatingNames');
+        else{
+            $("#hiddenPlayersName").hide();
+        }
     } );
 	
 	isLocalStorageKeys();
 	
 	// load playernames at start
 	loadPlayerNamesToList();
+	
+	setFixedPlayersName();
+	
 	highscoreOutput();
-	
-	
+		
 });
+
+function setFixedPlayersName(){
+	var w0 = parseInt($('#score-table').css('width'));
+    var w1 = parseInt($('#btnettor').css('width'));
+    var wi = w0 - w1;
+	var stl = 'float: left; margin: 0; padding: 7px; text-align: center; font-weight: bold;';
+	var el = '<div style="' + stl + ' width: ' + (w1) + 'px;">Spelare</div>';
+	
+	for (var i = 0; i < currentGame.players.length; i++) {
+		var style = stl;
+		style += ' width: ' + (wi / currentGame.players.length) + 'px;';
+		
+		if(i === currentGame.currentPlayer)
+			style += " background-color: #00dc5b;";
+
+		el +=  '<div style="' + style + '">' + (currentGame.players[i].id + 1) + '. ' + currentGame.players[i].name + '</div>';
+	};
+
+	el += '<div class="clearfix"></div>';
+
+   	$("#hiddenPlayersName").html(el);
+    
+    $("#hiddenPlayersName").hide();
+}
 
 //End current game
 function endGame(){
@@ -141,10 +166,6 @@ function addUser(){
 }
 
 function removeUser(id){
-	// currentGame.players = jQuery.grep(currentGame.players, function(a){
-	// 	return a != id;
-	// });
-
 	currentGame.players.splice(id, 1);
 	localStorage.setItem("yatzy-game", JSON.stringify(currentGame));
 	setGameVersions();
@@ -378,8 +399,8 @@ function gifDice(){
 /*	Function to draw table combinations, scores and playernames */
 function drawTable(){
 	var head = '<thead id="fixedHead">' + 
-	'<tr id="playernames">' + 
-	'<th>Spelare</th>';
+				'<tr id="playernames">' + 
+				'<th>Spelare</th>';
 
 	$("#diceHolder").empty();
 	
