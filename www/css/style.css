@@ -285,9 +285,17 @@ table, th, td {
 	color: grey;
 }
   
+#fixedHead{
+}
+.floatingNames{
+	position: fixed;
+	top: 0;
+	display: inherit;
+	background-color: white;
+	z-index: 99;
+}
 
-  
-  
+
   
   
   

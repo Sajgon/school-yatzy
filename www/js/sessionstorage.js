@@ -28,10 +28,7 @@ function isLocalStorageKeys(){
 		*/
 		
 		console.log("New game created.");
-		if(gameVersions.length > 0){
-			gameVersions.splice(gamesCurrentVersion);
-		}
-		gameVersions.push(currentGame);
+
 		localStorage.setItem("yatzy-game", JSON.stringify(yatzygame));
 	}
 
@@ -215,18 +212,21 @@ function showInModal(head, body, foot){
 }
 
 function setGameVersions(){
-	if(currentGame.started){
+	var gameVersion = JSON.parse(localStorage.getItem("yatzy-game"));
+	if(gameVersion.started){
 		if(gameVersions.length > 0 && gamesCurrentVersion < gameVersions.length - 1){
-			gameVersions.splice(gamesCurrentVersion);
+			gameVersions.splice(gamesCurrentVersion + 1);
 		}
 
 		// var tmp = { currentDice: currentGame.currentDice, players:currentGame.players, nbrThrows: currentGame.nbrThrows, started: currentGame.started,
 		//  currentPlayer: currentGame.currentPlayer, lockedDice: currentGame.lockedDice, nbrRounds: currentGame.nbrThrows};
-		var tmp = jQuery.extend(true, {}, currentGame);
+		var tmp = jQuery.extend(true, {}, gameVersion);
 		gameVersions.push(tmp);
 		gamesCurrentVersion = gameVersions.length - 1;
 
 		$("#undoMove").prop("disabled", (gamesCurrentVersion < 1));
 		$("#redoMove").prop("disabled", (gamesCurrentVersion >= gameVersions.length - 1));
+
+		updateUndoRedoButtons();
 	}
 }

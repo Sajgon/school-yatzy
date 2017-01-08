@@ -1,6 +1,10 @@
 // global variables
 // Run functions on DOM load
 
+function fixNames(){
+
+}
+
 $(function (){
 	
 	// Add username
@@ -92,6 +96,16 @@ $(function (){
 			changeCurrentGameVesions();
 		}
 	});
+
+	 $(window).scroll( function() {
+        if ($(window).scrollTop() > $('#score-table').offset().top){
+            $('#fixedHead').addClass('floatingNames');
+            $('#fixedHead').css('width', $('#score-table').css('width'));
+            $('#fixedHead tr th:first-child').css('width', $('#btnettor').css('width'));
+        }
+        else
+            $('#fixedHead').removeClass('floatingNames');
+    } );
 	
 	isLocalStorageKeys();
 	
@@ -132,8 +146,8 @@ function removeUser(id){
 	// });
 
 	currentGame.players.splice(id, 1);
-	setGameVersions();
 	localStorage.setItem("yatzy-game", JSON.stringify(currentGame));
+	setGameVersions();
 }
 
 // Remove high scores		
@@ -155,9 +169,10 @@ function throwDice(){
 	if(currentGame.nbrThrows > 0){
 		currentGame.nbrThrows--;
 	}
-	setGameVersions();
 	localStorage.setItem("yatzy-game", JSON.stringify(currentGame));
 	
+	setGameVersions();
+
 	// change button
 	updateThrowButton();
 
@@ -235,6 +250,8 @@ function confirmedComb(id){
 
 // 
 function handleOnePlay(combId){
+	// gamesCurrentVersion = gameVersions.length + 1;
+
 	var index = arrComboId.indexOf(combId);
 	
 	var player = currentGame.players[currentGame.currentPlayer];
@@ -253,8 +270,9 @@ function handleOnePlay(combId){
 
 	currentGame.currentDice = [];
 
-	setGameVersions();
 	localStorage.setItem("yatzy-game", JSON.stringify(currentGame));
+
+	setGameVersions();
 
 
 	drawTable();
@@ -359,7 +377,7 @@ function gifDice(){
 
 /*	Function to draw table combinations, scores and playernames */
 function drawTable(){
-	var head = '<thead>' + 
+	var head = '<thead id="fixedHead">' + 
 	'<tr id="playernames">' + 
 	'<th>Spelare</th>';
 
@@ -432,7 +450,6 @@ function addUsernameToGameid(username){
 			var newPlayer = { id: currentGame.players.length, name: username, combinations : generatCombinations(), lockedCombinations : []};
 			currentGame.players.push(newPlayer);
 			
-			setGameVersions();
 			// push yatzygames to localStorage
 			localStorage.setItem("yatzy-game", JSON.stringify(currentGame));
 
@@ -486,9 +503,10 @@ function setGameStarted(){
 		// set started to true
 		currentGame.started = true;
 		
-		setGameVersions();
 		// set game to started in localStorage
 		localStorage.setItem("yatzy-game", JSON.stringify(currentGame));
+
+		setGameVersions();
 		
 		drawTable();
 		
@@ -543,8 +561,8 @@ function updateUndoRedoButtons(){
 
 function changeCurrentGameVesions(){
 	var game = gameVersions[gamesCurrentVersion];
-	currentGame = game;
-	localStorage.setItem("yatzy-game", JSON.stringify(game));
+	currentGame = jQuery.extend(true, {}, game);
+	localStorage.setItem("yatzy-game", JSON.stringify(currentGame));
 	
 	updateUndoRedoButtons();
 
