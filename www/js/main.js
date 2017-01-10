@@ -105,6 +105,10 @@ $(function (){
             $("#hiddenPlayersName").hide();
         }
     } );
+
+	if (window.matchMedia('(max-width: 767px)').matches) {
+        $("#wrapper").removeClass('toggled');
+    };
 	
 	isLocalStorageKeys();
 	
@@ -114,7 +118,6 @@ $(function (){
 	setFixedPlayersName();
 	
 	highscoreOutput();
-		
 });
 
 function setFixedPlayersName(){
@@ -509,9 +512,11 @@ function loadPlayerNamesToList(){
 	
 	currentGame.players.forEach(function(player, i){		
 		var playerPosition = i+1;
-		var playerPositionString = playerPosition + ". ";
+		var playerPositionString = playerPosition + "-  ";
 		
-		addLiUsername = '<li>' + playerPositionString + player.name + '<span id="playerNameList' +  i + '" class="glyphicon glyphicon-remove removePlayerBtn" aria-hidden="true"></span></li>';
+		addLiUsername = '<li class="col-md-12 clearfix">' + playerPositionString + '<span class="playerName">' + player.name + '</span>' + 
+						'<span id="playerNameList' +  i + 
+						'" class="glyphicon glyphicon-remove removePlayerBtn pull-right" aria-hidden="true"></span></li>';
 		$("#player-names").append(addLiUsername);
 	});
 	

@@ -93,19 +93,6 @@ table, th, td {
 	padding: 0;
 }
 
-@media (max-width : 480px) and (max-height: 700px) {
-	.yatzyHeader > div > img {
-		    height: 35px !important;
-	}
-	.headerDropdownBtn{
-		margin-top: 3px !important;
-	}
-	#score-table tbody tr th, #score-table tbody tr td,
-	#score-table thead tr th, #score-table thead tr td {
-		padding: 3px !important;
-	}
-}
-
 .fix-padding {
 	padding:0 !important;
 }
@@ -185,9 +172,18 @@ table, th, td {
 	cursor: pointer;
 }
 
+#player-names {
+	list-style: none;
+}
+.playerName {
+	font-weight: bold;
+	font-style: italic;
+	padding: 5px;
+}
 .removePlayerBtn{
 	border: 1px solid black;
 	cursor: pointer;
+	color: red;
 }
 
 /*.playableComb th {*/
@@ -198,11 +194,22 @@ table, th, td {
 .playableComb th span{
 	color: #04ad4a;
 }
-/*.playableComb th, .playableComb td, 
-.removableComb th, .removableComb td , 
-.lockedCombinations th, .lockedCombinations td */ 
+
 #score-table tbody tr th, #score-table tbody tr td {
-	padding: 4px;
+	padding: 5px;
+}
+
+@media (max-width : 480px) and (max-height: 700px) {
+	.yatzyHeader > div > img {
+		    height: 35px !important;
+	}
+	.headerDropdownBtn{
+		margin-top: 3px !important;
+	}
+	#score-table tbody tr th, #score-table tbody tr td,
+	#score-table thead tr th, #score-table thead tr td {
+		padding: 3px !important;
+	}
 }
 
 .glyphicon-remove {
