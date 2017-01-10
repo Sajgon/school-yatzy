@@ -93,14 +93,17 @@ $(function (){
 		}
 	});
 
-	 $(window).scroll( function() {
+	/*
+	// playernames header fixed top
+	$(window).scroll( function() {
         if ($(window).scrollTop() > $('#score-table').offset().top){
             $("#hiddenPlayersName").show();    		
         }
         else{
             $("#hiddenPlayersName").hide();
         }
-    } );
+    });
+	*/
 
 	if (window.matchMedia('(max-width: 767px)').matches) {
         $("#wrapper").removeClass('toggled');

@@ -36,7 +36,7 @@ function updateHighscore(score, name){
 		
 		var getminute = newdate.getMinutes();
 		if (getminute < 10) {
-			getmimute = "0" + getminute;
+			getminute = "0" + getminute;
 		};
 
 		var hightime = getyear + "-" + getmonth + "-" + getday + " " + gethour + ":" + getminute;

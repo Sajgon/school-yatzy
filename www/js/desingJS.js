@@ -5,7 +5,8 @@ function showRrowToClick(element){
 }
 
 function showRrowToRemove(element){
-	var title = 'Tryck på knappen för att Stryka vald kombination. Annars var som helst på skärmen för att välja en annan.';
+	// var title = 'Tryck på knappen för att Stryka vald kombination. Annars var som helst på skärmen för att välja en annan.';
+	var title = 'OBS! Är du säker på att du vill välja denna kombination? Annars tryck utanför rutan.';
 	showRow(element, title, 'cmbClickRed');
 }
 
