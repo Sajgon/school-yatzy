@@ -1,3 +1,2 @@
 # school-yatzy
 school project SUW16
-Testar en push...
